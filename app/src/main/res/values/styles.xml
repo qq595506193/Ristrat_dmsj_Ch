@@ -25,5 +25,10 @@
         <item name="android:background">@color/white</item>
     </style>
 
+    <style name="PopupWindow">
+        <item name="android:windowEnterAnimation">@anim/popupwindow_up</item>
+        <item name="android:windowExitAnimation">@anim/popupwindow_down</item>
+    </style>
+
 
 </resources>

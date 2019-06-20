@@ -32,9 +32,8 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:icon">
-        <activity android:name=".mvp.view.CaseControlActivity">
-
-        </activity>
+        <activity android:name=".mvp.view.MessageActivity"></activity>
+        <activity android:name=".mvp.view.CaseControlActivity"></activity>
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -64,7 +63,6 @@
 
 
     </application>
-
 
 
 </manifest>

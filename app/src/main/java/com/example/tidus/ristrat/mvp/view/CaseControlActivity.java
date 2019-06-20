@@ -1,7 +1,6 @@
 package com.example.tidus.ristrat.mvp.view;
 
-import android.os.Build;
-import android.support.annotation.RequiresApi;
+import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -27,7 +26,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.ICaseControlModel, ICaseControlContract.CaseControlPresenter> implements ICaseControlContract.ICaseControlView, View.OnClickListener {
+public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.ICaseControlModel, ICaseControlContract.CaseControlPresenter> implements ICaseControlContract.ICaseControlView, View.OnClickListener, View.OnFocusChangeListener {
 
 
     @BindView(R.id.et_hospital_id)
@@ -36,6 +35,10 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
     EditText et_name;
     @BindView(R.id.sp_sex)
     Spinner sp_sex;
+    @BindView(R.id.et_sex)
+    EditText et_sex;
+    @BindView(R.id.et_danger_level)
+    EditText et_danger_level;
     @BindView(R.id.et_bed)
     EditText et_bed;
     @BindView(R.id.sp_danger_level)
@@ -52,6 +55,13 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
     private List<CaseControlBean.ServerParamsBean> server_params;
     private ImageView iv_close;
     private ImageView iv_message;
+    private String VISIT_SQ_NO;// 床位号
+    private String PATIENT_NAME;// 患者名称
+    private String PATIENT_SEX;// 性别
+    private String BED_NUMBER;// 床位Id
+    private String DEPARTMENT_ID;// 本科室/本单元
+    private String sp_sex_str;// 性别的值
+    private String sp_danger_level_str;// 危险等级的值
 
 
     @Override
@@ -69,9 +79,16 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
             }
         });
         iv_message = findViewById(R.id.iv_message);
+        iv_message.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(App.getContext(), MessageActivity.class);
+                startActivity(intent);
+            }
+        });
         initListener();
         rv_patient_list.setLayoutManager(new GridLayoutManager(App.getContext(), 4));
-        caseContrilAdapter = new CaseContrilAdapter(App.getContext());
+        caseContrilAdapter = new CaseContrilAdapter(App.getContext(), CaseControlActivity.this);
         rv_patient_list.setAdapter(caseContrilAdapter);
 
 
@@ -80,42 +97,80 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
     @Override
     protected void initData() {
         super.initData();
-        String PATIENT_NAME = "";// 患者名称
-        String PATIENT_SEX = "";// 性别
-        String BED_NUMBER = "";// 床位Id
-        String DEPARTMENT_ID = "";// 本科室/本单元
-        HashMap<String, Object> params = new HashMap<>();
-        params.put("Type", "queryPatient_Basic_InfoBybed");
-        params.put("PATIENT_NAME", PATIENT_NAME);
-        params.put("PATIENT_SEX", PATIENT_SEX);
-        params.put("BED_NUMBER", BED_NUMBER);
-        params.put("DEPARTMENT_ID", DEPARTMENT_ID);
-        presenter.getCaseControl(params);
+        initPresenterData();
 
 
     }
 
-    private void initListener() {
-        sp_sex.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                List mList = new ArrayList();
-//                mList.add(parent.getAccessibilityClassName().toString());
-//                //选择列表项的操作
-//                ArrayAdapter arrayAdapter = new ArrayAdapter(App.getContext(), R.layout.item_select, mList);
-//                //传入的参数分别为 Context , 未选中项的textview , 数据源List
-//                //单独设置下拉的textview
-//                arrayAdapter.setDropDownViewResource(R.layout.item_drop);
+    private void initPresenterData() {
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("Type", "queryPatient_Basic_InfoBybed");
+        params.put("VISIT_SQ_NO", VISIT_SQ_NO);
+        params.put("PATIENT_NAME", PATIENT_NAME);
+        params.put("PATIENT_SEX", PATIENT_SEX);
+        params.put("BED_NUMBER", BED_NUMBER);
+        // 危险等级
+        params.put("DEPARTMENT_ID", DEPARTMENT_ID);
+        presenter.getCaseControl(params);
+    }
 
+    private void initListener() {
+        VISIT_SQ_NO = et_hospital_id.getText().toString().trim();
+        PATIENT_NAME = et_name.getText().toString().trim();
+        BED_NUMBER = et_bed.getText().toString().trim();
+        sp_sex.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {// 监听获取Spinner的值
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+
+                //拿到被选择项的值
+                sp_sex_str = (String) sp_sex.getSelectedItem();
+                //把该值传给 TextView
+                et_sex.setText(sp_sex_str);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                //未选中时候的操作
+                // TODO Auto-generated method stub
 
             }
         });
+        sp_danger_level.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {// 监听获取Spinner的值
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+
+                //拿到被选择项的值
+                sp_danger_level_str = (String) sp_danger_level.getSelectedItem();
+                //把该值传给 TextView
+                et_danger_level.setText(sp_danger_level_str);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+
+            }
+        });
+        PATIENT_SEX = sp_sex_str;
+
+        rg_check.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.rb_section:
+                        DEPARTMENT_ID = "";// 本科室
+                        break;
+                    case R.id.rb_element:
+                        DEPARTMENT_ID = "";// 本单元
+                        break;
+
+                }
+            }
+        });
+
     }
 
     @Override
@@ -166,13 +221,37 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.iv_close:// 点击关闭
-                finish();
-                break;
-            case R.id.iv_message:// 点击消息
-                break;
 
+    }
+
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        switch (v.getId()) {
+            case R.id.et_hospital_id:
+                if (!hasFocus) {
+                    initPresenterData();
+                }
+                break;
+            case R.id.et_name:
+                if (!hasFocus) {
+                    initPresenterData();
+                }
+                break;
+            case R.id.et_bed:
+                if (!hasFocus) {
+                    initPresenterData();
+                }
+                break;
+            case R.id.et_sex:
+                if (!hasFocus) {
+                    initPresenterData();
+                }
+                break;
+            case R.id.et_danger_level:
+                if (!hasFocus) {
+                    initPresenterData();
+                }
+                break;
         }
     }
 }

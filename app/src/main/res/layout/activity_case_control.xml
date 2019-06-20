@@ -70,19 +70,31 @@
         app:layout_constraintLeft_toRightOf="@id/et_name"
         app:layout_constraintTop_toTopOf="@id/tv_hospital_id" />
 
+    <EditText
+        android:id="@+id/et_sex"
+        android:layout_width="@dimen/dp_40"
+        android:layout_height="@dimen/dp_12"
+        android:background="@drawable/edit_bg"
+        android:inputType="phone"
+        android:paddingLeft="@dimen/dp_5"
+        android:text="全部"
+        app:layout_constraintBottom_toBottomOf="@id/tv_hospital_id"
+        app:layout_constraintLeft_toRightOf="@id/tv_sex"
+        app:layout_constraintTop_toTopOf="@id/tv_hospital_id" />
+
     <android.support.v7.widget.AppCompatSpinner
 
         android:id="@+id/sp_sex"
-        android:layout_width="@dimen/dp_40"
-        android:layout_height="@dimen/dp_12"
+        android:layout_width="@dimen/dp_10"
+        android:layout_height="@dimen/dp_10"
         android:layout_marginLeft="@dimen/dp_5"
         android:layout_weight="3"
-        android:background="@drawable/edit_bg"
+        android:background="@mipmap/down_arrows"
         android:dropDownWidth="wrap_content"
         android:entries="@array/sex"
         android:spinnerMode="dropdown"
         app:layout_constraintBottom_toBottomOf="@id/tv_hospital_id"
-        app:layout_constraintLeft_toRightOf="@id/tv_sex"
+        app:layout_constraintRight_toRightOf="@id/et_sex"
         app:layout_constraintTop_toTopOf="@id/tv_hospital_id"
         app:theme="@style/myDropTheme" />
 
@@ -121,22 +133,31 @@
         android:textSize="@dimen/sp_10"
         app:layout_constraintBottom_toBottomOf="@id/tv_hospital_id"
         app:layout_constraintLeft_toRightOf="@id/et_bed"
-        app:layout_constraintRight_toLeftOf="@id/sp_danger_level"
         app:layout_constraintTop_toTopOf="@id/tv_hospital_id" />
 
+    <EditText
+        android:id="@+id/et_danger_level"
+        android:layout_width="@dimen/dp_40"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_5"
+        android:background="@drawable/edit_bg"
+        android:inputType="phone"
+        android:paddingLeft="@dimen/dp_5"
+        android:text="全部"
+        app:layout_constraintBottom_toBottomOf="@id/tv_hospital_id"
+        app:layout_constraintLeft_toRightOf="@id/tv_danger_level"
+        app:layout_constraintTop_toTopOf="@id/tv_hospital_id" />
 
     <android.support.v7.widget.AppCompatSpinner
         android:id="@+id/sp_danger_level"
-        android:layout_width="@dimen/dp_45"
-        android:layout_height="@dimen/dp_12"
-        android:layout_marginLeft="@dimen/dp_5"
-        android:layout_weight="3"
-        android:background="@drawable/edit_bg"
+        android:layout_width="@dimen/dp_10"
+        android:layout_height="@dimen/dp_10"
+        android:background="@mipmap/down_arrows"
         android:dropDownWidth="80dp"
         android:entries="@array/danger_level"
         android:spinnerMode="dropdown"
         app:layout_constraintBottom_toBottomOf="@id/tv_hospital_id"
-        app:layout_constraintLeft_toRightOf="@id/tv_danger_level"
+        app:layout_constraintRight_toRightOf="@id/et_danger_level"
         app:layout_constraintTop_toTopOf="@id/tv_hospital_id"
         app:theme="@style/myDropTheme" />
 
@@ -147,7 +168,7 @@
         android:layout_marginLeft="@dimen/dp_2"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="@id/tv_hospital_id"
-        app:layout_constraintLeft_toRightOf="@id/sp_danger_level"
+        app:layout_constraintLeft_toRightOf="@id/et_danger_level"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/tv_hospital_id">
 
@@ -157,6 +178,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
+            android:checked="true"
             android:text="本科室"
             android:textColor="@color/black" />
 

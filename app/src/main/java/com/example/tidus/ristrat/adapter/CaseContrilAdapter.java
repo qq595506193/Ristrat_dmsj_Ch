@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.example.tidus.ristrat.R;
 import com.example.tidus.ristrat.bean.CaseControlBean;
+import com.example.tidus.ristrat.mvp.view.CaseControlActivity;
+import com.example.tidus.ristrat.utils.PopWindowUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +21,13 @@ import java.util.List;
 public class CaseContrilAdapter extends RecyclerView.Adapter<CaseContrilAdapter.ViewHolder> {
     private Context context;
     private List<CaseControlBean.ServerParamsBean> serverParamsBeans;
+    private CaseControlActivity caseControlActivity;
+    private View view_pop;
 
-    public CaseContrilAdapter(Context context) {
+    public CaseContrilAdapter(Context context, CaseControlActivity caseControlActivity) {
         serverParamsBeans = new ArrayList<>();
         this.context = context;
+        this.caseControlActivity = caseControlActivity;
     }
 
     public void setCaseControlBean(List<CaseControlBean.ServerParamsBean> serverParamsBeans) {
@@ -35,6 +40,7 @@ public class CaseContrilAdapter extends RecyclerView.Adapter<CaseContrilAdapter.
     @NonNull
     @Override
     public CaseContrilAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        view_pop = (View) LayoutInflater.from(context).inflate(R.layout.pop_child, parent);
         View view = LayoutInflater.from(context).inflate(R.layout.item_patient_list, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
@@ -66,16 +72,18 @@ public class CaseContrilAdapter extends RecyclerView.Adapter<CaseContrilAdapter.
             holder.card_view.setBackgroundResource(R.color.white);
         }
 
+
         initListener(holder);// 事件监听
 
     }
 
     private void initListener(ViewHolder holder) {
 
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                PopWindowUtil.getInstance().showAssessPopupWindow(context, serverParamsBeans, caseControlActivity, v, view_pop, 0, 0, R.style.PopupWindow);
             }
         });
 
