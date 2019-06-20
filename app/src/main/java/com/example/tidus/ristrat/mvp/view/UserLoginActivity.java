@@ -3,23 +3,15 @@ package com.example.tidus.ristrat.mvp.view;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Rect;
-import android.os.Bundle;
-import android.text.InputType;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.tidus.ristrat.MainActivity;
 import com.example.tidus.ristrat.R;
 import com.example.tidus.ristrat.base.BaseActivity;
 import com.example.tidus.ristrat.bean.LoginBean;
@@ -34,20 +26,26 @@ import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit2.Response;
 
 public class UserLoginActivity extends BaseActivity<LoginPresenter> implements ILoginView {
 
 
-    @BindView(R.id.ed_username) EditText edUsername;
-    @BindView(R.id.ed_password) EditText edPassword;
-    @BindView(R.id.btn_login) Button btnLogin;
-    @BindView(R.id.txt_forget_pwd) TextView txtForgetPwd;
-    @BindView(R.id.title_lable) TextView titleLable;
-    @BindView(R.id.title_back) ImageView titleBack;
-    @BindView(R.id.title_left_lable) TextView titleLeftLable;
+    @BindView(R.id.ed_username)
+    EditText edUsername;
+    @BindView(R.id.ed_password)
+    EditText edPassword;
+    @BindView(R.id.btn_login)
+    Button btnLogin;
+    @BindView(R.id.txt_forget_pwd)
+    TextView txtForgetPwd;
+    @BindView(R.id.title_lable)
+    TextView titleLable;
+    @BindView(R.id.title_back)
+    ImageView titleBack;
+    @BindView(R.id.title_left_lable)
+    TextView titleLeftLable;
     private String leftLable = "AI疾病（风险）管理系统";
 
     @Override
@@ -55,6 +53,7 @@ public class UserLoginActivity extends BaseActivity<LoginPresenter> implements I
         titleLable.setText(leftLable);
 
     }
+
     @Override
     protected LoginPresenter getProduct() {
         return new LoginPresenter();
@@ -111,7 +110,7 @@ public class UserLoginActivity extends BaseActivity<LoginPresenter> implements I
         params.put("PASS_WORD", passWord);
         params.put("SITE_ID", "1400");
         params.put("MERCHANT_ID", "1400");
-        params.put("", "1554710308852");
+        //params.put("", "1554710308852");
         presenter.login(params);
     }
 
@@ -125,7 +124,7 @@ public class UserLoginActivity extends BaseActivity<LoginPresenter> implements I
         if (loginBean.body().getCode().equals("0") && loginBean != null) {
             Toast.makeText(this, "" + loginBean.body().getMessage(), Toast.LENGTH_SHORT).show();
 
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, CaseControlActivity.class);
             intent.putExtra("leftable", leftLable);
             startActivity(intent);
         } else {
@@ -150,7 +149,7 @@ public class UserLoginActivity extends BaseActivity<LoginPresenter> implements I
         if (e == null || e.getCause() instanceof IllegalStateException) {
             Toast.makeText(this, "账号或密码错误", Toast.LENGTH_SHORT).show();
             return;
-        }else if (e == null || e.getCause() instanceof ConnectException) {
+        } else if (e == null || e.getCause() instanceof ConnectException) {
             Toast.makeText(this, "请查看网络", Toast.LENGTH_SHORT).show();
             return;
         }

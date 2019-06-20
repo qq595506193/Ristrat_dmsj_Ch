@@ -1,5 +1,7 @@
 package com.example.tidus.ristrat.mvp.presenter;
 
+import android.annotation.SuppressLint;
+
 import com.example.tidus.ristrat.base.BasePresenter;
 import com.example.tidus.ristrat.bean.Commit;
 import com.example.tidus.ristrat.bean.ReportBean;
@@ -22,6 +24,7 @@ public class ReportPresenter extends BasePresenter<IReportView> {
         model = new Model();
     }
 
+    @SuppressLint("CheckResult")
     public void getReport(Map<String, String> params) {
         model.model(v.context()).getReport(params)
              .subscribeOn(Schedulers.io())

@@ -7,14 +7,23 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
     <declare-styleable name="MaxHeightRecyclerView">
         <attr name="maxHeight" format="dimension" />
     </declare-styleable>
+
     <style name="mycheckbox" parent="@android:style/Widget.CompoundButton.CheckBox">
         <item name="android:button">@drawable/checkbox_for_addpending</item>
     </style>
 
+    //设置的是下拉item的主题 ,但是会覆盖未下拉的显示
+    //所以如果不想再代码中设置主题的话最好主题设置成白色背景的,效果比较好
 
+    <style name="myDropTheme" parent="Widget.AppCompat.DropDownItem.Spinner">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:background">@color/white</item>
+    </style>
 
 
 </resources>

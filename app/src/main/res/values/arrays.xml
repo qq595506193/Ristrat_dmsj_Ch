@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sex">
+        <item>全部</item>
+        <item>男</item>
+        <item>女</item>
+    </string-array>
+
+    <string-array name="danger_level">
+        <item>全部</item>
+        <item>低危</item>
+        <item>中危</item>
+        <item>高危</item>
+        <item>极高危</item>
+        <item>确诊</item>
+    </string-array>
+</resources>

@@ -13,6 +13,7 @@ public interface ICaseControlContract {
 
         public abstract void getCaseControl(HashMap<String, Object> params);
 
+
         @Override
         public ICaseControlModel getModel() {
             return new CaseControlModel();

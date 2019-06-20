@@ -2,8 +2,8 @@ package com.example.lib_core.base;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
@@ -16,6 +16,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private boolean isStatus;//沉浸式
     private boolean isFullScreen;//全屏
     private Unbinder unbinder;
+    ActionBar actionBar;
 
 //    @Override
 //    public void onCreate(@androidx.annotation.Nullable Bundle savedInstanceState, @androidx.annotation.Nullable PersistableBundle persistentState) {
@@ -26,6 +27,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(bindLayoutId());
+        actionBar = getSupportActionBar();
+        actionBar.hide();
         unbinder = ButterKnife.bind(this);
         initView();
         initData();
@@ -74,20 +77,21 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     *
      * @param status
      */
-    public void isStatus(boolean status){
-        if (status){
+    public void isStatus(boolean status) {
+        if (status) {
             //沉浸式代码
         }
     }
+
     /**
-     *全屏
+     * 全屏
+     *
      * @param
      */
-    public void isFullscreen(boolean fullscreenn){
-        if (fullscreenn){
+    public void isFullscreen(boolean fullscreenn) {
+        if (fullscreenn) {
             //全屏代码
         }
     }
@@ -122,7 +126,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (unbinder!=null){
+        if (unbinder != null) {
             unbinder.unbind();//解绑butterkinife
         }
     }

@@ -24,7 +24,7 @@ public class AddCookiesInterceptor implements Interceptor {
         Request request = chain.request();
         Request.Builder builder = request.newBuilder();
         String cookie = getCookie(request.url().toString(), request.url().host());
-        Log.e("Cookie", "addintercept: "+cookie );
+        Log.e("Cookie", "addintercept: " + cookie);
         if (!TextUtils.isEmpty(cookie)) {
             builder.addHeader("Cookie", cookie);
         }
@@ -34,10 +34,10 @@ public class AddCookiesInterceptor implements Interceptor {
 
     private String getCookie(String url, String domain) {
         SharedPreferences sp = mContext.getSharedPreferences(COOKIE_PREF, Context.MODE_PRIVATE);
-        if (!TextUtils.isEmpty(url)&&sp.contains(url)&&!TextUtils.isEmpty(sp.getString(url,""))) {
+        if (!TextUtils.isEmpty(url) && sp.contains(url) && !TextUtils.isEmpty(sp.getString(url, ""))) {
             return sp.getString(url, "");
         }
-        if (!TextUtils.isEmpty(domain)&&sp.contains(domain) && !TextUtils.isEmpty(sp.getString(domain, ""))) {
+        if (!TextUtils.isEmpty(domain) && sp.contains(domain) && !TextUtils.isEmpty(sp.getString(domain, ""))) {
             return sp.getString(domain, "");
         }
 

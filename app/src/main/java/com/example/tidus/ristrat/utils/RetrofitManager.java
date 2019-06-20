@@ -11,15 +11,15 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 /**
- *网络请求工具类
+ * 网络请求工具类
  */
 public class RetrofitManager {
-//    private static final String BASE_URL = "http://192.168.1.222:9090/XiaoYiRobotSer/";
-  private static final String BASE_URL = "http://220.194.46.204/XiaoYiRobotSer/";
+    public static final String BASE_URL = "http://192.168.1.222:9090/XiaoYiRobotSer/";
+    //private static final String BASE_URL = "http://220.194.46.204/XiaoYiRobotSer/";
     private Retrofit mRetrofit;
     private static Context context1;
 
-    public static String cookie=null;
+    public static String cookie = null;
 
     private static class SingleHolder {
         private static final RetrofitManager _INSTANT = new RetrofitManager(BASE_URL);
