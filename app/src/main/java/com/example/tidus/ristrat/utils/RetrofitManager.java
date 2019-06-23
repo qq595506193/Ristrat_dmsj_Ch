@@ -14,8 +14,8 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
  * 网络请求工具类
  */
 public class RetrofitManager {
-    public static final String BASE_URL = "http://192.168.1.222:9090/XiaoYiRobotSer/";
-    //private static final String BASE_URL = "http://220.194.46.204/XiaoYiRobotSer/";
+    //public static final String BASE_URL = "http://192.168.1.222:9090/XiaoYiRobotSer/";
+    public static final String BASE_URL = "http://220.194.46.204/XiaoYiRobotSer/";
     private Retrofit mRetrofit;
     private static Context context1;
 
@@ -49,8 +49,8 @@ public class RetrofitManager {
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .readTimeout(5, TimeUnit.SECONDS)
                 .writeTimeout(5000, TimeUnit.MILLISECONDS)
-                .addInterceptor(new SaveCookiesInterceptor(context1))//保存cookie
-                .addInterceptor(new AddCookiesInterceptor(context1));//添加cookie到接口中
+                .addInterceptor(new ReceivedCookiesInterceptor())//保存cookie
+                .addInterceptor(new AddCookiesInterceptor());//添加cookie到接口中
 //                .addInterceptor(new Interceptor() {
 //                    @Override
 //                    public Response intercept(Chain chain) throws IOException {

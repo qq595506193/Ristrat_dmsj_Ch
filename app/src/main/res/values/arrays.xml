@@ -14,4 +14,10 @@
         <item>极高危</item>
         <item>确诊</item>
     </string-array>
+
+    <string-array name="yuanyin">
+        <item>其他</item>
+        <item>不想了</item>
+        <item>没病</item>
+    </string-array>
 </resources>

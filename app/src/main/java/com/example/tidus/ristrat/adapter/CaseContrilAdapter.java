@@ -23,6 +23,8 @@ public class CaseContrilAdapter extends RecyclerView.Adapter<CaseContrilAdapter.
     private List<CaseControlBean.ServerParamsBean> serverParamsBeans;
     private CaseControlActivity caseControlActivity;
     private View view_pop;
+    private PopWindowUtil popWindowUtil = new PopWindowUtil();
+    private CaseControlBean.ServerParamsBean serverParamsBean;
 
     public CaseContrilAdapter(Context context, CaseControlActivity caseControlActivity) {
         serverParamsBeans = new ArrayList<>();
@@ -40,7 +42,6 @@ public class CaseContrilAdapter extends RecyclerView.Adapter<CaseContrilAdapter.
     @NonNull
     @Override
     public CaseContrilAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        view_pop = (View) LayoutInflater.from(context).inflate(R.layout.pop_child, parent);
         View view = LayoutInflater.from(context).inflate(R.layout.item_patient_list, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
@@ -48,8 +49,8 @@ public class CaseContrilAdapter extends RecyclerView.Adapter<CaseContrilAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull CaseContrilAdapter.ViewHolder holder, int position) {
-        CaseControlBean.ServerParamsBean serverParamsBean = serverParamsBeans.get(position);
-
+        View view_pop = (View) LayoutInflater.from(context).inflate(R.layout.pop_child, null);
+        serverParamsBean = serverParamsBeans.get(position);
         holder.tv_icon_name.setText(serverParamsBean.getPATIENT_NAME());
         holder.tv_age.setText(serverParamsBean.getBIRTHDAY() + "岁");
         holder.tv_bed_id.setText(serverParamsBean.getBED_NUMBER() + "床");
@@ -72,20 +73,66 @@ public class CaseContrilAdapter extends RecyclerView.Adapter<CaseContrilAdapter.
             holder.card_view.setBackgroundResource(R.color.white);
         }
 
+        TextView tv_history_assess = view_pop.findViewById(R.id.tv_history_assess);
 
-        initListener(holder);// 事件监听
+        if (serverParamsBean.getCURRENT_RISK_LEVEL().equals("5")) {
+            holder.iv_assess.setImageResource(R.mipmap.di);
+            holder.iv_assess.setVisibility(View.VISIBLE);
+        } else if (serverParamsBean.getCURRENT_RISK_LEVEL().equals("6")) {
+            holder.iv_assess.setImageResource(R.mipmap.zhong);
+            holder.iv_assess.setVisibility(View.VISIBLE);
+        } else if (serverParamsBean.getCURRENT_RISK_LEVEL().equals("7")) {
+            holder.iv_assess.setImageResource(R.mipmap.gaowei);
+            holder.iv_assess.setVisibility(View.VISIBLE);
+        } else if (serverParamsBean.getCURRENT_RISK_LEVEL().equals("8")) {
+            holder.iv_assess.setImageResource(R.mipmap.ji);
+            holder.iv_assess.setVisibility(View.VISIBLE);
+        } else if (serverParamsBean.getCURRENT_RISK_LEVEL().equals("9")) {
+            holder.iv_assess.setImageResource(R.mipmap.quzhen);
+            holder.iv_assess.setVisibility(View.VISIBLE);
+        } else {
+            holder.iv_assess.setVisibility(View.GONE);
+        }
+
+
+        initListener(holder, view_pop, serverParamsBean, position);// 事件监听
 
     }
 
-    private void initListener(ViewHolder holder) {
+    private void initListener(ViewHolder holder, final View view_pop, final CaseControlBean.ServerParamsBean serverParamsBean, final int position) {
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                PopWindowUtil.getInstance().showAssessPopupWindow(context, serverParamsBeans, caseControlActivity, v, view_pop, 0, 0, R.style.PopupWindow);
+            public void onClick(final View v) {
+
+
+                popWindowUtil.showAssessPopupWindow(context, serverParamsBean, caseControlActivity, v, position, view_pop, 180, -260, R.style.PopupWindow);
+
+
+                popWindowUtil.setSetOnIntentActivityPop(new PopWindowUtil.SetOnIntentActivityPop() {
+                    @Override
+                    public void onIntentActivityPop(View view, int position) {
+                        setOnIntentActivity.onStartActivity(serverParamsBeans, view, position);// 接口回调
+                    }
+                });
+
+                popWindowUtil.setSetOnIntentActivityCancelPop(new PopWindowUtil.SetOnIntentActivityCancelPop() {
+                    @Override
+                    public void onIntentActivityPop() {
+                        setOnIntentActivityCancel.onStartActivity();// 接口回调
+                    }
+                });
+
+                popWindowUtil.setSetOnIntentActivityHistoryPop(new PopWindowUtil.SetOnIntentActivityHistoryPop() {
+                    @Override
+                    public void onIntentActivityPop() {
+                        setOnIntentActivityHistory.onStratActivity(serverParamsBeans, position);// 接口回调
+                    }
+                });
             }
         });
+
 
     }
 
@@ -118,6 +165,37 @@ public class CaseContrilAdapter extends RecyclerView.Adapter<CaseContrilAdapter.
             tv_content = itemView.findViewById(R.id.tv_content);
             iv_assess = itemView.findViewById(R.id.iv_assess);
             card_view = itemView.findViewById(R.id.card_view);
+
         }
+    }
+
+    private SetOnIntentActivity setOnIntentActivity;
+
+    public interface SetOnIntentActivity {
+        void onStartActivity(List<CaseControlBean.ServerParamsBean> serverParamsBeans, View view, int position);
+    }
+
+    public void setSetOnIntentActivity(SetOnIntentActivity setOnIntentActivity) {
+        this.setOnIntentActivity = setOnIntentActivity;
+    }
+
+    private SetOnIntentActivityCancel setOnIntentActivityCancel;
+
+    public interface SetOnIntentActivityCancel {
+        void onStartActivity();
+    }
+
+    public void setSetOnIntentActivityCancel(SetOnIntentActivityCancel setOnIntentActivityCancel) {
+        this.setOnIntentActivityCancel = setOnIntentActivityCancel;
+    }
+
+    private SetOnIntentActivityHistory setOnIntentActivityHistory;
+
+    public interface SetOnIntentActivityHistory {
+        void onStratActivity(List<CaseControlBean.ServerParamsBean> serverParamsBeans, int position);
+    }
+
+    public void setSetOnIntentActivityHistory(SetOnIntentActivityHistory setOnIntentActivityHistory) {
+        this.setOnIntentActivityHistory = setOnIntentActivityHistory;
     }
 }

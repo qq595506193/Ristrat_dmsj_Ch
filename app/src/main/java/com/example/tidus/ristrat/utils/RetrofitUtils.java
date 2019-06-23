@@ -1,159 +1,73 @@
 package com.example.tidus.ristrat.utils;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-
-import com.example.lib_core.utils.LogUtils;
 import com.example.lib_network.api.ApiService;
-import com.example.tidus.ristrat.application.App;
-import com.example.tidus.ristrat.bean.CaseControlBean;
-import com.example.tidus.ristrat.callback.IOkHttpCallback;
-import com.example.tidus.ristrat.callback.IRetrofitService;
-import com.google.gson.Gson;
+import com.example.lib_network.network.HeaderInterceptor;
+import com.example.tidus.ristrat.interceptor.LoggingInterceptor;
 
-import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.example.lib_network.api.ApiService.BASE_URL;
-
+/**
+ * regrofit工具类
+ */
 public class RetrofitUtils {
-    private static RetrofitUtils instance;
-    private static Context context1;
-    private final OkHttpClient okHttpClient;
-    private final Retrofit retrofit;
-    public static String cookie = null;
+    private static volatile RetrofitUtils mInstance;
+    private Retrofit retrofit;
+    private OkHttpClient okHttpClient;
 
-    private static class SingleHolder {
-        private static final RetrofitUtils _INSTANT = new RetrofitUtils(BASE_URL);
-    }
-
-    public static RetrofitUtils getDefault(Context context) {
-        context1 = context;
-        return SingleHolder._INSTANT;
-    }
-
-    private RetrofitUtils(String baseUrl) {
+    private RetrofitUtils() {
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        //混存
+//        long maxCacheSize = 100 * 1024 * 1024;//100m
+//        File httpCacheDirectory = new File(Environment.get, "okhttpCache");
         okHttpClient = new OkHttpClient.Builder()
+                .readTimeout(10, TimeUnit.SECONDS)
+                .writeTimeout(10, TimeUnit.SECONDS)
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .addInterceptor(new ReceivedCookiesInterceptor())
+                .addInterceptor(new AddCookiesInterceptor())
+                .addInterceptor(new LoggingInterceptor())
                 .addNetworkInterceptor(httpLoggingInterceptor)
-                .addInterceptor(new AddCookiesInterceptor(App.getContext()))
-                .writeTimeout(20, TimeUnit.SECONDS)
-                .connectTimeout(20, TimeUnit.SECONDS)
-                .readTimeout(20, TimeUnit.SECONDS)
+//                .cache()//缓存
                 .build();
-
         retrofit = new Retrofit.Builder()
-                .addConverterFactory(LenientGsonConverterFactory.create(new Gson()))
                 .baseUrl(ApiService.BASE_URL)
                 .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
+
     }
 
-    // 单例双重检验锁
     public static RetrofitUtils getInstance() {
-        if (instance == null) {
+        if (mInstance == null) {
             synchronized (RetrofitUtils.class) {
-                if (instance == null) {
-                    instance = new RetrofitUtils(BASE_URL);
+                if (mInstance == null) {
+                    mInstance = new RetrofitUtils();
                 }
             }
         }
-        return instance;
+
+        return mInstance;
     }
 
-    public boolean isNetWorkConnected(Context context) {
-        if (context != null) {
-            ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-            if (networkInfo != null) {
-                return networkInfo.isAvailable();
-            }
-        }
-        return false;
-    }
+    /**
+     * 动态代理模式，创建请求接口类
+     *
+     * @param tClass
+     * @param <T>
+     * @return
+     */
+    public <T> T createService(Class<T> tClass) {
 
-    @SuppressLint("CheckResult")
-    public void doGet(String apiUrl, HashMap<String, Object> parmas, final IOkHttpCallback iOkHttpCallback) {
-        IRetrofitService retrofitService = retrofit.create(IRetrofitService.class);
-        LogUtils.e(apiUrl);
-        retrofitService.doGet(apiUrl, parmas)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<CaseControlBean>() {
-                    @Override
-                    public void accept(CaseControlBean caseControlBean) throws Exception {
-                        if (iOkHttpCallback != null) {
-                            iOkHttpCallback.onSuccess(caseControlBean);
-                        }
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        if (iOkHttpCallback != null) {
-                            iOkHttpCallback.onFailed(throwable);
-                        }
-                    }
-                });
+        return retrofit.create(tClass);
     }
 
 
-
-    /*@SuppressLint("CheckResult")
-    public void doPut(String apiUrl, HashMap<String, String> parmas, final IOkHttpCallback iOkHttpCallback) {
-        IRetrofitService retrofitService = retrofit.create(IRetrofitService.class);
-        retrofitService.putReg(apiUrl, parmas).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<ResponseBody>() {
-                    @Override
-                    public void accept(ResponseBody responseBody) throws Exception {
-                        String result = responseBody.string();
-                        if (iOkHttpCallback != null) {
-                            iOkHttpCallback.onSuccess(result);
-                        }
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        if (iOkHttpCallback != null) {
-                            iOkHttpCallback.onFailed(throwable + "");
-                        }
-                    }
-                });
-    }
-
-    @SuppressLint("CheckResult")
-    public void upload(String apiUrl, File file, final IOkHttpCallback iOkHttpCallback) {
-        IRetrofitService retrofitService = retrofit.create(IRetrofitService.class);
-        retrofitService.upload(apiUrl, file)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<ResponseBody>() {
-                    @Override
-                    public void accept(ResponseBody responseBody) throws Exception {
-                        String result = responseBody.string();
-                        if (iOkHttpCallback != null) {
-                            iOkHttpCallback.onSuccess(result);
-                        }
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        if (iOkHttpCallback != null) {
-                            iOkHttpCallback.onFailed(throwable + "");
-                        }
-                    }
-                });
-    }*/
 }

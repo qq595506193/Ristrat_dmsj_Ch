@@ -6,8 +6,9 @@
     android:layout_height="@dimen/dp_75"
     android:layout_margin="@dimen/dp_5"
     android:background="@color/white"
-    app:cardCornerRadius="@dimen/dp_2"
-    app:cardElevation="@dimen/dp_5">
+    app:cardBackgroundColor="#ffffff"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="5dp">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -18,7 +19,7 @@
 
         <ImageView
             android:id="@+id/iv_icon"
-            android:layout_width="@dimen/dp_30"
+            android:layout_width="@dimen/dp_25"
             android:layout_height="@dimen/dp_32"
             android:src="@mipmap/m_01"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -99,7 +100,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="王医生"
-            android:textColor="@color/gray_text"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="@id/tv_doctor"
             app:layout_constraintLeft_toRightOf="@id/tv_doctor"
             app:layout_constraintTop_toTopOf="@id/tv_doctor" />

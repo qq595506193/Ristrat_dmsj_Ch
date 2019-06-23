@@ -17,7 +17,7 @@ import com.example.tidus.ristrat.base.BaseActivity;
 import com.example.tidus.ristrat.bean.LoginBean;
 import com.example.tidus.ristrat.mvp.presenter.LoginPresenter;
 import com.example.tidus.ristrat.mvp.view.iview.ILoginView;
-import com.example.tidus.ristrat.utils.AddCookiesInterceptor;
+import com.example.tidus.ristrat.utils.LogUtils;
 import com.example.tidus.ristrat.utils.NetUtils;
 import com.example.tidus.ristrat.utils.RetrofitManager;
 
@@ -120,12 +120,12 @@ public class UserLoginActivity extends BaseActivity<LoginPresenter> implements I
         if (RetrofitManager.cookie == null) {
             RetrofitManager.cookie = loginBean.headers().get("set-cookie");
         }
-        Log.e("Cookie", "cookie: " + RetrofitManager.cookie);
+        LogUtils.e("cookie: " + RetrofitManager.cookie);
         if (loginBean.body().getCode().equals("0") && loginBean != null) {
             Toast.makeText(this, "" + loginBean.body().getMessage(), Toast.LENGTH_SHORT).show();
-
             Intent intent = new Intent(this, CaseControlActivity.class);
             intent.putExtra("leftable", leftLable);
+            intent.putExtra("loginBean", loginBean.body());
             startActivity(intent);
         } else {
             Toast.makeText(this, "" + loginBean.body().getMessage(), Toast.LENGTH_SHORT).show();
@@ -137,10 +137,12 @@ public class UserLoginActivity extends BaseActivity<LoginPresenter> implements I
     @Override
     protected void onResume() {
         super.onResume();
-        final SharedPreferences sp = getSharedPreferences("model", MODE_PRIVATE);
-        SharedPreferences sp1 = getSharedPreferences(AddCookiesInterceptor.COOKIE_PREF, Context.MODE_PRIVATE);
-        sp1.edit().clear().commit();
-        sp.edit().clear().commit();
+        final SharedPreferences sp = getSharedPreferences("config", MODE_PRIVATE);
+        SharedPreferences sp1 = getSharedPreferences("config",
+                Context.MODE_PRIVATE);
+        sp1.getStringSet("cookie", null);
+        sp1.edit().clear().apply();
+        sp.edit().clear().apply();
     }
 
     @Override

@@ -60,27 +60,27 @@ public class InfromActivity extends BaseActivity<InfromPresenter> implements Iin
 
     @Override
     protected void initData() {
-        listben = (Patient.ServerParamsBean.WillpushListBean) getIntent().getSerializableExtra("listben");
-        SharedPreferences sp = getSharedPreferences("model", MODE_PRIVATE);
-        if (listben == null) {
-            Gson gson = new Gson();
-            String json = sp.getString("pa", null);
-            Type type = new TypeToken<Patient.ServerParamsBean.WillpushListBean>() {
-            }.getType();
-            listben = gson.fromJson(json, type);
-            patient_id = listben.getPATIENT_ID();
-        }
-        String leftable = getIntent().getStringExtra("leftable");
-        int topic_id = getIntent().getIntExtra("topic_id", 0);
-        patient_id = getIntent().getStringExtra("PATIENT_ID");
-        titleLeftLable.setText(leftable);
-        titleLable.setText("风险评估报告");
-        Map<String, String> params = new HashMap<>();
-        params.put("PATIENT_ID", patient_id);
-        params.put("SERVICE_PLAN_ID", topic_id + "");
-        params.put("Type", "queryJibingReport");
-
-        presenter.getInfrom(params);
+//        listben = (Patient.ServerParamsBean.WillpushListBean) getIntent().getSerializableExtra("listben");
+//        SharedPreferences sp = getSharedPreferences("model", MODE_PRIVATE);
+//        if (listben == null) {
+//            Gson gson = new Gson();
+//            String json = sp.getString("pa", null);
+//            Type type = new TypeToken<Patient.ServerParamsBean.WillpushListBean>() {
+//            }.getType();
+//            listben = gson.fromJson(json, type);
+//            patient_id = listben.getPATIENT_ID();
+//        }
+//        String leftable = getIntent().getStringExtra("leftable");
+//        int topic_id = getIntent().getIntExtra("topic_id", 0);
+//        patient_id = getIntent().getStringExtra("PATIENT_ID");
+//        titleLeftLable.setText(leftable);
+//        titleLable.setText("风险评估报告");
+//        Map<String, String> params = new HashMap<>();
+//        params.put("PATIENT_ID", patient_id);
+//        params.put("SERVICE_PLAN_ID", topic_id + "");
+//        params.put("Type", "queryJibingReport");
+//
+//        presenter.getInfrom(params);
 
 
     }

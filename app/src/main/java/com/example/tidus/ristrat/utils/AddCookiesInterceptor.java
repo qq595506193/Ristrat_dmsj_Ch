@@ -1,46 +1,31 @@
 package com.example.tidus.ristrat.utils;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.text.TextUtils;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.example.tidus.ristrat.application.App;
+
 import java.io.IOException;
+import java.util.HashSet;
 
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 
 public class AddCookiesInterceptor implements Interceptor {
-    public static final String COOKIE_PREF = "cookies_prefs";
-    private Context mContext;
-
-    public AddCookiesInterceptor(Context context) {
-        mContext = context;
-    }
-
+    @NonNull
     @Override
-    public Response intercept(Chain chain) throws IOException {
-        Request request = chain.request();
-        Request.Builder builder = request.newBuilder();
-        String cookie = getCookie(request.url().toString(), request.url().host());
-        Log.e("Cookie", "addintercept: " + cookie);
-        if (!TextUtils.isEmpty(cookie)) {
-            builder.addHeader("Cookie", cookie);
+    public Response intercept(@NonNull Chain chain) throws IOException {
+        Request.Builder builder = chain.request().newBuilder();
+        HashSet preferences = (HashSet) App.getContext().getSharedPreferences("config",
+                Context.MODE_PRIVATE).getStringSet("cookie", null);
+        if (preferences != null) {
+            for (Object cookie : preferences) {
+                builder.addHeader("Cookie", (String) cookie);
+                LogUtils.e("cookie===="+cookie); // This is done so I know which headers are being added; this interceptor is used after the normal logging of OkHttp
+            }
         }
-
         return chain.proceed(builder.build());
-    }
-
-    private String getCookie(String url, String domain) {
-        SharedPreferences sp = mContext.getSharedPreferences(COOKIE_PREF, Context.MODE_PRIVATE);
-        if (!TextUtils.isEmpty(url) && sp.contains(url) && !TextUtils.isEmpty(sp.getString(url, ""))) {
-            return sp.getString(url, "");
-        }
-        if (!TextUtils.isEmpty(domain) && sp.contains(domain) && !TextUtils.isEmpty(sp.getString(domain, ""))) {
-            return sp.getString(domain, "");
-        }
-
-        return null;
     }
 }

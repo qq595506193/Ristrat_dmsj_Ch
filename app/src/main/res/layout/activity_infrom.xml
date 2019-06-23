@@ -9,7 +9,7 @@
 
     tools:context=".mvp.view.InfromActivity">
 
-    <include layout="@layout/gray_title_layout" />
+    <include layout="@layout/particulars_title_layout" />
 
 
     <ScrollView

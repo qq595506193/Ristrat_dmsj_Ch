@@ -32,6 +32,17 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:icon">
+        <activity
+            android:name=".mvp.view.LogActivity"
+            android:theme="@style/TransparentTheme"></activity>
+        <activity android:name=".mvp.view.HistoryAssessActivity"></activity>
+        <activity
+            android:name=".mvp.view.CancelQuestionActivity"
+            android:theme="@style/TransparentTheme"></activity>
+        <activity android:name=".mvp.view.RiskAssessmentActivity"></activity>
+        <activity
+            android:name=".mvp.view.SelectQuestionActivity"
+            android:theme="@style/TransparentTheme"></activity>
         <activity android:name=".mvp.view.MessageActivity"></activity>
         <activity android:name=".mvp.view.CaseControlActivity"></activity>
         <activity

@@ -28,16 +28,17 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(bindLayoutId());
         actionBar = getSupportActionBar();
+        assert actionBar != null;
         actionBar.hide();
         unbinder = ButterKnife.bind(this);
-        initView();
+        initView(getIntent());
         initData();
     }
 
 
     protected abstract void initData();
 
-    protected abstract void initView();
+    protected abstract void initView(Intent intent);
 
 
     /**
