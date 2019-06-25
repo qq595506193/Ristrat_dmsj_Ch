@@ -3,6 +3,7 @@ package com.example.tidus.ristrat.mvp.view;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -10,6 +11,7 @@ import com.example.lib_core.base.mvp.BaseMvpActivity;
 import com.example.lib_core.base.mvp.BasePresenter;
 import com.example.tidus.ristrat.R;
 import com.example.tidus.ristrat.adapter.HistoryTableListAdapter;
+import com.example.tidus.ristrat.application.App;
 import com.example.tidus.ristrat.bean.CaseControlBean;
 import com.example.tidus.ristrat.bean.HistoryAssessBean;
 import com.example.tidus.ristrat.bean.LoginBean;
@@ -43,6 +45,7 @@ public class HistoryAssessActivity extends BaseMvpActivity<IHistoryAssessContrac
     private List<Integer> pointsList = new ArrayList<>();
     private LoginBean loginBean;
     private CaseControlBean.ServerParamsBean serverParamsBean;
+    private HistoryAssessBean historyAssessBean;
 
     @BindView(R.id.rv_table_list)
     RecyclerView rv_table_list;
@@ -85,8 +88,8 @@ public class HistoryAssessActivity extends BaseMvpActivity<IHistoryAssessContrac
     private List<Integer> yValue = new ArrayList<>();
     //折线对应的数据
     private Map<String, Integer> value = new HashMap<>();
-    // 日期对应的数据
-    private HistoryAssessBean historyAssessBean;
+    private ImageView iv_back;
+    private TextView tv_back;
 
     @Override
     protected void init() {
@@ -99,9 +102,40 @@ public class HistoryAssessActivity extends BaseMvpActivity<IHistoryAssessContrac
         loginBean = (LoginBean) intent.getSerializableExtra("loginBean");
         serverParamsBean = (CaseControlBean.ServerParamsBean) intent.getSerializableExtra("serverParamsBean");
         data = new LineChartData();
+        iv_back = findViewById(R.id.iv_back);
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        tv_back = findViewById(R.id.tv_back);
+        tv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         tv_login_name = findViewById(R.id.tv_login_name);
+        tv_login_name.setText(loginBean.getServer_params().getUSER_NAME());
         iv_message = findViewById(R.id.iv_message);
+        iv_message.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(App.getContext(), MessageActivity.class);
+                intent.putExtra("loginBean", loginBean);
+                startActivity(intent);
+            }
+        });
         iv_close = findViewById(R.id.iv_close);
+        iv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(App.getContext(), UserLoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         rv_table_list.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         historyTableListAdapter = new HistoryTableListAdapter(getContext());
         rv_table_list.setAdapter(historyTableListAdapter);
@@ -113,18 +147,6 @@ public class HistoryAssessActivity extends BaseMvpActivity<IHistoryAssessContrac
     protected void initData() {
         super.initData();
         initPresenterData();
-
-        for (HistoryAssessBean.ServerParamsBean.ReportListBean reportListBean : historyAssessBean.getServer_params().getReportList()) {
-            for (int i = 0; i < reportListBean.getWENJUAN().size(); i++) {
-                xValue.add(reportListBean.getWENJUAN().get(i).getREPORT_TIME());
-                value.put((i + 1) + "日", (int) (Math.random() * 181 + 60));//60--240
-            }
-        }
-        for (int i = 0; i < 6; i++) {
-            yValue.add(i);
-        }
-        chartView.setValue(value, xValue, yValue);
-
     }
 
     private void initPresenterData() {
@@ -163,9 +185,9 @@ public class HistoryAssessActivity extends BaseMvpActivity<IHistoryAssessContrac
     public void onHistoryAssessSuccess(Object result) {
         if (result != null) {
             if (result instanceof HistoryAssessBean) {
-                historyAssessBean = (HistoryAssessBean) result;
                 if (((HistoryAssessBean) result).getCode().equals("0")) {
                     LogUtils.e(((HistoryAssessBean) result).getMessage());
+                    this.historyAssessBean = (HistoryAssessBean) result;
                     tv_name.setText(historyAssessBean.getServer_params().getPATIENT_NAME());
                     if (historyAssessBean.getServer_params().getPATIENT_SEX().equals("M")) {
                         tv_sex.setText("男");

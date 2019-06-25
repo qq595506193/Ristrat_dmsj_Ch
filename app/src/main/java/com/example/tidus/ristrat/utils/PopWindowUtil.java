@@ -3,19 +3,13 @@ package com.example.tidus.ristrat.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.example.tidus.ristrat.R;
-import com.example.tidus.ristrat.application.App;
 import com.example.tidus.ristrat.bean.CaseControlBean;
-
-import java.util.List;
 
 public class PopWindowUtil {
 
@@ -62,30 +56,18 @@ public class PopWindowUtil {
         TextView tv_now_assess = customView.findViewById(R.id.tv_now_assess);
         TextView tv_no_assess = customView.findViewById(R.id.tv_no_assess);
         TextView tv_history_assess = customView.findViewById(R.id.tv_history_assess);
-        if (serverParamsBean.getCURRENT_RISK_LEVEL().equals("5")) {
-            tv_history_assess.setVisibility(View.VISIBLE);
-            tv_now_assess.setVisibility(View.GONE);
-            tv_no_assess.setVisibility(View.GONE);
-        } else if (serverParamsBean.getCURRENT_RISK_LEVEL().equals("6")) {
-            tv_history_assess.setVisibility(View.VISIBLE);
-            tv_now_assess.setVisibility(View.GONE);
-            tv_no_assess.setVisibility(View.GONE);
-        } else if (serverParamsBean.getCURRENT_RISK_LEVEL().equals("7")) {
-            tv_history_assess.setVisibility(View.VISIBLE);
-            tv_now_assess.setVisibility(View.GONE);
-            tv_no_assess.setVisibility(View.GONE);
-        } else if (serverParamsBean.getCURRENT_RISK_LEVEL().equals("8")) {
-            tv_history_assess.setVisibility(View.VISIBLE);
-            tv_now_assess.setVisibility(View.GONE);
-            tv_no_assess.setVisibility(View.GONE);
-        } else if (serverParamsBean.getCURRENT_RISK_LEVEL().equals("9")) {
-            tv_history_assess.setVisibility(View.VISIBLE);
-            tv_now_assess.setVisibility(View.GONE);
-            tv_no_assess.setVisibility(View.GONE);
-        } else {
+        if (serverParamsBean.getOPERATE_RESULT() == 10) {
+            tv_history_assess.setVisibility(View.GONE);
             tv_now_assess.setVisibility(View.VISIBLE);
             tv_no_assess.setVisibility(View.VISIBLE);
+        } else if (serverParamsBean.getOPERATE_RESULT() == 20) {
             tv_history_assess.setVisibility(View.GONE);
+            tv_now_assess.setVisibility(View.VISIBLE);
+            tv_no_assess.setVisibility(View.VISIBLE);
+        } else {
+            tv_now_assess.setVisibility(View.GONE);
+            tv_no_assess.setVisibility(View.GONE);
+            tv_history_assess.setVisibility(View.VISIBLE);
         }
         tv_now_assess.getBackground().setAlpha(200);
         tv_no_assess.getBackground().setAlpha(200);
@@ -122,8 +104,6 @@ public class PopWindowUtil {
 
 
     }
-
-
 
 
     public void disPopupWindow() {

@@ -3,12 +3,10 @@ package com.example.tidus.ristrat.mvp.presenter;
 import android.annotation.SuppressLint;
 
 import com.example.tidus.ristrat.base.BasePresenter;
-import com.example.tidus.ristrat.bean.Commit;
+import com.example.tidus.ristrat.bean.CommitBean;
 import com.example.tidus.ristrat.bean.ReportBean;
-import com.example.tidus.ristrat.bean.RiskBean;
 import com.example.tidus.ristrat.mvp.model.Model;
 import com.example.tidus.ristrat.mvp.view.iview.IReportView;
-import com.example.tidus.ristrat.mvp.view.iview.IRiskView;
 
 import java.util.Map;
 
@@ -59,9 +57,9 @@ public class ReportPresenter extends BasePresenter<IReportView> {
         model.model(v.context()).getCommit(params)
              .subscribeOn(Schedulers.io())
              .observeOn(AndroidSchedulers.mainThread())
-             .subscribe(new Consumer<Commit>() {
+             .subscribe(new Consumer<CommitBean>() {
                          @Override
-                         public void accept(Commit commit) throws Exception {
+                         public void accept(CommitBean commit) throws Exception {
                              if (commit != null && "0".equals(commit.getCode())) {
                                  if (v != null) {
                                      v.succ(commit);

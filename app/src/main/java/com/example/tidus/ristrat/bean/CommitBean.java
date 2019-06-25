@@ -1,6 +1,6 @@
 package com.example.tidus.ristrat.bean;
 
-public class Commit {
+public class CommitBean {
 
     /**
      * code : 1

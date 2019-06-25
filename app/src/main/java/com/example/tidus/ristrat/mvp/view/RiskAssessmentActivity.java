@@ -21,6 +21,8 @@ import com.example.tidus.ristrat.adapter.QuestionTwoAdapter;
 import com.example.tidus.ristrat.adapter.RiskTableListAdapter;
 import com.example.tidus.ristrat.application.App;
 import com.example.tidus.ristrat.bean.CaseControlBean;
+import com.example.tidus.ristrat.bean.CommitBean;
+import com.example.tidus.ristrat.bean.LoginBean;
 import com.example.tidus.ristrat.bean.RiskAssessmentBean;
 import com.example.tidus.ristrat.contract.IRiskAssessmentContart;
 import com.example.tidus.ristrat.mvp.presenter.RiskAssessmentPresenter;
@@ -39,10 +41,6 @@ public class RiskAssessmentActivity extends BaseMvpActivity<IRiskAssessmentConta
     ImageView iv_back;
     @BindView(R.id.tv_back)
     TextView tv_back;
-    @BindView(R.id.iv_message)
-    ImageView iv_message;
-    @BindView(R.id.tv_login_name)
-    TextView tv_login_name;
     @BindView(R.id.iv_login_icon)
     ImageView iv_login_icon;
     @BindView(R.id.tv_name)
@@ -97,12 +95,15 @@ public class RiskAssessmentActivity extends BaseMvpActivity<IRiskAssessmentConta
     private List<RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean> twoList;
     private List<RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean> threeList;
     private List<RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean> fourList;
-
-    private ArrayList<RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean> intentList;
+    private ArrayList<String> intentList;
     private int index = 1;//分数
     private int allNum = 0; //总和
     private int FORM_ID = 1;// 问卷Id
     private ArrayList<String> logList = new ArrayList<>();
+    private LoginBean loginBean;
+    private ImageView iv_close;
+    private TextView tv_login_name;
+    private ImageView iv_message;
 
 
     @Override
@@ -125,7 +126,33 @@ public class RiskAssessmentActivity extends BaseMvpActivity<IRiskAssessmentConta
             }
         });
 
+
+        loginBean = (LoginBean) intent.getSerializableExtra("loginBean");
         serverParamsBean = (CaseControlBean.ServerParamsBean) getIntent().getSerializableExtra("serverParamsBean");
+
+
+        tv_login_name = findViewById(R.id.tv_login_name);
+        tv_login_name.setText(loginBean.getServer_params().getUSER_NAME());
+        iv_message = findViewById(R.id.iv_message);
+        iv_message.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(App.getContext(), MessageActivity.class);
+                intent.putExtra("loginBean", loginBean);
+                startActivity(intent);
+            }
+        });
+        iv_close = findViewById(R.id.iv_close);
+        iv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(App.getContext(), UserLoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+
         age = serverParamsBean.getBIRTHDAY();// 年龄
         // 展示表格适配器
         riskTableListAdapter = new RiskTableListAdapter(App.getContext());
@@ -151,7 +178,7 @@ public class RiskAssessmentActivity extends BaseMvpActivity<IRiskAssessmentConta
         rv_question_check_04.setLayoutManager(new GridLayoutManager(App.getContext(), 4));
         rv_question_check_04.setAdapter(questionFourAdapter);
         //////////////
-        initOnclick();
+
     }
 
     private void initOnclick() {
@@ -170,12 +197,25 @@ public class RiskAssessmentActivity extends BaseMvpActivity<IRiskAssessmentConta
     }
 
     private void initPresenterCommint() {
+        List<HashMap<String, String>> list = new ArrayList<>();
+        list.clear();
+        HashMap<String, String> commitFormBeanHashMap = new HashMap<>();
+        for (String s : intentList) {
+            commitFormBeanHashMap.put("CURRENT_OPTION_ID", "");
+            commitFormBeanHashMap.put("CURRENT_VALUE", "");
+            commitFormBeanHashMap.put("RISK_FACTOR_ID", s);
+            list.add(commitFormBeanHashMap);
+        }
+
+
         HashMap<String, Object> params = new HashMap<>();
         params.put("Type", "saveReportCommit");
         params.put("PATIENT_ID", serverParamsBean.getPATIENT_ID());
         params.put("INTEGRAL", allNum);
-        params.put("OPTIONS", "[{\"CURRENT_OPTION_ID\":\"2\",\"CURRENT_VALUE\":\"\",\"RISK_FACTOR_ID\":\"1016\"}]");
+        params.put("OPTIONS", list);
         params.put("FORM_ID", FORM_ID);
+        LogUtils.e("拼参数============"+params.toString());
+        presenter.getCommit(params);
     }
 
     @Override
@@ -185,7 +225,7 @@ public class RiskAssessmentActivity extends BaseMvpActivity<IRiskAssessmentConta
 
         initPresenterData();
 
-
+        LogUtils.e("intentList == " + this.intentList.toString());
         rg_select.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -244,10 +284,25 @@ public class RiskAssessmentActivity extends BaseMvpActivity<IRiskAssessmentConta
 
 
     @Override
+    public void onCommitSuccess(Object result) {
+        if (result != null) {
+            if (result instanceof CommitBean) {
+                if (((CommitBean) result).getCode().equals("0")) {
+                    ToastUtils.show("提交成功");
+                } else {
+                    ToastUtils.show("提交失败");
+                }
+            }
+        }
+    }
+
+    @Override
     public void onRiskAssessmentSuccess(Object result) {
         if (result != null) {
             if (result instanceof RiskAssessmentBean) {
                 if (((RiskAssessmentBean) result).getCode().equals("0")) {
+                    Integer integer = Integer.valueOf(age);
+                    //////////////////////
                     LogUtils.e(((RiskAssessmentBean) result).getMessage());
                     RiskAssessmentBean.ServerParamsBean server_params = ((RiskAssessmentBean) result).getServer_params();
                     this.server_params = server_params;
@@ -255,9 +310,10 @@ public class RiskAssessmentActivity extends BaseMvpActivity<IRiskAssessmentConta
                     for (RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean wenjuannameBean : server_params.getWENJUANNAME()) {
                         this.FORM_ID = wenjuannameBean.getFORM_ID();
                         for (RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean xuanxiangBean : wenjuannameBean.getXUANXIANG()) {
-                            for (RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean wenjuanBean : xuanxiangBean.getWENJUAN()) {
+                            for (final RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean wenjuanBean : xuanxiangBean.getWENJUAN()) {
                                 switch (wenjuanBean.getFACTOR_GROUP_ID()) {
                                     case "1":
+                                        questionOneAdapter.notifyDataSetChanged();
                                         questionOneAdapter.setSublistBeans(wenjuanBean.getSublist());// 设置问卷分值1的list
                                         questionOneAdapter.setOnCheckedClickListener(new QuestionOneAdapter.onCheckedClickListener() {
                                             @Override
@@ -265,6 +321,13 @@ public class RiskAssessmentActivity extends BaseMvpActivity<IRiskAssessmentConta
                                                 logList.add(itemText);
                                                 index = 1;
                                                 sum(isChecked);
+
+                                                if (isChecked) {
+                                                    intentList.add(wenjuanBean.getSublist().get(position).getRISK_FACTOR_ID() + "");
+                                                } else {
+                                                    tv_level.setText("");
+                                                    intentList.remove(wenjuanBean.getSublist().get(position).getRISK_FACTOR_ID() + "");
+                                                }
                                                 if (allNum > 0 && allNum <= 20) {
                                                     tv_level.setText("低危");
                                                 } else if (allNum > 20 && allNum <= 40) {
@@ -280,6 +343,8 @@ public class RiskAssessmentActivity extends BaseMvpActivity<IRiskAssessmentConta
                                         });
                                         break;
                                     case "2":
+                                        twoList.addAll(wenjuanBean.getSublist());
+                                        questionTwoAdapter.notifyDataSetChanged();
                                         questionTwoAdapter.setSublistBeans(wenjuanBean.getSublist());// 设置问卷分值2的list
                                         questionTwoAdapter.setOnCheckedClickListener(new QuestionTwoAdapter.onCheckedClickListener() {
                                             @Override
@@ -287,6 +352,12 @@ public class RiskAssessmentActivity extends BaseMvpActivity<IRiskAssessmentConta
                                                 logList.add(itemText);
                                                 index = 2;
                                                 sum(isChecked);
+                                                if (isChecked) {
+                                                    intentList.add(wenjuanBean.getSublist().get(position).getRISK_FACTOR_ID() + "");
+                                                } else {
+                                                    tv_level.setText("");
+                                                    intentList.remove(wenjuanBean.getSublist().get(position).getRISK_FACTOR_ID() + "");
+                                                }
                                                 if (allNum > 0 && allNum <= 20) {
                                                     tv_level.setText("低危");
                                                 } else if (allNum > 20 && allNum <= 40) {
@@ -302,6 +373,8 @@ public class RiskAssessmentActivity extends BaseMvpActivity<IRiskAssessmentConta
                                         });
                                         break;
                                     case "3":
+                                        threeList.addAll(wenjuanBean.getSublist());
+                                        questionThreeAdapter.notifyDataSetChanged();
                                         questionThreeAdapter.setSublistBeans(wenjuanBean.getSublist());// 设置问卷分值3的list
                                         questionThreeAdapter.setOnCheckedClickListener(new QuestionThreeAdapter.onCheckedClickListener() {
                                             @Override
@@ -309,6 +382,12 @@ public class RiskAssessmentActivity extends BaseMvpActivity<IRiskAssessmentConta
                                                 logList.add(itemText);
                                                 index = 3;
                                                 sum(isChecked);
+                                                if (isChecked) {
+                                                    intentList.add(wenjuanBean.getSublist().get(position).getRISK_FACTOR_ID() + "");
+                                                } else {
+                                                    tv_level.setText("");
+                                                    intentList.remove(wenjuanBean.getSublist().get(position).getRISK_FACTOR_ID() + "");
+                                                }
                                                 if (allNum > 0 && allNum <= 20) {
                                                     tv_level.setText("低危");
                                                 } else if (allNum > 20 && allNum <= 40) {
@@ -324,6 +403,8 @@ public class RiskAssessmentActivity extends BaseMvpActivity<IRiskAssessmentConta
                                         });
                                         break;
                                     case "4":
+                                        fourList.addAll(wenjuanBean.getSublist());
+                                        questionFourAdapter.notifyDataSetChanged();
                                         questionFourAdapter.setSublistBeans(wenjuanBean.getSublist());// 设置问卷分值5的list
                                         questionFourAdapter.setOnCheckedClickListener(new QuestionFourAdapter.onCheckedClickListener() {
                                             @Override
@@ -331,6 +412,12 @@ public class RiskAssessmentActivity extends BaseMvpActivity<IRiskAssessmentConta
                                                 logList.add(itemText);
                                                 index = 5;
                                                 sum(isChecked);
+                                                if (isChecked) {
+                                                    intentList.add(wenjuanBean.getSublist().get(position).getRISK_FACTOR_ID() + "");
+                                                } else {
+                                                    tv_level.setText("");
+                                                    intentList.remove(wenjuanBean.getSublist().get(position).getRISK_FACTOR_ID() + "");
+                                                }
                                                 if (allNum > 0 && allNum <= 20) {
                                                     tv_level.setText("低危");
                                                 } else if (allNum > 20 && allNum <= 40) {
@@ -367,33 +454,12 @@ public class RiskAssessmentActivity extends BaseMvpActivity<IRiskAssessmentConta
                             startActivity(intent);
                         }
                     });
+                    initOnclick();// 点击提交
 
                     /////////////////////////////
 
                 }
             }
-        }
-        Integer integer = Integer.valueOf(age);
-
-        if (oneList.get(0).getRISK_FACTOR_ID() == 1001 && integer > 40 && integer < 60) {
-            index = 1;
-            sum(true);
-            intentList.add(oneList.get(0));
-        }
-        if (twoList.get(0).getRISK_FACTOR_ID() == 1018 && integer > 60 && integer < 65) {
-            index = 2;
-            sum(true);
-            intentList.add(twoList.get(0));
-        }
-        if (integer > 76 && threeList.get(0).getRISK_FACTOR_ID() == 1026) {
-            index = 3;
-            sum(true);
-            intentList.add(threeList.get(0));
-        }
-        if (fourList.get(0).getRISK_FACTOR_NAME().equals("脑卒中") && fourList.get(0).getRISK_FACTOR_ID() == 1036) {
-            index = 5;
-            sum(true);
-            intentList.add(fourList.get(0));
         }
 
 

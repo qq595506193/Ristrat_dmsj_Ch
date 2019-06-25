@@ -33,4 +33,23 @@ public class RiskAssessmentPresenter extends IRiskAssessmentContart.RiskAssessme
             }
         });
     }
+
+    @Override
+    public void getCommit(HashMap<String, Object> params) {
+        riskAssessmentModel.getCommit(params, new IRequestCallback() {
+            @Override
+            public void onSuccess(Object result) {
+                if (iRiskAssessmentView != null) {
+                    iRiskAssessmentView.onCommitSuccess(result);
+                }
+            }
+
+            @Override
+            public void onFailed(Object error) {
+                if (iRiskAssessmentView != null) {
+                    iRiskAssessmentView.onFailed(error);
+                }
+            }
+        });
+    }
 }

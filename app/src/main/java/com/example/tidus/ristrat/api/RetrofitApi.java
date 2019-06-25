@@ -1,7 +1,7 @@
 package com.example.tidus.ristrat.api;
 
 import com.example.tidus.ristrat.bean.Assessment;
-import com.example.tidus.ristrat.bean.Commit;
+import com.example.tidus.ristrat.bean.CommitBean;
 import com.example.tidus.ristrat.bean.Infrom;
 import com.example.tidus.ristrat.bean.LoginBean;
 import com.example.tidus.ristrat.bean.Patient;
@@ -37,7 +37,7 @@ public interface RetrofitApi {
     Observable<ReportBean> getReport(@QueryMap Map<String,String> params);
     //VTE风险评估个人报告提交
     @GET("RobotBackground.do")
-    Observable<Commit> getCommit(@QueryMap Map<String,String> params);
+    Observable<CommitBean> getCommit(@QueryMap Map<String,String> params);
     //查看报告
     @GET("RobotBackground.do")
     Observable<Infrom> getInfrom(@QueryMap Map<String,String> params);

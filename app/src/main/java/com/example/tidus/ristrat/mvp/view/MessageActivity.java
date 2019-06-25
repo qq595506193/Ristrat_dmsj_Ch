@@ -36,6 +36,9 @@ public class MessageActivity extends BaseMvpActivity<IMessageContract.IMessageMo
     private int COUNT = 10;
     private MessageListAdapter messageListAdapter;
     private List<MessageBean.ServerParamsBean.ListBean> list = new ArrayList<>();
+    private ImageView iv_message;
+    private TextView tv_login_name;
+    private ImageView iv_close;
 
 
     @Override
@@ -48,6 +51,19 @@ public class MessageActivity extends BaseMvpActivity<IMessageContract.IMessageMo
         loginBean = (LoginBean) intent.getSerializableExtra("loginBean");
         iv_back = findViewById(R.id.iv_back);
         tv_back = findViewById(R.id.tv_back);
+        iv_message = findViewById(R.id.iv_message);
+        iv_message.setVisibility(View.GONE);
+        tv_login_name = findViewById(R.id.tv_login_name);
+        tv_login_name.setText(loginBean.getServer_params().getUSER_NAME());
+        iv_close = findViewById(R.id.iv_close);
+        iv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(App.getContext(), UserLoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

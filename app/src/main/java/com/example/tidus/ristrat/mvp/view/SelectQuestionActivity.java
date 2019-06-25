@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 import com.example.tidus.ristrat.R;
 import com.example.tidus.ristrat.bean.CaseControlBean;
+import com.example.tidus.ristrat.bean.LoginBean;
 import com.example.tidus.ristrat.utils.ToastUtils;
 
 import butterknife.BindView;
@@ -29,6 +30,7 @@ public class SelectQuestionActivity extends AppCompatActivity {
     private boolean question_01 = false;
     private boolean question_02 = false;
     private CaseControlBean.ServerParamsBean serverParamsBean;
+    private LoginBean loginBean;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,6 +55,7 @@ public class SelectQuestionActivity extends AppCompatActivity {
                 Intent intent = new Intent(SelectQuestionActivity.this, RiskAssessmentActivity.class);
                 intent.putExtra("question_01", question_01);
                 intent.putExtra("question_02", question_02);
+                intent.putExtra("loginBean", loginBean);
                 intent.putExtra("serverParamsBean", serverParamsBean);
                 startActivity(intent);
                 finish();
@@ -82,6 +85,7 @@ public class SelectQuestionActivity extends AppCompatActivity {
 
     private void initView() {
         ButterKnife.bind(this);
+        loginBean = (LoginBean) getIntent().getSerializableExtra("loginBean");
         serverParamsBean = (CaseControlBean.ServerParamsBean) getIntent().getSerializableExtra("serverParamsBean");
         iv_close.setOnClickListener(new View.OnClickListener() {
             @Override

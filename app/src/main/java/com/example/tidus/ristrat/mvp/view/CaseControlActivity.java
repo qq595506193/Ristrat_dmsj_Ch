@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.lib_core.base.mvp.BaseMvpActivity;
 import com.example.lib_core.base.mvp.BasePresenter;
@@ -23,6 +24,7 @@ import com.example.tidus.ristrat.adapter.CaseContrilAdapter;
 import com.example.tidus.ristrat.application.App;
 import com.example.tidus.ristrat.bean.CaseControlBean;
 import com.example.tidus.ristrat.bean.LoginBean;
+import com.example.tidus.ristrat.bean.QueryHMBean;
 import com.example.tidus.ristrat.contract.ICaseControlContract;
 import com.example.tidus.ristrat.mvp.presenter.CaseControlPresenter;
 import com.example.tidus.ristrat.utils.LogUtils;
@@ -30,6 +32,8 @@ import com.example.tidus.ristrat.utils.LogUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 
@@ -66,11 +70,26 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
     private String PATIENT_NAME;// 患者名称
     private String PATIENT_SEX;// 性别
     private String BED_NUMBER;// 床位Id
-    private List<String> DEPARTMENT_ID;// 本科室/本单元
+    private List<String> DEPARTMENT_ID = new ArrayList<>();// 本科室/本单元
     private String CURRENT_RISK_LEVEL;// 危险等级
     private String sp_sex_str;// 性别的值
     private String sp_danger_level_str;// 危险等级的值
     private LoginBean loginBean;
+    private TextView tv_login_name;
+    private Timer timer;
+
+    // (2) 使用handler处理接收到的消息
+    @SuppressLint("HandlerLeak")
+    private Handler mHandlerQueryHM = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == 10000) {
+                LogUtils.e("提醒了");
+                initPresenterData();
+                initQueryHMPresenterData();
+            }
+        }
+    };
 
 
     @Override
@@ -82,7 +101,8 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
     protected void initView(Intent intent) {
 
         loginBean = (LoginBean) intent.getSerializableExtra("loginBean");
-
+        tv_login_name = findViewById(R.id.tv_login_name);
+        tv_login_name.setText(loginBean.getServer_params().getUSER_NAME());
         iv_close = findViewById(R.id.iv_close);
         iv_close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,7 +119,7 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
                 startActivity(intent);
             }
         });
-        initListener();
+
         rv_patient_list.setLayoutManager(new GridLayoutManager(App.getContext(), 4));
         caseContrilAdapter = new CaseContrilAdapter(App.getContext(), CaseControlActivity.this);
         rv_patient_list.setAdapter(caseContrilAdapter);
@@ -135,6 +155,25 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
                 startActivity(intent);
             }
         });
+
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                // (1) 使用handler发送消息
+                Message message = new Message();
+                message.what = 10000;
+                mHandlerQueryHM.sendMessage(message);
+            }
+        }, 5000, 5000);//每隔一秒使用handler发送一下消息,也就是每隔一秒执行一次,一直重复执行
+
+
+    }
+
+    private void initQueryHMPresenterData() {
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("Type", "queryHM_Patient_To_Assess");
+        presenter.getQueryHM(params);
     }
 
     @Override
@@ -151,6 +190,7 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
     }
 
     private void initPresenterData() {
+        initListener();
         HashMap<String, Object> params = new HashMap<>();
         params.put("Type", "queryPatient_Basic_InfoBybed");
         params.put("VISIT_SQ_NO", VISIT_SQ_NO);
@@ -159,6 +199,7 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
         params.put("BED_NUMBER", BED_NUMBER);
         params.put("CURRENT_RISK_LEVEL", CURRENT_RISK_LEVEL);
 //        params.put("DEPARTMENT_ID", DEPARTMENT_ID);
+        LogUtils.e("请求了一次列表" + "----住院号：" + VISIT_SQ_NO + "----患者名：" + PATIENT_NAME + "----患者性别：" + PATIENT_SEX + "----床位：" + BED_NUMBER + "----危险等级：" + CURRENT_RISK_LEVEL);
         presenter.getCaseControl(params);
     }
 
@@ -228,7 +269,6 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
 
         final String section_str = rb_section.getText().toString().trim();
         final String element_str = rb_element.getText().toString().trim();
-        DEPARTMENT_ID = new ArrayList<>();
 
 //        if (rb_section.isChecked()) {
 //            if (section_str.equals("本科室")) {
@@ -247,6 +287,20 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
     @Override
     protected int bindLayoutId() {
         return R.layout.activity_case_control;
+    }
+
+    @Override
+    public void onQueryHMSuccess(Object result) {
+        if (result != null) {
+            if (result instanceof QueryHMBean) {
+                if (((QueryHMBean) result).getCode().equals("0")) {
+                    LogUtils.e(((QueryHMBean) result).getMessage());
+                    if (((QueryHMBean) result).getServer_params().getWPG().equals("0")) {
+                        caseContrilAdapter.setListBeans(((QueryHMBean) result).getServer_params().getLIST());
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -345,5 +399,25 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
                 caseContrilAdapter.notifyDataSetChanged();
             }
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mHandler.removeMessages(1);
+        mHandlerQueryHM.removeMessages(10000);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mHandler.removeMessages(1);
+        mHandlerQueryHM.removeMessages(10000);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
     }
 }

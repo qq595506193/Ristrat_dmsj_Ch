@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +17,7 @@ import android.widget.Toast;
 import com.example.tidus.ristrat.R;
 import com.example.tidus.ristrat.adapter.ReportAdapter;
 import com.example.tidus.ristrat.base.BaseActivity;
-import com.example.tidus.ristrat.bean.Commit;
+import com.example.tidus.ristrat.bean.CommitBean;
 import com.example.tidus.ristrat.bean.ReportBean;
 import com.example.tidus.ristrat.bean.RiskBean;
 import com.example.tidus.ristrat.mvp.presenter.ReportPresenter;
@@ -29,7 +28,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -215,7 +213,7 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements IRe
     }
 
     @Override
-    public void succ(Commit commit) {
+    public void succ(CommitBean commit) {
         Toast.makeText(this, "提交" + commit.getMessage(), Toast.LENGTH_SHORT).show();
         finish();
         RiskActivity.mActivity.finish();

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/title_root"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/dp_30"
+    android:layout_height="@dimen/dp_40"
     android:background="#3b4046"
     android:gravity="center_vertical"
     android:paddingTop="10dp">
@@ -35,7 +35,7 @@
         android:layout_height="@dimen/dp_15"
         android:layout_marginRight="@dimen/dp_10"
         android:layout_marginBottom="@dimen/dp_2"
-        android:src="@mipmap/tuichu"
+        android:src="@mipmap/tuichu2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
@@ -45,7 +45,7 @@
         android:layout_height="@dimen/dp_15"
         android:layout_marginRight="@dimen/dp_10"
         android:layout_marginBottom="@dimen/dp_2"
-        android:src="@mipmap/xiaoxi"
+        android:src="@mipmap/xiaoxi2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toLeftOf="@id/iv_close" />
 

@@ -1,8 +1,10 @@
 package com.example.tidus.ristrat.callback;
 
 import com.example.tidus.ristrat.bean.CaseControlBean;
+import com.example.tidus.ristrat.bean.CommitBean;
 import com.example.tidus.ristrat.bean.HistoryAssessBean;
 import com.example.tidus.ristrat.bean.MessageBean;
+import com.example.tidus.ristrat.bean.QueryHMBean;
 import com.example.tidus.ristrat.bean.RiskAssessmentBean;
 
 import java.util.HashMap;
@@ -29,4 +31,12 @@ public interface IRetrofitService {
     // 历史评估查询
     @GET
     Observable<HistoryAssessBean> doHistoryAssessGet(@Url String apiUrl, @QueryMap HashMap<String, Object> params);
+
+    // 提交表格
+    @GET
+    Observable<CommitBean> doCommitGet(@Url String apiUrl, @QueryMap HashMap<String, Object> params);
+
+    // 提醒变色
+    @GET
+    Observable<QueryHMBean> doQueryHMGet(@Url String apiUrl, @QueryMap HashMap<String, Object> params);
 }

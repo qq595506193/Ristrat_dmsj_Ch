@@ -56,7 +56,6 @@ public class QuestionOneAdapter extends RecyclerView.Adapter<QuestionOneAdapter.
         RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean = sublistBeans.get(position);
         if (sublistBean.getFACTOR_GROUP_ID() == 1) {
             String risk_factor_name = sublistBean.getRISK_FACTOR_NAME();
-            LogUtils.e(risk_factor_name);
             holder.cb_checked.setText(risk_factor_name);
             Integer integer = Integer.valueOf(age);
             if (sublistBean.getRISK_FACTOR_ID() == 1001 || sublistBean.getRISK_FACTOR_ID() == 1018 || sublistBean.getRISK_FACTOR_ID() == 1026 || sublistBean.getRISK_FACTOR_ID() == 1036) {
@@ -66,7 +65,7 @@ public class QuestionOneAdapter extends RecyclerView.Adapter<QuestionOneAdapter.
                     holder.cb_checked.setChecked(true);
                 } else if (integer > 76 && sublistBean.getRISK_FACTOR_ID() == 1026) {
                     holder.cb_checked.setChecked(true);
-                } else if (sublistBean.getRISK_FACTOR_ID() == 1036 && sublistBean.getRISK_FACTOR_NAME().equals("脑卒中")) {
+                } else if (sublistBean.getRISK_FACTOR_ID() == 1036 && sublistBean.getRISK_FACTOR_NAME().equals("脑卒中(<1个月)")) {
                     holder.cb_checked.setChecked(true);
                 }
                 holder.cb_checked.setEnabled(false);

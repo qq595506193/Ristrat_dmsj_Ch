@@ -17,11 +17,30 @@ public class CaseControlPresenter extends ICaseControlContract.CaseControlPresen
 
     @Override
     public void getCaseControl(HashMap<String, Object> params) {
-        model.getCaseControl(params, new IRequestCallback() {
+        caseControlModel.getCaseControl(params, new IRequestCallback() {
             @Override
             public void onSuccess(Object result) {
                 if (iCaseControlView != null) {
                     iCaseControlView.onCaseControlSuccess(result);
+                }
+            }
+
+            @Override
+            public void onFailed(Object error) {
+                if (iCaseControlView != null) {
+                    iCaseControlView.onFailed(error);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getQueryHM(HashMap<String, Object> params) {
+        caseControlModel.getQueryHM(params, new IRequestCallback() {
+            @Override
+            public void onSuccess(Object result) {
+                if (iCaseControlView != null) {
+                    iCaseControlView.onQueryHMSuccess(result);
                 }
             }
 

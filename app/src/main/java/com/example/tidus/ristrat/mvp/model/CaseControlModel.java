@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 
 import com.example.lib_network.api.ApiService;
 import com.example.tidus.ristrat.bean.CaseControlBean;
+import com.example.tidus.ristrat.bean.QueryHMBean;
 import com.example.tidus.ristrat.callback.IRequestCallback;
 import com.example.tidus.ristrat.callback.IRetrofitService;
 import com.example.tidus.ristrat.contract.ICaseControlContract;
@@ -29,6 +30,30 @@ public class CaseControlModel implements ICaseControlContract.ICaseControlModel 
                     public void accept(CaseControlBean caseControlBean) throws Exception {
                         if (iRequestCallback != null) {
                             iRequestCallback.onSuccess(caseControlBean);
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        if (iRequestCallback != null) {
+                            iRequestCallback.onFailed(throwable);
+                        }
+                    }
+                });
+    }
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void getQueryHM(HashMap<String, Object> params, final IRequestCallback iRequestCallback) {
+        RetrofitUtils.getInstance().createService(IRetrofitService.class)
+                .doQueryHMGet(ApiService.QUERY_HM, params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<QueryHMBean>() {
+                    @Override
+                    public void accept(QueryHMBean queryHMBean) throws Exception {
+                        if (iRequestCallback != null) {
+                            iRequestCallback.onSuccess(queryHMBean);
                         }
                     }
                 }, new Consumer<Throwable>() {

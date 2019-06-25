@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.tidus.ristrat.R;
 import com.example.tidus.ristrat.bean.CaseControlBean;
+import com.example.tidus.ristrat.bean.QueryHMBean;
 import com.example.tidus.ristrat.mvp.view.CaseControlActivity;
 import com.example.tidus.ristrat.utils.PopWindowUtil;
 
@@ -21,6 +22,7 @@ import java.util.List;
 public class CaseContrilAdapter extends RecyclerView.Adapter<CaseContrilAdapter.ViewHolder> {
     private Context context;
     private List<CaseControlBean.ServerParamsBean> serverParamsBeans;
+    private List<QueryHMBean.ServerParamsBean.LISTBean> listBeans;
     private CaseControlActivity caseControlActivity;
     private View view_pop;
     private PopWindowUtil popWindowUtil = new PopWindowUtil();
@@ -28,8 +30,17 @@ public class CaseContrilAdapter extends RecyclerView.Adapter<CaseContrilAdapter.
 
     public CaseContrilAdapter(Context context, CaseControlActivity caseControlActivity) {
         serverParamsBeans = new ArrayList<>();
+        listBeans = new ArrayList<>();
         this.context = context;
         this.caseControlActivity = caseControlActivity;
+    }
+
+
+    public void setListBeans(List<QueryHMBean.ServerParamsBean.LISTBean> listBeans) {
+        if (listBeans != null) {
+            this.listBeans = listBeans;
+        }
+        notifyDataSetChanged();
     }
 
     public void setCaseControlBean(List<CaseControlBean.ServerParamsBean> serverParamsBeans) {
@@ -64,34 +75,72 @@ public class CaseContrilAdapter extends RecyclerView.Adapter<CaseContrilAdapter.
         } else {
             holder.iv_icon.setImageResource(R.mipmap.w_02);
         }
-        String reminde_level = serverParamsBean.getREMINDE_LEVEL();
-        if (reminde_level.equals("10")) {
+        if (serverParamsBean.getOPERATE_RESULT() == 10) {
             holder.card_view.setBackgroundResource(R.color.color_common);
-        } else if (reminde_level.equals("20")) {
+        } else if (serverParamsBean.getOPERATE_RESULT() == 20) {
             holder.card_view.setBackgroundResource(R.color.color_high_risk);
         } else {
             holder.card_view.setBackgroundResource(R.color.white);
         }
+        String reminde_level = serverParamsBean.getREMINDE_LEVEL();
+        for (QueryHMBean.ServerParamsBean.LISTBean listBean : listBeans) {
+            if (serverParamsBean.getVISIT_SQ_NO().equals(listBean.getVISIT_SQ_NO())) {
+                if (listBean.getOPERATE_RESULT() == 10) {
+                    holder.card_view.setBackgroundResource(R.color.color_common);
+                } else if (listBean.getOPERATE_RESULT() == 20) {
+                    holder.card_view.setBackgroundResource(R.color.color_high_risk);
+                } else {
+                    holder.card_view.setBackgroundResource(R.color.white);
+                }
+            }
+        }
+
 
         TextView tv_history_assess = view_pop.findViewById(R.id.tv_history_assess);
 
-        if (serverParamsBean.getCURRENT_RISK_LEVEL().equals("5")) {
-            holder.iv_assess.setImageResource(R.mipmap.di);
-            holder.iv_assess.setVisibility(View.VISIBLE);
-        } else if (serverParamsBean.getCURRENT_RISK_LEVEL().equals("6")) {
-            holder.iv_assess.setImageResource(R.mipmap.zhong);
-            holder.iv_assess.setVisibility(View.VISIBLE);
-        } else if (serverParamsBean.getCURRENT_RISK_LEVEL().equals("7")) {
-            holder.iv_assess.setImageResource(R.mipmap.gaowei);
-            holder.iv_assess.setVisibility(View.VISIBLE);
-        } else if (serverParamsBean.getCURRENT_RISK_LEVEL().equals("8")) {
-            holder.iv_assess.setImageResource(R.mipmap.ji);
-            holder.iv_assess.setVisibility(View.VISIBLE);
-        } else if (serverParamsBean.getCURRENT_RISK_LEVEL().equals("9")) {
-            holder.iv_assess.setImageResource(R.mipmap.quzhen);
-            holder.iv_assess.setVisibility(View.VISIBLE);
+        if (serverParamsBean.getOPERATE_RESULT() == 10) {
+            tv_history_assess.setVisibility(View.GONE);
+        } else if (serverParamsBean.getOPERATE_RESULT() == 20) {
+            tv_history_assess.setVisibility(View.GONE);
+        } else if (serverParamsBean.getOPERATE_RESULT() == 99) {
+            tv_history_assess.setVisibility(View.GONE);
+        } else {
+            tv_history_assess.setVisibility(View.VISIBLE);
+        }
+
+        if (serverParamsBean.getLevlist().size() != 0 || serverParamsBean != null) {
+
+
+            for (CaseControlBean.ServerParamsBean.LevlistBean levlistBean : serverParamsBean.getLevlist()) {
+                if (levlistBean.getCURRENT_RISK_LEVEL().equals("5")) {
+                    holder.iv_assess.setVisibility(View.VISIBLE);
+                    holder.iv_assess.setImageResource(R.mipmap.vet_green);
+                } else if (levlistBean.getCURRENT_RISK_LEVEL().equals("6")) {
+                    holder.iv_assess.setVisibility(View.VISIBLE);
+                    holder.iv_assess.setImageResource(R.mipmap.vet_blue);
+                } else if (levlistBean.getCURRENT_RISK_LEVEL().equals("7")) {
+                    holder.iv_assess.setVisibility(View.VISIBLE);
+                    holder.iv_assess.setImageResource(R.mipmap.vet_yellow);
+                } else if (levlistBean.getCURRENT_RISK_LEVEL().equals("8")) {
+                    holder.iv_assess.setVisibility(View.VISIBLE);
+                    holder.iv_assess.setImageResource(R.mipmap.vet_orange);
+                } else if (levlistBean.getCURRENT_RISK_LEVEL().equals("9")) {
+                    holder.iv_assess.setVisibility(View.VISIBLE);
+                    holder.iv_assess.setImageResource(R.mipmap.vet_red);
+                } else if (levlistBean.getCURRENT_RISK_LEVEL().equals("21")) {
+                    holder.iv_chuxue.setVisibility(View.VISIBLE);
+                    holder.iv_chuxue.setImageResource(R.mipmap.chuxuedi);
+                } else if (levlistBean.getCURRENT_RISK_LEVEL().equals("22")) {
+                    holder.iv_chuxue.setVisibility(View.VISIBLE);
+                    holder.iv_chuxue.setImageResource(R.mipmap.chuxuegao);
+                }else {
+                    holder.iv_assess.setVisibility(View.GONE);
+                    holder.iv_chuxue.setVisibility(View.GONE);
+                }
+            }
         } else {
             holder.iv_assess.setVisibility(View.GONE);
+            holder.iv_chuxue.setVisibility(View.GONE);
         }
 
 
@@ -152,6 +201,7 @@ public class CaseContrilAdapter extends RecyclerView.Adapter<CaseContrilAdapter.
         private final TextView tv_content;
         private final ImageView iv_assess;
         private final CardView card_view;
+        private final ImageView iv_chuxue;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -165,6 +215,7 @@ public class CaseContrilAdapter extends RecyclerView.Adapter<CaseContrilAdapter.
             tv_content = itemView.findViewById(R.id.tv_content);
             iv_assess = itemView.findViewById(R.id.iv_assess);
             card_view = itemView.findViewById(R.id.card_view);
+            iv_chuxue = itemView.findViewById(R.id.iv_chuxue);
 
         }
     }

@@ -137,6 +137,17 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <ImageView
+                android:id="@+id/iv_chuxue"
+                android:layout_width="@dimen/dp_10"
+                android:layout_height="@dimen/dp_10"
+                android:layout_marginLeft="@dimen/dp_5"
+                android:src="@mipmap/ic_launcher"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/iv_assess"
+                app:layout_constraintLeft_toRightOf="@id/iv_assess"
+                app:layout_constraintTop_toTopOf="@id/iv_assess" />
+
         </android.support.constraint.ConstraintLayout>
     </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>
