@@ -289,6 +289,13 @@
     <color name="limeColor">#38ed38</color>
     <color name="cardTableColor">#57796b</color>
 
+    <!-- 危险等级颜色 -->
+    <color name="levelGreenColor">#05a558</color>
+    <color name="levelBlueColor">#6cbdfe</color>
+    <color name="levelYellowColor">#fed700</color>
+    <color name="levelOrangeColor">#ff7e00</color>
+    <color name="levelRedColor">#ff4e6b</color>
+
     <!-- Reds -->
     <color name="salmonColor">#e9575f</color>
     <color name="brickRedColor">#971b10</color>

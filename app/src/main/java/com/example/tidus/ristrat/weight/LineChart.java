@@ -232,7 +232,7 @@ public class LineChart extends View {
                 mPointPaint.setColor(Color.BLACK);
             }
             if (i > 0) {
-                //画连线
+               // //画连线
 //                canvas.drawLine(xPoints[i - 1], yPoints[i - 1], xPoints[i], yPoints[i], mLinePaint);
             }
             //画点的数值

@@ -8,6 +8,5 @@
                 android:width="@dimen/dp_1"
                 android:color="#c1c1c1" />
         </shape>
-        <color android:color="#28c48f" />
     </item>
 </layer-list>

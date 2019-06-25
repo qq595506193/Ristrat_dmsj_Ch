@@ -1,9 +1,7 @@
 package com.example.tidus.ristrat.mvp.view;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,15 +14,8 @@ import com.example.tidus.ristrat.bean.Infrom;
 import com.example.tidus.ristrat.bean.Patient;
 import com.example.tidus.ristrat.mvp.presenter.InfromPresenter;
 import com.example.tidus.ristrat.mvp.view.iview.IinfromView;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -44,7 +35,7 @@ public class InfromActivity extends BaseActivity<InfromPresenter> implements Iin
     @BindView(R.id.txti_num) TextView txtiNum;
     //    @BindView(R.id.txti_state) TextView txtiState;
     @BindView(R.id.txt_time) TextView txtTime;
-    @BindView(R.id.txt_product) TextView txtProduct;
+//    @BindView(R.id.txt_time) TextView txt_time;
     @BindView(R.id.txt_total) TextView txtTotal;
     @BindView(R.id.txt_grade) TextView txtGrade;
     @BindView(R.id.txt_show) TextView txtShow;
@@ -159,7 +150,7 @@ public class InfromActivity extends BaseActivity<InfromPresenter> implements Iin
         String thr = infrom.getServer_params().getSublist().get(0).getREPORT_TIME().substring(6, 8);
         txtTime.setText(one + "-" + two + "-" + thr);
         if (infrom.getServer_params().getSublist().get(0).getREPORT_CODE() != null) {
-            txtProduct.setText(String.valueOf(infrom.getServer_params().getSublist().get(0).getREPORT_CODE()));
+            //txt_time.setText(String.valueOf(infrom.getServer_params().getSublist().get(0).getREPORT_CODE()));
         }
 
 
