@@ -78,6 +78,15 @@ public class ChartView extends View {
     private Rect xValueRect;
     //速度检测器
     private VelocityTracker velocityTracker;
+    // 标识
+    private int tag_01 = 1;
+    private int tag_02 = 2;
+    private int tag_03 = 3;
+    private int tag_04 = 4;
+    private int tag_05 = 5;
+    private int tag_06 = 6;
+    private int length;
+
 
     public ChartView(Context context) {
         this(context, null);
@@ -322,7 +331,8 @@ public class ChartView extends View {
      * @param canvas
      */
     private void drawXY(Canvas canvas) {
-        int length = dpToPx(4);//刻度的长度
+        //刻度的长度
+        length = dpToPx(4);
         //绘制Y坐标
         canvas.drawLine(xOri - xylinewidth / 2, 0, xOri - xylinewidth / 2, yOri, xyPaint);
         //绘制y轴箭头
@@ -388,6 +398,12 @@ public class ChartView extends View {
         obtainVelocityTracker(event);
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                if (setSelectDateListener != null) {
+                    for (int i = 0; i < xValue.size(); i++) {
+
+                    }
+                    setSelectDateListener.serOnClickSelectDate();
+                }
                 startX = event.getX();
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -623,6 +639,16 @@ public class ChartView extends View {
     private int spToPx(int sp) {
         float scaledDensity = getContext().getResources().getDisplayMetrics().scaledDensity;
         return (int) (scaledDensity * sp + 0.5f * (sp >= 0 ? 1 : -1));
+    }
+
+    private SetSelectDateListener setSelectDateListener;
+
+    public interface SetSelectDateListener {
+        void serOnClickSelectDate();
+    }
+
+    public void setSetSelectDateListener(SetSelectDateListener setSelectDateListener) {
+        this.setSelectDateListener = setSelectDateListener;
     }
 }
 

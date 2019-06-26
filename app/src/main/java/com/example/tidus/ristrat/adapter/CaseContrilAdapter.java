@@ -1,6 +1,7 @@
 package com.example.tidus.ristrat.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -75,42 +76,22 @@ public class CaseContrilAdapter extends RecyclerView.Adapter<CaseContrilAdapter.
         } else {
             holder.iv_icon.setImageResource(R.mipmap.w_02);
         }
-        if (serverParamsBean.getOPERATE_RESULT() == 10) {
-            holder.card_view.setBackgroundResource(R.color.color_common);
-        } else if (serverParamsBean.getOPERATE_RESULT() == 20) {
-            holder.card_view.setBackgroundResource(R.color.color_high_risk);
-        } else {
-            holder.card_view.setBackgroundResource(R.color.white);
-        }
-        String reminde_level = serverParamsBean.getREMINDE_LEVEL();
+
         for (QueryHMBean.ServerParamsBean.LISTBean listBean : listBeans) {
             if (serverParamsBean.getVISIT_SQ_NO().equals(listBean.getVISIT_SQ_NO())) {
                 if (listBean.getOPERATE_RESULT() == 10) {
-                    holder.card_view.setBackgroundResource(R.color.color_common);
+                    holder.card_view.setBackgroundColor(Color.parseColor((String) listBean.getREMINDE_COLOR()));
                 } else if (listBean.getOPERATE_RESULT() == 20) {
-                    holder.card_view.setBackgroundResource(R.color.color_high_risk);
+                    holder.card_view.setBackgroundColor(Color.parseColor((String) listBean.getREMINDE_COLOR()));
                 } else {
                     holder.card_view.setBackgroundResource(R.color.white);
                 }
             }
-        }
 
 
-        TextView tv_history_assess = view_pop.findViewById(R.id.tv_history_assess);
-
-        if (serverParamsBean.getOPERATE_RESULT() == 10) {
-            tv_history_assess.setVisibility(View.GONE);
-        } else if (serverParamsBean.getOPERATE_RESULT() == 20) {
-            tv_history_assess.setVisibility(View.GONE);
-        } else if (serverParamsBean.getOPERATE_RESULT() == 99) {
-            tv_history_assess.setVisibility(View.GONE);
-        } else {
-            tv_history_assess.setVisibility(View.VISIBLE);
         }
 
         if (serverParamsBean.getLevlist().size() != 0 || serverParamsBean != null) {
-
-
             for (CaseControlBean.ServerParamsBean.LevlistBean levlistBean : serverParamsBean.getLevlist()) {
                 if (levlistBean.getCURRENT_RISK_LEVEL().equals("5")) {
                     holder.iv_assess.setVisibility(View.VISIBLE);
@@ -133,7 +114,7 @@ public class CaseContrilAdapter extends RecyclerView.Adapter<CaseContrilAdapter.
                 } else if (levlistBean.getCURRENT_RISK_LEVEL().equals("22")) {
                     holder.iv_chuxue.setVisibility(View.VISIBLE);
                     holder.iv_chuxue.setImageResource(R.mipmap.chuxuegao);
-                }else {
+                } else {
                     holder.iv_assess.setVisibility(View.GONE);
                     holder.iv_chuxue.setVisibility(View.GONE);
                 }
@@ -156,13 +137,13 @@ public class CaseContrilAdapter extends RecyclerView.Adapter<CaseContrilAdapter.
             public void onClick(final View v) {
 
 
-                popWindowUtil.showAssessPopupWindow(context, serverParamsBean, caseControlActivity, v, position, view_pop, 180, -260, R.style.PopupWindow);
+                popWindowUtil.showAssessPopupWindow(context, listBeans, serverParamsBean, caseControlActivity, v, position, view_pop, 180, -260, R.style.PopupWindow);
 
 
                 popWindowUtil.setSetOnIntentActivityPop(new PopWindowUtil.SetOnIntentActivityPop() {
                     @Override
                     public void onIntentActivityPop(View view, int position) {
-                        setOnIntentActivity.onStartActivity(serverParamsBeans, view, position);// 接口回调
+                        setOnIntentActivity.onStartActivity(serverParamsBeans, listBeans, view, position);// 接口回调
                     }
                 });
 
@@ -176,7 +157,7 @@ public class CaseContrilAdapter extends RecyclerView.Adapter<CaseContrilAdapter.
                 popWindowUtil.setSetOnIntentActivityHistoryPop(new PopWindowUtil.SetOnIntentActivityHistoryPop() {
                     @Override
                     public void onIntentActivityPop() {
-                        setOnIntentActivityHistory.onStratActivity(serverParamsBeans, position);// 接口回调
+                        setOnIntentActivityHistory.onStratActivity(serverParamsBeans, listBeans, position);// 接口回调
                     }
                 });
             }
@@ -223,7 +204,7 @@ public class CaseContrilAdapter extends RecyclerView.Adapter<CaseContrilAdapter.
     private SetOnIntentActivity setOnIntentActivity;
 
     public interface SetOnIntentActivity {
-        void onStartActivity(List<CaseControlBean.ServerParamsBean> serverParamsBeans, View view, int position);
+        void onStartActivity(List<CaseControlBean.ServerParamsBean> serverParamsBeans, List<QueryHMBean.ServerParamsBean.LISTBean> listBeans, View view, int position);
     }
 
     public void setSetOnIntentActivity(SetOnIntentActivity setOnIntentActivity) {
@@ -243,7 +224,7 @@ public class CaseContrilAdapter extends RecyclerView.Adapter<CaseContrilAdapter.
     private SetOnIntentActivityHistory setOnIntentActivityHistory;
 
     public interface SetOnIntentActivityHistory {
-        void onStratActivity(List<CaseControlBean.ServerParamsBean> serverParamsBeans, int position);
+        void onStratActivity(List<CaseControlBean.ServerParamsBean> serverParamsBeans, List<QueryHMBean.ServerParamsBean.LISTBean> listBeans, int position);
     }
 
     public void setSetOnIntentActivityHistory(SetOnIntentActivityHistory setOnIntentActivityHistory) {

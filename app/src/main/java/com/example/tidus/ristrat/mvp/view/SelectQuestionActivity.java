@@ -13,7 +13,12 @@ import android.widget.ImageView;
 import com.example.tidus.ristrat.R;
 import com.example.tidus.ristrat.bean.CaseControlBean;
 import com.example.tidus.ristrat.bean.LoginBean;
+import com.example.tidus.ristrat.bean.QueryHMBean;
+import com.example.tidus.ristrat.bean.SelectQuestionListBean;
 import com.example.tidus.ristrat.utils.ToastUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,13 +34,17 @@ public class SelectQuestionActivity extends AppCompatActivity {
     Button btn_sure;
     private boolean question_01 = false;
     private boolean question_02 = false;
+    private List<String> selectQuestionList = new ArrayList<>();
     private CaseControlBean.ServerParamsBean serverParamsBean;
     private LoginBean loginBean;
+    private QueryHMBean.ServerParamsBean.LISTBean listBean;
+    private SelectQuestionListBean selectQuestionListBean;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.item_select_pop);
+        selectQuestionListBean = new SelectQuestionListBean();
         initView();
         initListener();
     }
@@ -52,17 +61,25 @@ public class SelectQuestionActivity extends AppCompatActivity {
                     ToastUtils.show("请至少选择一项");
                     return;
                 }
+                if (ck_question_01.isChecked()) {
+                    selectQuestionList.add("1");
+                    selectQuestionListBean.setIndexTable(selectQuestionList);
+                }
+                if (ck_question_02.isChecked()) {
+                    selectQuestionList.add("2");
+                    selectQuestionListBean.setIndexTable(selectQuestionList);
+                }
                 Intent intent = new Intent(SelectQuestionActivity.this, RiskAssessmentActivity.class);
-                intent.putExtra("question_01", question_01);
-                intent.putExtra("question_02", question_02);
                 intent.putExtra("loginBean", loginBean);
+                intent.putExtra("listBean", listBean);
+                intent.putExtra("selectQuestionListBean", selectQuestionListBean);
                 intent.putExtra("serverParamsBean", serverParamsBean);
+
                 startActivity(intent);
+
                 finish();
             }
         });
-
-
     }
 
     CompoundButton.OnCheckedChangeListener myCheckChangelistener = new CompoundButton.OnCheckedChangeListener() {
@@ -85,6 +102,7 @@ public class SelectQuestionActivity extends AppCompatActivity {
 
     private void initView() {
         ButterKnife.bind(this);
+        listBean = (QueryHMBean.ServerParamsBean.LISTBean) getIntent().getSerializableExtra("listBean");
         loginBean = (LoginBean) getIntent().getSerializableExtra("loginBean");
         serverParamsBean = (CaseControlBean.ServerParamsBean) getIntent().getSerializableExtra("serverParamsBean");
         iv_close.setOnClickListener(new View.OnClickListener() {

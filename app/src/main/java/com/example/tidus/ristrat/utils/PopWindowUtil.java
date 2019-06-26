@@ -10,6 +10,9 @@ import android.widget.TextView;
 
 import com.example.tidus.ristrat.R;
 import com.example.tidus.ristrat.bean.CaseControlBean;
+import com.example.tidus.ristrat.bean.QueryHMBean;
+
+import java.util.List;
 
 public class PopWindowUtil {
 
@@ -19,6 +22,7 @@ public class PopWindowUtil {
 
     /**
      * @param cx               上下文
+     * @param listBeans
      * @param serverParamsBean
      * @param activity         activity
      * @param view             在哪个控件下显示
@@ -28,7 +32,7 @@ public class PopWindowUtil {
      * @param yOff             y坐标
      * @param anim             显示及消失动画
      */
-    public void showAssessPopupWindow(final Context cx, CaseControlBean.ServerParamsBean serverParamsBean, final Activity activity, final View view, final int position, View view1,
+    public void showAssessPopupWindow(final Context cx, List<QueryHMBean.ServerParamsBean.LISTBean> listBeans, CaseControlBean.ServerParamsBean serverParamsBean, final Activity activity, final View view, final int position, View view1,
                                       int xOff, int yOff, int anim) {
 
         /**
@@ -56,19 +60,16 @@ public class PopWindowUtil {
         TextView tv_now_assess = customView.findViewById(R.id.tv_now_assess);
         TextView tv_no_assess = customView.findViewById(R.id.tv_no_assess);
         TextView tv_history_assess = customView.findViewById(R.id.tv_history_assess);
-        if (serverParamsBean.getOPERATE_RESULT() == 10) {
-            tv_history_assess.setVisibility(View.GONE);
-            tv_now_assess.setVisibility(View.VISIBLE);
-            tv_no_assess.setVisibility(View.VISIBLE);
-        } else if (serverParamsBean.getOPERATE_RESULT() == 20) {
-            tv_history_assess.setVisibility(View.GONE);
+        if (serverParamsBean.getLevlist().size() != 0) {
+            tv_history_assess.setVisibility(View.VISIBLE);
             tv_now_assess.setVisibility(View.VISIBLE);
             tv_no_assess.setVisibility(View.VISIBLE);
         } else {
-            tv_now_assess.setVisibility(View.GONE);
-            tv_no_assess.setVisibility(View.GONE);
-            tv_history_assess.setVisibility(View.VISIBLE);
+            tv_history_assess.setVisibility(View.GONE);
+            tv_now_assess.setVisibility(View.VISIBLE);
+            tv_no_assess.setVisibility(View.VISIBLE);
         }
+
         tv_now_assess.getBackground().setAlpha(200);
         tv_no_assess.getBackground().setAlpha(200);
         tv_history_assess.getBackground().setAlpha(200);

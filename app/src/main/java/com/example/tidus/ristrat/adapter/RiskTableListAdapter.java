@@ -39,9 +39,15 @@ public class RiskTableListAdapter extends RecyclerView.Adapter<RiskTableListAdap
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RiskTableListAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RiskTableListAdapter.ViewHolder holder, final int position) {
         RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean wenjuannameBean = wenjuannameBeans.get(position);
         holder.tv_risk_table.setText(wenjuannameBean.getFORM_NAME());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setSelectTableListener.onClickSelectTable(position);
+            }
+        });
     }
 
     @Override
@@ -57,5 +63,15 @@ public class RiskTableListAdapter extends RecyclerView.Adapter<RiskTableListAdap
             super(itemView);
             tv_risk_table = itemView.findViewById(R.id.tv_risk_table);
         }
+    }
+
+    private SetSelectTableListener setSelectTableListener;
+
+    public interface SetSelectTableListener {
+        void onClickSelectTable(int position);
+    }
+
+    public void setSetSelectTableListener(SetSelectTableListener setSelectTableListener) {
+        this.setSelectTableListener = setSelectTableListener;
     }
 }

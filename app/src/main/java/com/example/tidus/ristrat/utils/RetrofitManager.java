@@ -14,8 +14,8 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
  * 网络请求工具类
  */
 public class RetrofitManager {
-    public static final String BASE_URL = "http://192.168.1.222:9090/XiaoYiRobotSer/";
-    //public static final String BASE_URL = "http://220.194.46.204/XiaoYiRobotSer/";
+    //public static final String BASE_URL = "http://192.168.1.222:9090/XiaoYiRobotSer/";
+    public static final String BASE_URL = "http://220.194.46.204/XiaoYiRobotSer/";
     private Retrofit mRetrofit;
     private static Context context1;
 

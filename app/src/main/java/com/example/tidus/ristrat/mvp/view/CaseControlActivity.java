@@ -24,6 +24,7 @@ import com.example.tidus.ristrat.adapter.CaseContrilAdapter;
 import com.example.tidus.ristrat.application.App;
 import com.example.tidus.ristrat.bean.CaseControlBean;
 import com.example.tidus.ristrat.bean.LoginBean;
+import com.example.tidus.ristrat.bean.OfficeBean;
 import com.example.tidus.ristrat.bean.QueryHMBean;
 import com.example.tidus.ristrat.contract.ICaseControlContract;
 import com.example.tidus.ristrat.mvp.presenter.CaseControlPresenter;
@@ -66,14 +67,14 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
     private List<CaseControlBean.ServerParamsBean> server_params;
     private ImageView iv_close;
     private ImageView iv_message;
-    private String VISIT_SQ_NO;// 床位号
-    private String PATIENT_NAME;// 患者名称
-    private String PATIENT_SEX;// 性别
-    private String BED_NUMBER;// 床位Id
-    private List<String> DEPARTMENT_ID = new ArrayList<>();// 本科室/本单元
-    private String CURRENT_RISK_LEVEL;// 危险等级
-    private String sp_sex_str;// 性别的值
-    private String sp_danger_level_str;// 危险等级的值
+    private String VISIT_SQ_NO = "";// 床位号
+    private String PATIENT_NAME = "";// 患者名称
+    private String PATIENT_SEX = "";// 性别
+    private String BED_NUMBER = "";// 床位Id
+    private List<OfficeBean> DEPARTMENT_ID = new ArrayList<>();// 本科室/本单元
+    private String CURRENT_RISK_LEVEL = "";// 危险等级
+    private String sp_sex_str = "";// 性别的值
+    private String sp_danger_level_str = "";// 危险等级的值
     private LoginBean loginBean;
     private TextView tv_login_name;
     private Timer timer;
@@ -95,6 +96,12 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
     @Override
     protected void init() {
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initPresenterData();
     }
 
     @Override
@@ -123,15 +130,18 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
         rv_patient_list.setLayoutManager(new GridLayoutManager(App.getContext(), 4));
         caseContrilAdapter = new CaseContrilAdapter(App.getContext(), CaseControlActivity.this);
         rv_patient_list.setAdapter(caseContrilAdapter);
-
+        initListener();
         caseContrilAdapter.setSetOnIntentActivity(new CaseContrilAdapter.SetOnIntentActivity() {
             @Override
-            public void onStartActivity(List<CaseControlBean.ServerParamsBean> serverParamsBeans, View view, int position) {
-
-                CaseControlBean.ServerParamsBean serverParamsBean = serverParamsBeans.get(position);
+            public void onStartActivity(List<CaseControlBean.ServerParamsBean> serverParamsBeans, List<QueryHMBean.ServerParamsBean.LISTBean> listBeans, View view, int position) {
                 Intent intent = new Intent(App.getContext(), SelectQuestionActivity.class);
+                CaseControlBean.ServerParamsBean serverParamsBean = serverParamsBeans.get(position);
+                for (QueryHMBean.ServerParamsBean.LISTBean listBean : listBeans) {
+                    intent.putExtra("listBean", listBean);
+                }
                 intent.putExtra("loginBean", loginBean);
                 intent.putExtra("serverParamsBean", serverParamsBean);
+
                 startActivity(intent);
             }
         });
@@ -147,14 +157,23 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
 
         caseContrilAdapter.setSetOnIntentActivityHistory(new CaseContrilAdapter.SetOnIntentActivityHistory() {
             @Override
-            public void onStratActivity(List<CaseControlBean.ServerParamsBean> serverParamsBeans, int position) {
+            public void onStratActivity(List<CaseControlBean.ServerParamsBean> serverParamsBeans, List<QueryHMBean.ServerParamsBean.LISTBean> listBeans, int position) {
                 CaseControlBean.ServerParamsBean serverParamsBean = serverParamsBeans.get(position);
+
                 Intent intent = new Intent(App.getContext(), HistoryAssessActivity.class);
                 intent.putExtra("loginBean", loginBean);
                 intent.putExtra("serverParamsBean", serverParamsBean);
+                for (QueryHMBean.ServerParamsBean.LISTBean listBean : listBeans) {
+                    intent.putExtra("listBean", listBean);
+                }
+                if (listBeans.size() != 0) {
+                    QueryHMBean.ServerParamsBean.LISTBean listBean = listBeans.get(position);
+                    intent.putExtra("listBean", listBean);
+                }
                 startActivity(intent);
             }
         });
+
 
         timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -165,7 +184,7 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
                 message.what = 10000;
                 mHandlerQueryHM.sendMessage(message);
             }
-        }, 5000, 5000);//每隔一秒使用handler发送一下消息,也就是每隔一秒执行一次,一直重复执行
+        }, 0, 10000);//每隔一秒使用handler发送一下消息,也就是每隔一秒执行一次,一直重复执行
 
 
     }
@@ -198,7 +217,7 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
         params.put("PATIENT_SEX", PATIENT_SEX);
         params.put("BED_NUMBER", BED_NUMBER);
         params.put("CURRENT_RISK_LEVEL", CURRENT_RISK_LEVEL);
-//        params.put("DEPARTMENT_ID", DEPARTMENT_ID);
+        //params.put("DEPARTMENT_ID", DEPARTMENT_ID);
         LogUtils.e("请求了一次列表" + "----住院号：" + VISIT_SQ_NO + "----患者名：" + PATIENT_NAME + "----患者性别：" + PATIENT_SEX + "----床位：" + BED_NUMBER + "----危险等级：" + CURRENT_RISK_LEVEL);
         presenter.getCaseControl(params);
     }
@@ -267,20 +286,16 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
             CURRENT_RISK_LEVEL = "";
         }
 
-        final String section_str = rb_section.getText().toString().trim();
-        final String element_str = rb_element.getText().toString().trim();
-
+//        OfficeBean officeBean = new OfficeBean();
+//        // 本科室本单元
 //        if (rb_section.isChecked()) {
-//            if (section_str.equals("本科室")) {
-//                DEPARTMENT_ID.add(loginBean.getServer_params().getDEPARTMENT() + "");
-//            }
+//            officeBean.setOffice("1");
 //        } else if (rb_element.isChecked()) {
-//            if (element_str.equals("本单元")) {
-//                DEPARTMENT_ID.add(loginBean.getServer_params().getCARE_UNIT() + "");
-//            }
+//            officeBean.setOffice("2");
 //        } else {
-//            DEPARTMENT_ID = Collections.singletonList("");
+//            officeBean.setOffice("");
 //        }
+//        LogUtils.e(DEPARTMENT_ID.toString() + "");
 
     }
 

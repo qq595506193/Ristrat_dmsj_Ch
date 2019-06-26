@@ -32,9 +32,12 @@ public abstract class BaseFragment extends Fragment {
         isInit = true;
         /**初始化的时候去加载数据**/
         isCanLoadData();
+        initView();
         initData();// 初始化数据
         return view;
     }
+
+    protected abstract void initView();
 
     /**
      * 初始化数据

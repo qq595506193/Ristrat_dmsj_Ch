@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,10 +16,12 @@ import com.example.tidus.ristrat.application.App;
 import com.example.tidus.ristrat.bean.CaseControlBean;
 import com.example.tidus.ristrat.bean.HistoryAssessBean;
 import com.example.tidus.ristrat.bean.LoginBean;
+import com.example.tidus.ristrat.bean.QueryHMBean;
 import com.example.tidus.ristrat.contract.IHistoryAssessContract;
 import com.example.tidus.ristrat.mvp.presenter.HistoryAssessPresenter;
 import com.example.tidus.ristrat.utils.LogUtils;
 import com.example.tidus.ristrat.utils.TimeChangeUtil;
+import com.example.tidus.ristrat.utils.ToastUtils;
 import com.example.tidus.ristrat.weight.ChartView;
 import com.example.tidus.ristrat.weight.LineChartData;
 
@@ -77,6 +80,8 @@ public class HistoryAssessActivity extends BaseMvpActivity<IHistoryAssessContrac
     TextView txt_nursing;// 护士处理建议
     @BindView(R.id.txt_note)
     TextView txt_note;// 注意事项和温馨提示
+    @BindView(R.id.btn_log)
+    Button btn_log;
     private HistoryTableListAdapter historyTableListAdapter;
     private LineChartData data;
     private TextView tv_login_name;
@@ -90,6 +95,8 @@ public class HistoryAssessActivity extends BaseMvpActivity<IHistoryAssessContrac
     private Map<String, Integer> value = new HashMap<>();
     private ImageView iv_back;
     private TextView tv_back;
+    private Object operate_time;
+    private QueryHMBean.ServerParamsBean.LISTBean listBean;
 
     @Override
     protected void init() {
@@ -101,6 +108,7 @@ public class HistoryAssessActivity extends BaseMvpActivity<IHistoryAssessContrac
     protected void initView(Intent intent) {
         loginBean = (LoginBean) intent.getSerializableExtra("loginBean");
         serverParamsBean = (CaseControlBean.ServerParamsBean) intent.getSerializableExtra("serverParamsBean");
+        listBean = (QueryHMBean.ServerParamsBean.LISTBean) intent.getSerializableExtra("listBean");
         data = new LineChartData();
         iv_back = findViewById(R.id.iv_back);
         iv_back.setOnClickListener(new View.OnClickListener() {
@@ -136,10 +144,43 @@ public class HistoryAssessActivity extends BaseMvpActivity<IHistoryAssessContrac
                 finish();
             }
         });
+        btn_log.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(App.getContext(), SelectQuestionActivity.class);
+                intent.putExtra("listBean", listBean);
+                intent.putExtra("loginBean", loginBean);
+                intent.putExtra("serverParamsBean", serverParamsBean);
+
+                startActivity(intent);
+            }
+        });
         rv_table_list.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         historyTableListAdapter = new HistoryTableListAdapter(getContext());
         rv_table_list.setAdapter(historyTableListAdapter);
 
+
+//        for (HistoryAssessBean.ServerParamsBean.ReportListBean reportListBean : this.historyAssessBean.getServer_params().getReportList()) {
+//            for (int i = 0; i < reportListBean.getWENJUAN().size(); i++) {
+//                HistoryAssessBean.ServerParamsBean.ReportListBean.WENJUANBean wenjuanBean = reportListBean.getWENJUAN().get(i);
+//                String operate_time = wenjuanBean.getREPORT_TIME();
+//                String strTime = TimeChangeUtil.getStrTime(operate_time);
+//                // X轴刻度
+//                xValue.add(strTime);// X轴刻度
+//                yValue.add(i + 1);
+//                value.put((i + 1) + "日", (int) (Math.random() * 181 + 60));//60--240 // 小点的值
+//            }
+//        }
+        chartView.setValue(value, xValue, yValue);
+
+        chartView.setSetSelectDateListener(new ChartView.SetSelectDateListener() {
+            @Override
+            public void serOnClickSelectDate() {
+                ToastUtils.show("点击了");
+            }
+
+
+        });
     }
 
 
@@ -185,9 +226,11 @@ public class HistoryAssessActivity extends BaseMvpActivity<IHistoryAssessContrac
     public void onHistoryAssessSuccess(Object result) {
         if (result != null) {
             if (result instanceof HistoryAssessBean) {
+                this.historyAssessBean = (HistoryAssessBean) result;
                 if (((HistoryAssessBean) result).getCode().equals("0")) {
+
                     LogUtils.e(((HistoryAssessBean) result).getMessage());
-                    this.historyAssessBean = (HistoryAssessBean) result;
+
                     tv_name.setText(historyAssessBean.getServer_params().getPATIENT_NAME());
                     if (historyAssessBean.getServer_params().getPATIENT_SEX().equals("M")) {
                         tv_sex.setText("男");
@@ -203,8 +246,6 @@ public class HistoryAssessActivity extends BaseMvpActivity<IHistoryAssessContrac
                             txt_coding.setText(wenjuanBean.getREPORT_CODE());
                             String strTime = TimeChangeUtil.getStrTime(wenjuanBean.getREPORT_TIME());
                             txt_time.setText(strTime);
-
-
                             for (HistoryAssessBean.ServerParamsBean.ReportListBean.WENJUANBean.SublistBean sublistBean : wenjuanBean.getSublist()) {
                                 txt_total.setText(sublistBean.getCURRENT_RISK_VALUE() + "分");
                                 switch (sublistBean.getCURRENT_RISK_LEVEL()) {
@@ -236,36 +277,37 @@ public class HistoryAssessActivity extends BaseMvpActivity<IHistoryAssessContrac
                                     txt_show.setText(sublistBean.getRISK_DETAIL_DESC() + "");// 报告
                                 }
                             }
-                            if (wenjuanBean.getPATIENT_ADVICE().size() != 0 && wenjuanBean.getPATIENT_ADVICE() != null) {
-                                for (HistoryAssessBean.ServerParamsBean.ReportListBean.WENJUANBean.PATIENTADVICEBean patientAdvice : wenjuanBean.getPATIENT_ADVICE()) {
+                            for (HistoryAssessBean.ServerParamsBean.ReportListBean.WENJUANBean.PATIENTADVICEBean patientAdvice : wenjuanBean.getPATIENT_ADVICE()) {
+                                if (patientAdvice.getADVICE_CONTENT() != null) {
                                     txt_note.setText(patientAdvice.getADVICE_CONTENT());
+                                } else {
+                                    txt_note.setText("暂无处理建议");
                                 }
-                            } else {
-                                txt_note.setText("暂无处理建议");
-                            }
-                            if (wenjuanBean.getDOCTOR_ADVICE().size() != 0 && wenjuanBean.getDOCTOR_ADVICE() != null) {
-                                for (HistoryAssessBean.ServerParamsBean.ReportListBean.WENJUANBean.DOCTORADVICEBean doctorAdvice : wenjuanBean.getDOCTOR_ADVICE()) {
-                                    txt_advise.setText(doctorAdvice.getADVICE_CONTENT());
-                                }
-                            } else {
-                                txt_advise.setText("暂无处理建议");
                             }
 
-                            if (wenjuanBean.getNURSE_ADVICE().size() != 0 && wenjuanBean.getNURSE_ADVICE() != null) {
-                                for (HistoryAssessBean.ServerParamsBean.ReportListBean.WENJUANBean.NURSEADVICEBean nurseAdvice : wenjuanBean.getNURSE_ADVICE()) {
-                                    txt_nursing.setText(nurseAdvice.getADVICE_CONTENT());
+                            for (HistoryAssessBean.ServerParamsBean.ReportListBean.WENJUANBean.DOCTORADVICEBean doctorAdvice : wenjuanBean.getDOCTOR_ADVICE()) {
+                                if (doctorAdvice.getADVICE_CONTENT() != null) {
+                                    txt_advise.setText(doctorAdvice.getADVICE_CONTENT());
+                                } else {
+                                    txt_advise.setText("暂无处理建议");
                                 }
-                            } else {
-                                txt_nursing.setText("暂无处理建议");
+                            }
+
+
+                            for (HistoryAssessBean.ServerParamsBean.ReportListBean.WENJUANBean.NURSEADVICEBean nurseAdvice : wenjuanBean.getNURSE_ADVICE()) {
+                                if (nurseAdvice.getADVICE_CONTENT() != null) {
+                                    txt_nursing.setText(nurseAdvice.getADVICE_CONTENT());
+                                } else {
+                                    txt_nursing.setText("暂无处理建议");
+                                }
                             }
                         }
                     }
-
                 }
-
             }
         }
     }
+
 
     @Override
     public void onFailed(Object error) {
