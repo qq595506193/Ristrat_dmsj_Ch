@@ -51,31 +51,6 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_appaly_set" />
 
-        <EditText
-            android:id="@+id/et_yuanyin"
-            android:layout_width="@dimen/dp_100"
-            android:layout_height="wrap_content"
-            android:background="@drawable/edit_bg"
-            android:paddingLeft="@dimen/dp_10"
-            app:layout_constraintBottom_toBottomOf="@id/tv_yuanyin"
-            app:layout_constraintLeft_toRightOf="@id/tv_yuanyin"
-            app:layout_constraintTop_toTopOf="@id/tv_yuanyin" />
-
-        <android.support.v7.widget.AppCompatSpinner
-
-            android:id="@+id/sp_yuanyin"
-            android:layout_width="@dimen/dp_10"
-            android:layout_height="@dimen/dp_10"
-            android:layout_marginLeft="@dimen/dp_5"
-            android:layout_weight="3"
-            android:background="@mipmap/down_arrows"
-            android:dropDownWidth="@dimen/dp_50"
-            android:entries="@array/yuanyin"
-            android:spinnerMode="dropdown"
-            app:layout_constraintBottom_toBottomOf="@id/et_yuanyin"
-            app:layout_constraintRight_toRightOf="@id/et_yuanyin"
-            app:layout_constraintTop_toTopOf="@id/et_yuanyin"
-            app:theme="@style/myDropTheme" />
 
         <EditText
             android:id="@+id/help_feedback"
@@ -87,11 +62,11 @@
             android:gravity="top"
             android:hint="请输入您的取消评估的理由！"
             android:lines="5"
-            android:text=""
+            android:textColor="@color/black"
             android:textSize="24sp"
             app:layout_constraintLeft_toLeftOf="@id/tv_yuanyin"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/et_yuanyin" />
+            app:layout_constraintTop_toBottomOf="@id/tv_yuanyin" />
 
 
         <Button

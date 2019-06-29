@@ -1,5 +1,6 @@
 package com.example.tidus.ristrat.callback;
 
+import com.example.tidus.ristrat.bean.CancelAssessBean;
 import com.example.tidus.ristrat.bean.CaseControlBean;
 import com.example.tidus.ristrat.bean.CommitBean;
 import com.example.tidus.ristrat.bean.HistoryAssessBean;
@@ -39,4 +40,8 @@ public interface IRetrofitService {
     // 提醒变色
     @GET
     Observable<QueryHMBean> doQueryHMGet(@Url String apiUrl, @QueryMap HashMap<String, Object> params);
+
+    // 取消评估
+    @GET
+    Observable<CancelAssessBean> doCancelAssessGet(@Url String apiUrl, @QueryMap HashMap<String, Object> params);
 }

@@ -1,9 +1,11 @@
 package com.example.tidus.ristrat.bean;
 
+import com.chad.library.adapter.base.entity.MultiItemEntity;
+
 import java.io.Serializable;
 import java.util.List;
 
-public class CaseControlBean implements Serializable {
+public class CaseControlBean implements Serializable, MultiItemEntity {
 
 
     /**
@@ -50,7 +52,12 @@ public class CaseControlBean implements Serializable {
         this.server_params = server_params;
     }
 
-    public static class ServerParamsBean implements Serializable  {
+    @Override
+    public int getItemType() {
+        return 0;
+    }
+
+    public static class ServerParamsBean implements Serializable, MultiItemEntity {
         /**
          * MERCHANT_ID : 1400
          * SITE_ID : 1400
@@ -89,6 +96,7 @@ public class CaseControlBean implements Serializable {
         private Object REMINDE_ID;
         private String BIRTHDAY;
         private String PATIENT_SEX;
+        private String CARE_UNIT_NAME;
         private String IN_DEPT_TIME;
         private String IN_DEPT_CODE;
         private String IN_DEPT_NAME;
@@ -100,6 +108,32 @@ public class CaseControlBean implements Serializable {
         private String CURRENT_RISK_LEVEL;
         private List<LevlistBean> levlist;
         private List<JibinlistBean> jibinlist;
+        private int itemType;
+        private boolean isType;
+
+        public void setItemType(int itemType) {
+            this.itemType = itemType;
+        }
+
+        public boolean isType() {
+            return isType;
+        }
+
+        public void setType(boolean type) {
+            isType = type;
+        }
+
+        public ServerParamsBean(int itemType) {
+            this.itemType = itemType;
+        }
+
+        public String getCARE_UNIT_NAME() {
+            return CARE_UNIT_NAME;
+        }
+
+        public void setCARE_UNIT_NAME(String CARE_UNIT_NAME) {
+            this.CARE_UNIT_NAME = CARE_UNIT_NAME;
+        }
 
         public int getMERCHANT_ID() {
             return MERCHANT_ID;
@@ -285,7 +319,12 @@ public class CaseControlBean implements Serializable {
             this.jibinlist = jibinlist;
         }
 
-        public static class LevlistBean implements Serializable  {
+        @Override
+        public int getItemType() {
+            return itemType;
+        }
+
+        public static class LevlistBean implements Serializable, MultiItemEntity {
             /**
              * CURRENT_RISK_LEVEL : 8
              * CURRENT_RISK_VALUE : 9
@@ -319,9 +358,14 @@ public class CaseControlBean implements Serializable {
             public void setRISK_NAME(String RISK_NAME) {
                 this.RISK_NAME = RISK_NAME;
             }
+
+            @Override
+            public int getItemType() {
+                return 0;
+            }
         }
 
-        public static class JibinlistBean implements Serializable  {
+        public static class JibinlistBean implements Serializable, MultiItemEntity {
             /**
              * DIAGNOSIS_DISEASE_NAME : 左颈部颈外静脉瘤
              */
@@ -334,6 +378,11 @@ public class CaseControlBean implements Serializable {
 
             public void setDIAGNOSIS_DISEASE_NAME(String DIAGNOSIS_DISEASE_NAME) {
                 this.DIAGNOSIS_DISEASE_NAME = DIAGNOSIS_DISEASE_NAME;
+            }
+
+            @Override
+            public int getItemType() {
+                return 0;
             }
         }
     }

@@ -45,7 +45,7 @@ public class RiskTableListAdapter extends RecyclerView.Adapter<RiskTableListAdap
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setSelectTableListener.onClickSelectTable(position);
+                //setSelectTableListener.onClickSelectTable(position,v);
             }
         });
     }
@@ -68,7 +68,7 @@ public class RiskTableListAdapter extends RecyclerView.Adapter<RiskTableListAdap
     private SetSelectTableListener setSelectTableListener;
 
     public interface SetSelectTableListener {
-        void onClickSelectTable(int position);
+        void onClickSelectTable(int position, View v);
     }
 
     public void setSetSelectTableListener(SetSelectTableListener setSelectTableListener) {

@@ -27,5 +27,8 @@ public class ApiService {
     // 提醒变色
     public static final String QUERY_HM = "XiaoYiRobotSer/RobotBackground.do";
 
+    // 取消评估
+    public static final String CANCEL_ASSESS = "XiaoYiRobotSer/RobotBackground.do";
+
 
 }

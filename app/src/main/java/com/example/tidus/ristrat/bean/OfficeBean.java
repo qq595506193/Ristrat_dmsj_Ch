@@ -1,13 +1,15 @@
 package com.example.tidus.ristrat.bean;
 
-public class OfficeBean {
-    private String office;
+import java.util.List;
 
-    public String getOffice() {
+public class OfficeBean {
+    private List<Integer> office;
+
+    public List<Integer> getOffice() {
         return office;
     }
 
-    public void setOffice(String office) {
+    public void setOffice(List<Integer> office) {
         this.office = office;
     }
 }

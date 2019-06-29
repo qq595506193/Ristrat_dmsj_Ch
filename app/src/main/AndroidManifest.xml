@@ -32,6 +32,9 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:icon">
+        <activity android:name=".mvp.view.EvaluatingActivity"></activity>
+        <activity android:name=".mvp.view.DetailsActivity"></activity>
+        <activity android:name=".mvp.view.RiskAssessActivity"></activity>
         <activity
             android:name=".mvp.view.LogActivity"
             android:theme="@style/TransparentTheme"></activity>

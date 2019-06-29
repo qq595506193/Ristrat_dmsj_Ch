@@ -12,8 +12,6 @@ import com.example.tidus.ristrat.R;
 import com.example.tidus.ristrat.bean.CaseControlBean;
 import com.example.tidus.ristrat.bean.QueryHMBean;
 
-import java.util.List;
-
 public class PopWindowUtil {
 
     private PopupWindow mPopupWindow;
@@ -22,9 +20,8 @@ public class PopWindowUtil {
 
     /**
      * @param cx               上下文
-     * @param listBeans
+     * @param queryHMBean
      * @param serverParamsBean
-     * @param activity         activity
      * @param view             在哪个控件下显示
      * @param position
      * @param view1            传入显示的布局
@@ -32,7 +29,7 @@ public class PopWindowUtil {
      * @param yOff             y坐标
      * @param anim             显示及消失动画
      */
-    public void showAssessPopupWindow(final Context cx, List<QueryHMBean.ServerParamsBean.LISTBean> listBeans, CaseControlBean.ServerParamsBean serverParamsBean, final Activity activity, final View view, final int position, View view1,
+    public void showAssessPopupWindow(final Context cx, QueryHMBean.ServerParamsBean queryHMBean, CaseControlBean.ServerParamsBean serverParamsBean, final View view, final int position, View view1,
                                       int xOff, int yOff, int anim) {
 
         /**
@@ -57,22 +54,20 @@ public class PopWindowUtil {
 
 
         /** 在这里可以实现自定义视图的功能 */
-        TextView tv_now_assess = customView.findViewById(R.id.tv_now_assess);
-        TextView tv_no_assess = customView.findViewById(R.id.tv_no_assess);
-        TextView tv_history_assess = customView.findViewById(R.id.tv_history_assess);
-        if (serverParamsBean.getLevlist().size() != 0) {
-            tv_history_assess.setVisibility(View.VISIBLE);
-            tv_now_assess.setVisibility(View.VISIBLE);
-            tv_no_assess.setVisibility(View.VISIBLE);
-        } else {
-            tv_history_assess.setVisibility(View.GONE);
-            tv_now_assess.setVisibility(View.VISIBLE);
-            tv_no_assess.setVisibility(View.VISIBLE);
-        }
-
+        TextView tv_now_assess = customView.findViewById(R.id.tv_now_assess);// 立即评估
+        TextView tv_next_assess = customView.findViewById(R.id.tv_next_assess);// 下次评估
+        TextView tv_no_assess = customView.findViewById(R.id.tv_no_assess);// 不再评估
+        TextView tv_history_assess = customView.findViewById(R.id.tv_history_assess);// 查看详情
+        // 透明度
         tv_now_assess.getBackground().setAlpha(200);
+        tv_next_assess.getBackground().setAlpha(200);
         tv_no_assess.getBackground().setAlpha(200);
         tv_history_assess.getBackground().setAlpha(200);
+        //
+        tv_now_assess.setVisibility(View.VISIBLE);
+        tv_next_assess.setVisibility(View.VISIBLE);
+        tv_next_assess.setVisibility(View.VISIBLE);
+        tv_next_assess.setVisibility(View.VISIBLE);
 
 
         ////////////////////////////////////

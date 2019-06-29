@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.example.tidus.ristrat.R;
 import com.example.tidus.ristrat.bean.HistoryAssessBean;
-import com.example.tidus.ristrat.bean.RiskAssessmentBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,9 +39,15 @@ public class HistoryTableListAdapter extends RecyclerView.Adapter<HistoryTableLi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HistoryTableListAdapter.ViewHolder holder, int position) {
-        HistoryAssessBean.ServerParamsBean.ReportListBean reportListBean = wenjuannameBeans.get(position);
+    public void onBindViewHolder(@NonNull HistoryTableListAdapter.ViewHolder holder, final int position) {
+        final HistoryAssessBean.ServerParamsBean.ReportListBean reportListBean = wenjuannameBeans.get(position);
         holder.tv_risk_table.setText(reportListBean.getFORM_NAME());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setTableItem.setOnClickTableItem(position,reportListBean);
+            }
+        });
     }
 
     @Override
@@ -58,5 +63,15 @@ public class HistoryTableListAdapter extends RecyclerView.Adapter<HistoryTableLi
             super(itemView);
             tv_risk_table = itemView.findViewById(R.id.tv_risk_table);
         }
+    }
+
+    private SetTableItem setTableItem;
+
+    public interface SetTableItem {
+        void setOnClickTableItem(int position, HistoryAssessBean.ServerParamsBean.ReportListBean reportListBean);
+    }
+
+    public void setSetTableItem(SetTableItem setTableItem) {
+        this.setTableItem = setTableItem;
     }
 }

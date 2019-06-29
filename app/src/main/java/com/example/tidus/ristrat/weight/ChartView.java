@@ -222,7 +222,7 @@ public class ChartView extends View {
             return;
         //重新开一个图层
         int layerId = canvas.saveLayer(0, 0, width, height, null, Canvas.ALL_SAVE_FLAG);
-        drawBrokenLine(canvas);
+        //drawBrokenLine(canvas);
         drawBrokenPoint(canvas);
 
         // 将折线超出x轴坐标的部分截取掉
@@ -400,7 +400,7 @@ public class ChartView extends View {
             case MotionEvent.ACTION_DOWN:
                 if (setSelectDateListener != null) {
                     for (int i = 0; i < xValue.size(); i++) {
-
+                        String s = xValue.get(selectIndex);
                     }
                     setSelectDateListener.serOnClickSelectDate();
                 }
