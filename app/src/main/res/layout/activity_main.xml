@@ -6,7 +6,7 @@
     android:background="#ffffff"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".mvp.view.MainActivity">
     <include layout="@layout/gray_title_layout" />
 
     <LinearLayout

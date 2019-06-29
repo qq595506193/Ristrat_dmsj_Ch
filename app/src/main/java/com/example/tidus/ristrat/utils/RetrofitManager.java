@@ -2,6 +2,8 @@ package com.example.tidus.ristrat.utils;
 
 import android.content.Context;
 
+import com.example.tidus.ristrat.interceptor.AddCookiesInterceptor;
+import com.example.tidus.ristrat.interceptor.ReceivedCookiesInterceptor;
 import com.google.gson.Gson;
 
 import java.util.concurrent.TimeUnit;

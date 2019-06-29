@@ -49,7 +49,7 @@
         <activity android:name=".mvp.view.MessageActivity"></activity>
         <activity android:name=".mvp.view.CaseControlActivity"></activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".mvp.view.MainActivity"
             android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity

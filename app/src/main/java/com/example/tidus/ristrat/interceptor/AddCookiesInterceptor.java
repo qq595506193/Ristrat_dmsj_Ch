@@ -1,10 +1,11 @@
-package com.example.tidus.ristrat.utils;
+package com.example.tidus.ristrat.interceptor;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.tidus.ristrat.application.App;
+import com.example.tidus.ristrat.utils.LogUtils;
 
 import java.io.IOException;
 import java.util.HashSet;

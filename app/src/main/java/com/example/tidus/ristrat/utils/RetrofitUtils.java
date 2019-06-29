@@ -1,8 +1,9 @@
 package com.example.tidus.ristrat.utils;
 
 import com.example.lib_network.api.ApiService;
-import com.example.lib_network.network.HeaderInterceptor;
+import com.example.tidus.ristrat.interceptor.AddCookiesInterceptor;
 import com.example.tidus.ristrat.interceptor.LoggingInterceptor;
+import com.example.tidus.ristrat.interceptor.ReceivedCookiesInterceptor;
 
 import java.util.concurrent.TimeUnit;
 

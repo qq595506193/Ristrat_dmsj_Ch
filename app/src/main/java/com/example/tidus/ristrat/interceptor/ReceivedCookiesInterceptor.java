@@ -1,4 +1,4 @@
-package com.example.tidus.ristrat.utils;
+package com.example.tidus.ristrat.interceptor;
 
 import android.content.Context;
 import android.content.SharedPreferences;

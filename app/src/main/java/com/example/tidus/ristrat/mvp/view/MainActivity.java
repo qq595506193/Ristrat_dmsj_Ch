@@ -1,4 +1,4 @@
-package com.example.tidus.ristrat;
+package com.example.tidus.ristrat.mvp.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,11 +12,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.tidus.ristrat.R;
 import com.example.tidus.ristrat.adapter.PlanAdapter;
 import com.example.tidus.ristrat.base.BaseActivity;
 import com.example.tidus.ristrat.bean.PlanBean;
 import com.example.tidus.ristrat.mvp.presenter.MainPresenter;
-import com.example.tidus.ristrat.mvp.view.RuestionnaireActivity;
 import com.example.tidus.ristrat.mvp.view.iview.IMainView;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
