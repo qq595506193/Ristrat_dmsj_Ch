@@ -5,9 +5,8 @@
             android:shape="rectangle">
 
             <stroke
-                android:width="@dimen/dp_1"
+                android:width="0.5dp"
                 android:color="#c1c1c1" />
         </shape>
-        <color android:color="@color/white" />
     </item>
 </layer-list>

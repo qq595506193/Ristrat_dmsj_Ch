@@ -122,12 +122,14 @@ public class RiskAssessActivity extends BaseMvpActivity<IRiskAssessmentContart.I
 
             @Override
             public Fragment getItem(int position) {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("selectQuestionListBean", selectQuestionListBean);
-                bundle.putSerializable("serverParamsBean", serverParamsBean);
                 switch (position) {
                     case 0:
-                        return new OneTableFragment();
+                        OneTableFragment oneTableFragment = new OneTableFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("selectQuestionListBean", selectQuestionListBean);
+                        bundle.putSerializable("serverParamsBean", serverParamsBean);
+                        oneTableFragment.setArguments(bundle);
+                        return oneTableFragment;
                     case 1:
                         return new TwoTableFragment();
                 }
@@ -143,7 +145,7 @@ public class RiskAssessActivity extends BaseMvpActivity<IRiskAssessmentContart.I
 
         riskTableListAdapter.setSetSelectTableListener(new RiskTableListAdapter.SetSelectTableListener() {
             @Override
-            public void onClickSelectTable(int position, View v) {
+            public void onClickSelectTable(RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean wenjuannameBean, int position, View v) {
                 switch (position) {
                     case 0:
                         view_pager.setCurrentItem(0);

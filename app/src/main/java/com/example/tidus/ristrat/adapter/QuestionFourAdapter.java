@@ -11,7 +11,6 @@ import android.widget.CheckBox;
 import com.example.tidus.ristrat.R;
 import com.example.tidus.ristrat.bean.RiskAssessmentBean;
 import com.example.tidus.ristrat.utils.GetNowTime;
-import com.example.tidus.ristrat.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +34,9 @@ public class QuestionFourAdapter extends RecyclerView.Adapter<QuestionFourAdapte
     }
 
     public interface onCheckedClickListener {
-        void onCheckedClick(View view, int position, String itemText, String initNowTime, boolean isChecked);
+        void onCheckedClick(View view, int position, String itemText, String initNowTime, boolean isChecked, RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean);
+
+        void onMorenSelect(boolean checked, RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean);
     }
 
     private onCheckedClickListener onCheckedClickListener;
@@ -53,20 +54,15 @@ public class QuestionFourAdapter extends RecyclerView.Adapter<QuestionFourAdapte
 
     @Override
     public void onBindViewHolder(@NonNull final QuestionFourAdapter.ViewHolder holder, final int position) {
-        RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean = sublistBeans.get(position);
+        final RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean = sublistBeans.get(position);
         if (sublistBean.getFACTOR_GROUP_ID() == 4) {
             String risk_factor_name = sublistBean.getRISK_FACTOR_NAME();
             holder.cb_checked.setText(risk_factor_name);
             Integer integer = Integer.valueOf(age);
-            if (sublistBean.getRISK_FACTOR_ID() == 1001 || sublistBean.getRISK_FACTOR_ID() == 1018 || sublistBean.getRISK_FACTOR_ID() == 1026 || sublistBean.getRISK_FACTOR_ID() == 1036) {
-                if (integer > 40 && integer < 60 && sublistBean.getRISK_FACTOR_ID() == 1001) {
+            if (sublistBean.getMUTEX_GROUP() == 1) {
+                if (sublistBean.getIsslect().equals("1")) {
                     holder.cb_checked.setChecked(true);
-                } else if (integer > 60 && integer < 65 && sublistBean.getRISK_FACTOR_ID() == 1018) {
-                    holder.cb_checked.setChecked(true);
-                } else if (integer > 76 && sublistBean.getRISK_FACTOR_ID() == 1026) {
-                    holder.cb_checked.setChecked(true);
-                } else if (sublistBean.getRISK_FACTOR_ID() == 1036 && sublistBean.getRISK_FACTOR_NAME().equals("脑卒中(<1个月)")) {
-                    holder.cb_checked.setChecked(true);
+                    onCheckedClickListener.onMorenSelect(holder.cb_checked.isChecked(), sublistBean);
                 }
                 holder.cb_checked.setEnabled(false);
             }
@@ -76,7 +72,7 @@ public class QuestionFourAdapter extends RecyclerView.Adapter<QuestionFourAdapte
                     if (onCheckedClickListener != null) {
                         String initNowTime = GetNowTime.initNowTime();
                         String itemText = holder.cb_checked.getText().toString().trim();
-                        onCheckedClickListener.onCheckedClick(holder.itemView, position, itemText, initNowTime, holder.cb_checked.isChecked());
+                        onCheckedClickListener.onCheckedClick(holder.itemView, position, itemText, initNowTime, holder.cb_checked.isChecked(), sublistBean);
                     }
                 }
             });

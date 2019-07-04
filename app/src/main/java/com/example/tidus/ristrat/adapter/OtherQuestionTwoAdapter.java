@@ -35,6 +35,8 @@ public class OtherQuestionTwoAdapter extends RecyclerView.Adapter<OtherQuestionT
 
     public interface onCheckedClickListener {
         void onCheckedClick(View view, int position, String itemText, String initNowTime, boolean isChecked);
+        void onMorenSelect(boolean checked, RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean);
+
     }
 
     private onCheckedClickListener onCheckedClickListener;
@@ -57,15 +59,10 @@ public class OtherQuestionTwoAdapter extends RecyclerView.Adapter<OtherQuestionT
             String risk_factor_name = sublistBean.getRISK_FACTOR_NAME();
             holder.cb_checked.setText(risk_factor_name);
             Integer integer = Integer.valueOf(age);
-            if (sublistBean.getRISK_FACTOR_ID() == 1100) {
-                if (integer > 40 && integer < 60 && sublistBean.getRISK_FACTOR_ID() == 1100) {
+            if (sublistBean.getMUTEX_GROUP() == 5) {
+                if (sublistBean.getIsslect().equals("1")) {
                     holder.cb_checked.setChecked(true);
-                } else if (integer > 60 && integer < 65 && sublistBean.getRISK_FACTOR_ID() == 1100) {
-                    holder.cb_checked.setChecked(true);
-                } else if (integer > 76 && sublistBean.getRISK_FACTOR_ID() == 1100) {
-                    holder.cb_checked.setChecked(true);
-                } else if (sublistBean.getRISK_FACTOR_ID() == 1100) {
-                    holder.cb_checked.setChecked(true);
+                    onCheckedClickListener.onMorenSelect(holder.cb_checked.isChecked(), sublistBean);
                 }
                 holder.cb_checked.setEnabled(false);
             }

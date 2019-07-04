@@ -2,1404 +2,1432 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
-    <include
-        android:id="@+id/include_history"
-        layout="@layout/particulars_title_layout"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <LinearLayout
-        android:id="@+id/lly_01"
-        android:layout_width="@dimen/dp_0"
-        android:layout_height="@dimen/dp_25"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/include_history">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="姓名:" />
-
-            <TextView
-                android:id="@+id/tv_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="性别:" />
-
-            <TextView
-                android:id="@+id/tv_sex"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="科室:" />
-
-            <TextView
-                android:id="@+id/tv_office"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="登记号:" />
-
-            <TextView
-                android:id="@+id/tv_mark"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center" />
-
-        </LinearLayout>
-
-    </LinearLayout>
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/lly_01_02"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_25"
-        app:layout_constraintBottom_toTopOf="@id/view_02"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lly_01">
-
-        <TextView
-            android:id="@+id/tv_zhenduan"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_45"
-            android:text="诊断情况："
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_zhenduan_content"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_5"
-            android:layout_marginRight="@dimen/dp_50"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/tv_zhenduan"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </android.support.constraint.ConstraintLayout>
-
-    <View
-        android:id="@+id/view_02"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/dp_1"
-        android:background="#eeeeee"
-        app:layout_constraintBottom_toTopOf="@id/cly_02"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lly_01_02" />
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/cly_02"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_30"
-        android:background="@color/white"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/view_02">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_table_list"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:background="@drawable/edit_bg"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent" />
-
-
-    </android.support.constraint.ConstraintLayout>
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/cly_visib_02"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cly_02">
-
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/cly_01_wu"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/dp_25"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/tv_table_name_wu"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:background="#eeeeee"
-                android:gravity="center"
-                android:textColor="@color/black"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent" />
-
-
-            <Button
-                android:id="@+id/btn_log_wu"
-                android:layout_width="@dimen/dp_50"
-                android:layout_height="@dimen/dp_15"
-                android:layout_marginRight="@dimen/dp_10"
-                android:background="@drawable/btn_sure"
-                android:text="评估"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </android.support.constraint.ConstraintLayout>
-
-        <ImageView
-            android:id="@+id/iv_zanwu"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/dp_100"
-            android:layout_marginTop="@dimen/dp_15"
-            android:src="@mipmap/zanwu"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cly_01_wu" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="暂无评估报告"
-            android:textColor="@color/gray_text"
-            android:textSize="@dimen/sp_30"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_zanwu" />
-
-    </android.support.constraint.ConstraintLayout>
-
-
-    <!--第一个表-->
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/cly_visib"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cly_02">
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <include
+            android:id="@+id/include_history"
+            layout="@layout/particulars_title_layout"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <android.support.constraint.ConstraintLayout
-            android:id="@+id/cly_01"
             android:layout_width="0dp"
-            android:layout_height="@dimen/dp_25"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/tv_table_name"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:background="#eeeeee"
-                android:gravity="center"
-                android:text="Caprini模型评估趋势图"
-                android:textColor="@color/black"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent" />
-
-
-            <Button
-                android:id="@+id/btn_log"
-                android:layout_width="@dimen/dp_50"
-                android:layout_height="@dimen/dp_15"
-                android:layout_marginRight="@dimen/dp_10"
-                android:background="@drawable/btn_sure"
-                android:text="评估"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </android.support.constraint.ConstraintLayout>
-
-        <ScrollView
-            android:id="@+id/scroll_view"
-            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cly_01">
+            app:layout_constraintTop_toBottomOf="@id/include_history">
+
+
+            <LinearLayout
+                android:id="@+id/lly_01"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="@dimen/dp_25"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="姓名:" />
+
+                    <TextView
+                        android:id="@+id/tv_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="性别:" />
+
+                    <TextView
+                        android:id="@+id/tv_sex"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="科室:" />
+
+                    <TextView
+                        android:id="@+id/tv_office"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="住院号:" />
+
+                    <TextView
+                        android:id="@+id/tv_mark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center" />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
             <android.support.constraint.ConstraintLayout
+                android:id="@+id/lly_01_02"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-
-                <TextView
-                    android:id="@+id/tv_level_tag"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/dp_5"
-                    android:text="危险等级"
-                    app:layout_constraintRight_toLeftOf="@id/chartview"
-                    app:layout_constraintTop_toTopOf="@id/chartview" />
+                android:layout_height="@dimen/dp_25"
+                app:layout_constraintBottom_toTopOf="@id/view_02"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lly_01">
 
                 <TextView
-                    android:id="@+id/tv_quezhen_tag"
+                    android:id="@+id/tv_zhenduan"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:text="确诊 -"
-                    app:layout_constraintBottom_toTopOf="@id/tv_jigaowei_tag"
-                    app:layout_constraintRight_toRightOf="@id/tv_level_tag"
-                    app:layout_constraintTop_toBottomOf="@id/tv_level_tag" />
-
-                <TextView
-                    android:id="@+id/tv_jigaowei_tag"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="极高危 -"
-                    app:layout_constraintBottom_toTopOf="@id/tv_gaowei_tag"
-                    app:layout_constraintRight_toRightOf="@id/tv_level_tag"
-                    app:layout_constraintTop_toBottomOf="@id/tv_quezhen_tag" />
-
-                <TextView
-                    android:id="@+id/tv_gaowei_tag"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="高危 -"
-                    app:layout_constraintBottom_toTopOf="@id/tv_zhongwei_tag"
-                    app:layout_constraintRight_toRightOf="@id/tv_level_tag"
-                    app:layout_constraintTop_toBottomOf="@id/tv_jigaowei_tag" />
-
-                <TextView
-                    android:id="@+id/tv_zhongwei_tag"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="中危 -"
-                    app:layout_constraintBottom_toTopOf="@id/tv_diwei_tag"
-                    app:layout_constraintRight_toRightOf="@id/tv_level_tag"
-                    app:layout_constraintTop_toBottomOf="@id/tv_gaowei_tag" />
-
-                <TextView
-                    android:id="@+id/tv_diwei_tag"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/dp_3"
-                    android:text="低危 -"
-                    app:layout_constraintBottom_toBottomOf="@id/chartview"
-                    app:layout_constraintRight_toRightOf="@id/tv_level_tag"
-                    app:layout_constraintTop_toBottomOf="@id/tv_zhongwei_tag" />
-
-                <TextView
-                    android:id="@+id/tv_day"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/dp_10"
-                    android:text="日期"
-                    app:layout_constraintBottom_toBottomOf="@id/chartview"
-                    app:layout_constraintRight_toRightOf="@id/chartview" />
-
-                <com.github.mikephil.charting.charts.LineChart
-                    android:id="@+id/chartview"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/dp_150"
-                    android:layout_marginStart="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_40"
-                    android:layout_marginTop="@dimen/dp_5"
-                    android:layout_marginEnd="@dimen/dp_40"
-                    android:layout_marginRight="@dimen/dp_40"
+                    android:layout_marginLeft="@dimen/dp_45"
+                    android:text="诊断情况："
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_zhenduan_content"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:layout_marginRight="@dimen/dp_50"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/tv_zhenduan"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-                       
 
+            </android.support.constraint.ConstraintLayout>
 
-                <LinearLayout
-                    android:id="@+id/lly_03"
+            <View
+                android:id="@+id/view_02"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_1"
+                android:background="#bdbdbd"
+                app:layout_constraintBottom_toTopOf="@id/cly_02"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lly_01_02" />
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/cly_02"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_30"
+                android:background="@color/white"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view_02">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_table_list"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    app:layout_constraintLeft_toLeftOf="@id/chartview"
-                    app:layout_constraintRight_toRightOf="@id/chartview"
-                    app:layout_constraintTop_toBottomOf="@id/chartview">
-
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2">
-
-                        <TextView
-                            android:id="@+id/t_coding"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/dp_15"
-                            android:layout_marginTop="@dimen/dp_5"
-                            android:text="报告编码："
-                            android:textSize="@dimen/sp_10"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/txt_coding"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dp_5"
-                            android:layout_toRightOf="@id/t_coding"
-                            android:textSize="@dimen/sp_10" />
-
-                        <TextView
-                            android:id="@+id/t_time"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/t_coding"
-                            android:layout_marginLeft="@dimen/dp_15"
-                            android:layout_marginTop="@dimen/dp_8"
-                            android:text="评估时间："
-                            android:textSize="@dimen/sp_10"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/txt_time"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/txt_coding"
-                            android:layout_marginTop="@dimen/dp_8"
-                            android:layout_toRightOf="@id/t_time"
-                            android:textSize="@dimen/sp_10" />
-
-                        <TextView
-                            android:id="@+id/t_total"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/t_time"
-                            android:layout_marginLeft="@dimen/dp_15"
-                            android:layout_marginTop="@dimen/dp_8"
-                            android:text="评估总分："
-                            android:textSize="@dimen/sp_10"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/txt_total"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/txt_time"
-                            android:layout_marginTop="@dimen/dp_8"
-                            android:layout_toRightOf="@id/t_total"
-                            android:textSize="@dimen/sp_10"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/t_grade"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/t_total"
-                            android:layout_marginLeft="@dimen/dp_15"
-                            android:layout_marginTop="@dimen/dp_8"
-                            android:text="风险等级："
-                            android:textSize="@dimen/sp_10"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/txt_grade"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/txt_total"
-                            android:layout_marginTop="@dimen/dp_3"
-                            android:layout_toRightOf="@id/t_grade"
-                            android:textSize="@dimen/sp_15"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/t_show"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/t_grade"
-                            android:layout_marginLeft="@dimen/dp_15"
-                            android:layout_marginTop="@dimen/dp_8"
-                            android:text="评估说明："
-                            android:textSize="@dimen/sp_10"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/txt_show"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/txt_grade"
-                            android:layout_marginTop="@dimen/dp_8"
-                            android:layout_toRightOf="@id/t_show"
-                            android:text=""
-                            android:textSize="@dimen/sp_10" />
-
-                        <!--<TextView-->
-                        <!--android:id="@+id/t_harm"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_below="@id/t_show"-->
-                        <!--android:layout_marginBottom="@dimen/dp_8"-->
-                        <!--android:textSize="@dimen/sp_9"-->
-                        <!--android:textStyle="bold"-->
-                        <!--android:layout_marginLeft="@dimen/dp_15"-->
-                        <!--android:layout_marginTop="@dimen/dp_27"-->
-                        <!--android:text="风险危害：" />-->
-
-                        <!--<TextView-->
-                        <!--android:id="@+id/txt_harm"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_below="@id/txt_show"-->
-                        <!--android:layout_marginBottom="@dimen/dp_8"-->
-                        <!--android:textSize="@dimen/sp_9"-->
-                        <!--android:layout_marginTop="@dimen/dp_8"-->
-                        <!--android:layout_toRightOf="@id/t_harm"-->
-                        <!--android:text="" />-->
-
-                        <!--<TextView-->
-                        <!--android:id="@+id/t_contr"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_below="@id/t_harm"-->
-                        <!--android:layout_marginBottom="@dimen/dp_10"-->
-                        <!--android:textSize="@dimen/sp_9"-->
-                        <!--android:textStyle="bold"-->
-                        <!--android:layout_marginLeft="@dimen/dp_15"-->
-                        <!--android:text="风险控制：" />-->
-
-                        <!--<TextView-->
-                        <!--android:id="@+id/txt_contr"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_below="@id/txt_harm"-->
-                        <!--android:layout_marginBottom="@dimen/dp_5"-->
-                        <!--android:textSize="@dimen/sp_9"-->
-                        <!--android:layout_toRightOf="@id/t_contr"-->
-                        <!--android:text="" />-->
-                    </RelativeLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="@dimen/dp_180"
-                        android:layout_weight="3"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:id="@+id/iv_yuan"
-                            android:layout_width="@dimen/dp_130"
-                            android:layout_height="@dimen/dp_130"
-                            android:src="@mipmap/ic_launcher" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <View
-                    android:id="@+id/view_01"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/dp_1"
-                    android:background="#dedddd"
-                    app:layout_constraintLeft_toLeftOf="@id/chartview"
-                    app:layout_constraintRight_toRightOf="@id/chartview"
-                    app:layout_constraintTop_toBottomOf="@id/lly_03" />
-
-                <LinearLayout
-                    android:id="@+id/lly_04"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintLeft_toLeftOf="@id/chartview"
-                    app:layout_constraintRight_toRightOf="@id/chartview"
-                    app:layout_constraintTop_toBottomOf="@id/view_01">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_5"
-                        android:layout_marginBottom="@dimen/dp_5"
-                        android:gravity="center"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="@dimen/dp_5"
-                            android:layout_height="@dimen/dp_5"
-                            android:layout_marginLeft="@dimen/dp_7"
-                            android:layout_marginRight="@dimen/dp_3"
-                            android:src="@drawable/yuan" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="风险因素："
-                            android:textSize="@dimen/sp_10"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/txt_element"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/dp_15"
-                        android:layout_marginRight="@dimen/dp_15"
-                        android:layout_marginBottom="@dimen/dp_5"
-                        android:text="暂无风险"
-                        android:textSize="@dimen/sp_10" />
-                </LinearLayout>
-
-                <!--<View-->
-                <!--android:id="@+id/view_02"-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="@dimen/dp_1"-->
-                <!--android:background="#dedddd"-->
-                <!--app:layout_constraintLeft_toLeftOf="@id/chartview"-->
-                <!--app:layout_constraintRight_toRightOf="@id/chartview"-->
-                <!--app:layout_constraintTop_toBottomOf="@id/lly_04" />-->
-
-                <LinearLayout
-                    android:id="@+id/lly_05"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintLeft_toLeftOf="@id/chartview"
-                    app:layout_constraintRight_toRightOf="@id/chartview"
-                    app:layout_constraintTop_toBottomOf="@id/lly_04">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_5"
-
-                        android:layout_marginBottom="@dimen/dp_5"
-                        android:gravity="center"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="@dimen/dp_5"
-                            android:layout_height="@dimen/dp_5"
-                            android:layout_marginLeft="@dimen/dp_7"
-                            android:layout_marginRight="@dimen/dp_3"
-                            android:src="@drawable/yuan" />
-
-                        <TextView
-
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="预防处理建议："
-                            android:textSize="@dimen/sp_10"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/txt_advise"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/dp_15"
-                        android:layout_marginRight="@dimen/dp_15"
-                        android:layout_marginBottom="@dimen/dp_5"
-                        android:text=""
-                        android:textSize="@dimen/sp_10" />
-                </LinearLayout>
-
-                <!--<View-->
-                <!--android:id="@+id/view_03"-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="@dimen/dp_1"-->
-                <!--android:background="#dedddd"-->
-                <!--app:layout_constraintLeft_toLeftOf="@id/chartview"-->
-                <!--app:layout_constraintRight_toRightOf="@id/chartview"-->
-                <!--app:layout_constraintTop_toBottomOf="@id/lly_05" />-->
-
-                <LinearLayout
-                    android:id="@+id/lly_06"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintLeft_toLeftOf="@id/chartview"
-                    app:layout_constraintRight_toRightOf="@id/chartview"
-                    app:layout_constraintTop_toBottomOf="@id/lly_05">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_5"
-                        android:layout_marginBottom="@dimen/dp_5"
-                        android:gravity="center"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="@dimen/dp_5"
-                            android:layout_height="@dimen/dp_5"
-                            android:layout_marginLeft="@dimen/dp_7"
-                            android:layout_marginRight="@dimen/dp_3"
-                            android:src="@drawable/yuan" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="护理处置建议："
-                            android:textSize="@dimen/sp_10"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/txt_nursing"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/dp_15"
-                        android:layout_marginRight="@dimen/dp_15"
-                        android:layout_marginBottom="@dimen/dp_5"
-                        android:text=""
-                        android:textSize="@dimen/sp_10" />
-                </LinearLayout>
-
-                <!--<View-->
-                <!--android:id="@+id/view_04"-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="@dimen/dp_1"-->
-                <!--android:background="#dedddd"-->
-                <!--app:layout_constraintLeft_toLeftOf="@id/chartview"-->
-                <!--app:layout_constraintRight_toRightOf="@id/chartview"-->
-                <!--app:layout_constraintTop_toBottomOf="@id/lly_06" />-->
-
-                <LinearLayout
-                    android:id="@+id/lly_07"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintLeft_toLeftOf="@id/chartview"
-                    app:layout_constraintRight_toRightOf="@id/chartview"
-                    app:layout_constraintTop_toBottomOf="@id/lly_06">
-
-                    <LinearLayout
-                        android:id="@+id/lly_08"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_5"
-                        android:layout_marginBottom="@dimen/dp_5"
-                        android:orientation="horizontal"
-                        app:layout_constraintLeft_toLeftOf="@id/chartview"
-                        app:layout_constraintTop_toBottomOf="@id/lly_07">
-
-                        <ImageView
-                            android:layout_width="@dimen/dp_5"
-                            android:layout_height="@dimen/dp_5"
-                            android:layout_marginLeft="@dimen/dp_7"
-                            android:layout_marginRight="@dimen/dp_3"
-                            android:src="@drawable/yuan" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="患者温馨提示："
-                            android:textSize="@dimen/sp_10"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/txt_note"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/dp_15"
-                        android:layout_marginRight="@dimen/dp_15"
-                        android:layout_marginBottom="10dp"
-                        android:text=""
-                        android:textSize="@dimen/sp_10"
-                        app:layout_constraintTop_toBottomOf="@id/lly_07" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/lly_09"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintLeft_toLeftOf="@id/chartview"
-                    app:layout_constraintRight_toRightOf="@id/chartview"
-                    app:layout_constraintTop_toBottomOf="@id/lly_07">
-
-                    <LinearLayout
-                        android:id="@+id/lly_10"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_5"
-                        android:layout_marginBottom="@dimen/dp_5"
-                        android:orientation="horizontal"
-                        app:layout_constraintLeft_toLeftOf="@id/chartview"
-                        app:layout_constraintTop_toBottomOf="@id/lly_07">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="其他："
-                            android:textSize="@dimen/sp_10"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/txt_other"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/dp_15"
-                        android:layout_marginRight="@dimen/dp_15"
-                        android:layout_marginBottom="10dp"
-                        android:text=""
-                        android:textSize="@dimen/sp_10"
-                        app:layout_constraintTop_toBottomOf="@id/lly_07" />
-
-                </LinearLayout>
+                    android:layout_height="@dimen/dp_20"
+                    android:background="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent" />
 
 
             </android.support.constraint.ConstraintLayout>
 
-        </ScrollView>
-
-
-    </android.support.constraint.ConstraintLayout>
-
-
-    <!-- -第二个表- -->
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/cly_visib_02_02"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cly_02">
-
-
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/cly_01_02"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/dp_25"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/tv_table_name_02"
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/cly_visib_02"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:background="#eeeeee"
-                android:gravity="center"
-                android:textColor="@color/black"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent" />
-
-
-            <Button
-                android:id="@+id/btn_log_02"
-                android:layout_width="@dimen/dp_50"
-                android:layout_height="@dimen/dp_15"
-                android:layout_marginRight="@dimen/dp_10"
-                android:background="@drawable/btn_sure"
-                android:text="评估"
-                android:textColor="@color/white"
+                android:layout_height="0dp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/cly_02">
+
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/cly_01_wu"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dp_25"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/tv_table_name_wu"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:background="#eeeeee"
+                        android:gravity="center"
+                        android:textColor="@color/black"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent" />
+
+
+                    <Button
+                        android:id="@+id/btn_log_wu"
+                        android:layout_width="@dimen/dp_50"
+                        android:layout_height="@dimen/dp_15"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:background="@drawable/btn_sure"
+                        android:text="评估"
+                        android:textColor="@color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </android.support.constraint.ConstraintLayout>
+
+                <ImageView
+                    android:id="@+id/iv_zanwu"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dp_100"
+                    android:layout_marginTop="@dimen/dp_15"
+                    android:src="@mipmap/zanwu"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cly_01_wu" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="暂无评估报告"
+                    android:textColor="@color/gray_text"
+                    android:textSize="@dimen/sp_30"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_zanwu" />
+
+            </android.support.constraint.ConstraintLayout>
+
+
+            <!--第一个表-->
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/cly_visib"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cly_02">
+
+
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/cly_01"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dp_25"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/tv_table_name"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:background="#eeeeee"
+                        android:gravity="center"
+                        android:text="Caprini模型评估趋势图"
+                        android:textColor="@color/black"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent" />
+
+
+                    <Button
+                        android:id="@+id/btn_log"
+                        android:layout_width="@dimen/dp_50"
+                        android:layout_height="@dimen/dp_15"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:background="@drawable/btn_sure"
+                        android:text="评估"
+                        android:textColor="@color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </android.support.constraint.ConstraintLayout>
+
+                <ScrollView
+                    android:id="@+id/scroll_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cly_01">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cly_01">
+
+                        <!--
+                                                <TextView
+                                                    android:id="@+id/tv_level_tag"
+                                                    android:layout_width="0dp"
+                                                    android:layout_height="wrap_content"
+                                                    android:layout_marginRight="@dimen/dp_5"
+                                                    android:text="危险等级"
+                                                    app:layout_constraintRight_toLeftOf="@id/chartview"
+                                                    app:layout_constraintTop_toTopOf="@id/chartview" />
+
+                                                <TextView
+                                                    android:id="@+id/tv_quezhen_tag"
+                                                    android:layout_width="0dp"
+                                                    android:layout_height="wrap_content"
+                                                    android:layout_marginTop="@dimen/dp_10"
+                                                    android:text="确诊 -"
+                                                    app:layout_constraintBottom_toTopOf="@id/tv_jigaowei_tag"
+                                                    app:layout_constraintRight_toRightOf="@id/tv_level_tag"
+                                                    app:layout_constraintTop_toBottomOf="@id/tv_level_tag" />
+
+                                                <TextView
+                                                    android:id="@+id/tv_jigaowei_tag"
+                                                    android:layout_width="0dp"
+                                                    android:layout_height="wrap_content"
+                                                    android:text="极高危 -"
+                                                    app:layout_constraintBottom_toTopOf="@id/tv_gaowei_tag"
+                                                    app:layout_constraintRight_toRightOf="@id/tv_level_tag"
+                                                    app:layout_constraintTop_toBottomOf="@id/tv_quezhen_tag" />
+
+                                                <TextView
+                                                    android:id="@+id/tv_gaowei_tag"
+                                                    android:layout_width="0dp"
+                                                    android:layout_height="wrap_content"
+                                                    android:text="高危 -"
+                                                    app:layout_constraintBottom_toTopOf="@id/tv_zhongwei_tag"
+                                                    app:layout_constraintRight_toRightOf="@id/tv_level_tag"
+                                                    app:layout_constraintTop_toBottomOf="@id/tv_jigaowei_tag" />
+
+                                                <TextView
+                                                    android:id="@+id/tv_zhongwei_tag"
+                                                    android:layout_width="0dp"
+                                                    android:layout_height="wrap_content"
+                                                    android:text="中危 -"
+                                                    app:layout_constraintBottom_toTopOf="@id/tv_diwei_tag"
+                                                    app:layout_constraintRight_toRightOf="@id/tv_level_tag"
+                                                    app:layout_constraintTop_toBottomOf="@id/tv_gaowei_tag" />
+
+                                                <TextView
+                                                    android:id="@+id/tv_diwei_tag"
+                                                    android:layout_width="0dp"
+                                                    android:layout_height="wrap_content"
+                                                    android:layout_marginBottom="@dimen/dp_3"
+                                                    android:text="低危 -"
+                                                    app:layout_constraintBottom_toBottomOf="@id/chartview"
+                                                    app:layout_constraintRight_toRightOf="@id/tv_level_tag"
+                                                    app:layout_constraintTop_toBottomOf="@id/tv_zhongwei_tag" />
+
+                                                <TextView
+                                                    android:id="@+id/tv_day"
+                                                    android:layout_width="0dp"
+                                                    android:layout_height="wrap_content"
+                                                    android:layout_marginBottom="@dimen/dp_10"
+                                                    android:text="日期"
+                                                    app:layout_constraintBottom_toBottomOf="@id/chartview"
+                                                    app:layout_constraintRight_toRightOf="@id/chartview" />-->
+
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/chartview"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/dp_150"
+                            android:layout_marginStart="@dimen/dp_40"
+                            android:layout_marginLeft="@dimen/dp_40"
+                            android:layout_marginTop="@dimen/dp_5"
+                            android:layout_marginEnd="@dimen/dp_40"
+                            android:layout_marginRight="@dimen/dp_40"
+                            android:background="@color/white"
+                            android:paddingEnd="@dimen/dp_10"
+                            android:paddingRight="@dimen/dp_10"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                               
+
+
+                        <LinearLayout
+                            android:id="@+id/lly_03"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            app:layout_constraintLeft_toLeftOf="@id/chartview"
+                            app:layout_constraintRight_toRightOf="@id/chartview"
+                            app:layout_constraintTop_toBottomOf="@id/chartview">
+
+                            <RelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2">
+
+                                <TextView
+                                    android:id="@+id/t_coding"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/dp_15"
+                                    android:layout_marginTop="@dimen/dp_5"
+                                    android:text="报告编码："
+                                    android:textSize="@dimen/sp_10"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/txt_coding"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/dp_5"
+                                    android:layout_toRightOf="@id/t_coding"
+                                    android:textSize="@dimen/sp_10" />
+
+                                <TextView
+                                    android:id="@+id/t_time"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@id/t_coding"
+                                    android:layout_marginLeft="@dimen/dp_15"
+                                    android:layout_marginTop="@dimen/dp_8"
+                                    android:text="评估时间："
+                                    android:textSize="@dimen/sp_10"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/txt_time"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@id/txt_coding"
+                                    android:layout_marginTop="@dimen/dp_8"
+                                    android:layout_toRightOf="@id/t_time"
+                                    android:textSize="@dimen/sp_10" />
+
+                                <TextView
+                                    android:id="@+id/t_total"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@id/t_time"
+                                    android:layout_marginLeft="@dimen/dp_15"
+                                    android:layout_marginTop="@dimen/dp_8"
+                                    android:text="评估总分："
+                                    android:textSize="@dimen/sp_10"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/txt_total"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@id/txt_time"
+                                    android:layout_marginTop="@dimen/dp_8"
+                                    android:layout_toRightOf="@id/t_total"
+                                    android:textSize="@dimen/sp_10"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/t_grade"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@id/t_total"
+                                    android:layout_marginLeft="@dimen/dp_15"
+                                    android:layout_marginTop="@dimen/dp_8"
+                                    android:text="风险等级："
+                                    android:textSize="@dimen/sp_10"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/txt_grade"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@id/txt_total"
+                                    android:layout_marginTop="@dimen/dp_3"
+                                    android:layout_toRightOf="@id/t_grade"
+                                    android:textSize="@dimen/sp_15"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/t_show"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@id/t_grade"
+                                    android:layout_marginLeft="@dimen/dp_15"
+                                    android:layout_marginTop="@dimen/dp_8"
+                                    android:text="评估说明："
+                                    android:textSize="@dimen/sp_10"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/txt_show"
+                                    android:layout_width="@dimen/dp_100"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@id/txt_grade"
+                                    android:layout_marginTop="@dimen/dp_8"
+                                    android:layout_toRightOf="@id/t_show"
+                                    android:text=""
+                                    android:textSize="@dimen/sp_10" />
+
+                                <!--<TextView-->
+                                <!--android:id="@+id/t_harm"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_below="@id/t_show"-->
+                                <!--android:layout_marginBottom="@dimen/dp_8"-->
+                                <!--android:textSize="@dimen/sp_9"-->
+                                <!--android:textStyle="bold"-->
+                                <!--android:layout_marginLeft="@dimen/dp_15"-->
+                                <!--android:layout_marginTop="@dimen/dp_27"-->
+                                <!--android:text="风险危害：" />-->
+
+                                <!--<TextView-->
+                                <!--android:id="@+id/txt_harm"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_below="@id/txt_show"-->
+                                <!--android:layout_marginBottom="@dimen/dp_8"-->
+                                <!--android:textSize="@dimen/sp_9"-->
+                                <!--android:layout_marginTop="@dimen/dp_8"-->
+                                <!--android:layout_toRightOf="@id/t_harm"-->
+                                <!--android:text="" />-->
+
+                                <!--<TextView-->
+                                <!--android:id="@+id/t_contr"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_below="@id/t_harm"-->
+                                <!--android:layout_marginBottom="@dimen/dp_10"-->
+                                <!--android:textSize="@dimen/sp_9"-->
+                                <!--android:textStyle="bold"-->
+                                <!--android:layout_marginLeft="@dimen/dp_15"-->
+                                <!--android:text="风险控制：" />-->
+
+                                <!--<TextView-->
+                                <!--android:id="@+id/txt_contr"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_below="@id/txt_harm"-->
+                                <!--android:layout_marginBottom="@dimen/dp_5"-->
+                                <!--android:textSize="@dimen/sp_9"-->
+                                <!--android:layout_toRightOf="@id/t_contr"-->
+                                <!--android:text="" />-->
+                            </RelativeLayout>
+
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="@dimen/dp_180"
+                                android:layout_weight="3"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:id="@+id/iv_yuan"
+                                    android:layout_width="@dimen/dp_130"
+                                    android:layout_height="@dimen/dp_130"
+                                    android:src="@mipmap/ic_launcher" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <View
+                            android:id="@+id/view_01"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/dp_1"
+                            android:background="#dedddd"
+                            app:layout_constraintLeft_toLeftOf="@id/chartview"
+                            app:layout_constraintRight_toRightOf="@id/chartview"
+                            app:layout_constraintTop_toBottomOf="@id/lly_03" />
+
+                        <LinearLayout
+                            android:id="@+id/lly_04"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintLeft_toLeftOf="@id/chartview"
+                            app:layout_constraintRight_toRightOf="@id/chartview"
+                            app:layout_constraintTop_toBottomOf="@id/view_01">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dp_5"
+                                android:layout_marginBottom="@dimen/dp_5"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="@dimen/dp_5"
+                                    android:layout_height="@dimen/dp_5"
+                                    android:layout_marginLeft="@dimen/dp_7"
+                                    android:layout_marginRight="@dimen/dp_3"
+                                    android:src="@drawable/yuan" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="风险因素："
+                                    android:textSize="@dimen/sp_10"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/txt_element"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dp_15"
+                                android:layout_marginRight="@dimen/dp_15"
+                                android:layout_marginBottom="@dimen/dp_5"
+                                android:textSize="@dimen/sp_10" />
+                        </LinearLayout>
+
+                        <!--<View-->
+                        <!--android:id="@+id/view_02"-->
+                        <!--android:layout_width="0dp"-->
+                        <!--android:layout_height="@dimen/dp_1"-->
+                        <!--android:background="#dedddd"-->
+                        <!--app:layout_constraintLeft_toLeftOf="@id/chartview"-->
+                        <!--app:layout_constraintRight_toRightOf="@id/chartview"-->
+                        <!--app:layout_constraintTop_toBottomOf="@id/lly_04" />-->
+
+                        <LinearLayout
+                            android:id="@+id/lly_05"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintLeft_toLeftOf="@id/chartview"
+                            app:layout_constraintRight_toRightOf="@id/chartview"
+                            app:layout_constraintTop_toBottomOf="@id/lly_04">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dp_5"
+
+                                android:layout_marginBottom="@dimen/dp_5"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="@dimen/dp_5"
+                                    android:layout_height="@dimen/dp_5"
+                                    android:layout_marginLeft="@dimen/dp_7"
+                                    android:layout_marginRight="@dimen/dp_3"
+                                    android:src="@drawable/yuan" />
+
+                                <TextView
+
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="预防处理建议："
+                                    android:textSize="@dimen/sp_10"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/txt_advise"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dp_15"
+                                android:layout_marginRight="@dimen/dp_15"
+                                android:layout_marginBottom="@dimen/dp_5"
+                                android:text=""
+                                android:textSize="@dimen/sp_10" />
+                        </LinearLayout>
+
+                        <!--<View-->
+                        <!--android:id="@+id/view_03"-->
+                        <!--android:layout_width="0dp"-->
+                        <!--android:layout_height="@dimen/dp_1"-->
+                        <!--android:background="#dedddd"-->
+                        <!--app:layout_constraintLeft_toLeftOf="@id/chartview"-->
+                        <!--app:layout_constraintRight_toRightOf="@id/chartview"-->
+                        <!--app:layout_constraintTop_toBottomOf="@id/lly_05" />-->
+
+                        <LinearLayout
+                            android:id="@+id/lly_06"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintLeft_toLeftOf="@id/chartview"
+                            app:layout_constraintRight_toRightOf="@id/chartview"
+                            app:layout_constraintTop_toBottomOf="@id/lly_05">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dp_5"
+                                android:layout_marginBottom="@dimen/dp_5"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="@dimen/dp_5"
+                                    android:layout_height="@dimen/dp_5"
+                                    android:layout_marginLeft="@dimen/dp_7"
+                                    android:layout_marginRight="@dimen/dp_3"
+                                    android:src="@drawable/yuan" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="护理处置建议："
+                                    android:textSize="@dimen/sp_10"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/txt_nursing"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dp_15"
+                                android:layout_marginRight="@dimen/dp_15"
+                                android:layout_marginBottom="@dimen/dp_5"
+                                android:text=""
+                                android:textSize="@dimen/sp_10" />
+                        </LinearLayout>
+
+                        <!--<View-->
+                        <!--android:id="@+id/view_04"-->
+                        <!--android:layout_width="0dp"-->
+                        <!--android:layout_height="@dimen/dp_1"-->
+                        <!--android:background="#dedddd"-->
+                        <!--app:layout_constraintLeft_toLeftOf="@id/chartview"-->
+                        <!--app:layout_constraintRight_toRightOf="@id/chartview"-->
+                        <!--app:layout_constraintTop_toBottomOf="@id/lly_06" />-->
+
+                        <LinearLayout
+                            android:id="@+id/lly_07"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintLeft_toLeftOf="@id/chartview"
+                            app:layout_constraintRight_toRightOf="@id/chartview"
+                            app:layout_constraintTop_toBottomOf="@id/lly_06">
+
+                            <LinearLayout
+                                android:id="@+id/lly_08"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dp_5"
+                                android:layout_marginBottom="@dimen/dp_5"
+                                android:orientation="horizontal"
+                                app:layout_constraintLeft_toLeftOf="@id/chartview"
+                                app:layout_constraintTop_toBottomOf="@id/lly_07">
+
+                                <ImageView
+                                    android:layout_width="@dimen/dp_5"
+                                    android:layout_height="@dimen/dp_5"
+                                    android:layout_marginLeft="@dimen/dp_7"
+                                    android:layout_marginRight="@dimen/dp_3"
+                                    android:src="@drawable/yuan" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="患者温馨提示："
+                                    android:textSize="@dimen/sp_10"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/txt_note"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dp_15"
+                                android:layout_marginRight="@dimen/dp_15"
+                                android:layout_marginBottom="10dp"
+                                android:text=""
+                                android:textSize="@dimen/sp_10"
+                                app:layout_constraintTop_toBottomOf="@id/lly_07" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/lly_09"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintLeft_toLeftOf="@id/chartview"
+                            app:layout_constraintRight_toRightOf="@id/chartview"
+                            app:layout_constraintTop_toBottomOf="@id/lly_07">
+
+                            <LinearLayout
+                                android:id="@+id/lly_10"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dp_5"
+                                android:layout_marginBottom="@dimen/dp_5"
+                                android:orientation="horizontal"
+                                app:layout_constraintLeft_toLeftOf="@id/chartview"
+                                app:layout_constraintTop_toBottomOf="@id/lly_07">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="其他："
+                                    android:textSize="@dimen/sp_10"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/txt_other"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dp_15"
+                                android:layout_marginRight="@dimen/dp_15"
+                                android:layout_marginBottom="10dp"
+                                android:text=""
+                                android:textSize="@dimen/sp_10"
+                                app:layout_constraintTop_toBottomOf="@id/lly_07" />
+
+                        </LinearLayout>
+
+
+                    </android.support.constraint.ConstraintLayout>
+
+                </ScrollView>
+
+
+            </android.support.constraint.ConstraintLayout>
+
+
+            <!-- -第二个表- -->
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/cly_visib_02_02"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cly_02">
+
+
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/cly_01_02"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dp_25"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/tv_table_name_02"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:background="#eeeeee"
+                        android:gravity="center"
+                        android:text="出血模型评估趋势图"
+                        android:textColor="@color/black"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent" />
+
+
+                    <Button
+                        android:id="@+id/btn_log_02"
+                        android:layout_width="@dimen/dp_50"
+                        android:layout_height="@dimen/dp_15"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:background="@drawable/btn_sure"
+                        android:text="评估"
+                        android:textColor="@color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </android.support.constraint.ConstraintLayout>
+
+                <ScrollView
+                    android:id="@+id/scroll_view_02"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cly_01_02">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cly_01_02">
+
+                        <!--
+                                                <TextView
+                                                    android:id="@+id/tv_level_tag_02"
+                                                    android:layout_width="0dp"
+                                                    android:layout_height="wrap_content"
+                                                    android:layout_marginRight="@dimen/dp_5"
+                                                    android:text="危险等级"
+                                                    app:layout_constraintRight_toLeftOf="@id/chartview_02"
+                                                    app:layout_constraintTop_toTopOf="@id/chartview_02" />
+
+                                                <TextView
+                                                    android:id="@+id/tv_quezhen_tag_02"
+                                                    android:layout_width="0dp"
+                                                    android:layout_height="wrap_content"
+                                                    android:layout_marginTop="@dimen/dp_10"
+                                                    android:text="确诊 -"
+                                                    app:layout_constraintBottom_toTopOf="@id/tv_jigaowei_tag_02"
+                                                    app:layout_constraintRight_toRightOf="@id/tv_level_tag_02"
+                                                    app:layout_constraintTop_toBottomOf="@id/tv_level_tag_02" />
+
+                                                <TextView
+                                                    android:id="@+id/tv_jigaowei_tag_02"
+                                                    android:layout_width="0dp"
+                                                    android:layout_height="wrap_content"
+                                                    android:text="极高危 -"
+                                                    app:layout_constraintBottom_toTopOf="@id/tv_gaowei_tag_02"
+                                                    app:layout_constraintRight_toRightOf="@id/tv_level_tag_02"
+                                                    app:layout_constraintTop_toBottomOf="@id/tv_quezhen_tag_02" />
+
+                                                <TextView
+                                                    android:id="@+id/tv_gaowei_tag_02"
+                                                    android:layout_width="0dp"
+                                                    android:layout_height="wrap_content"
+                                                    android:text="高危 -"
+                                                    app:layout_constraintBottom_toTopOf="@id/tv_zhongwei_tag_02"
+                                                    app:layout_constraintRight_toRightOf="@id/tv_level_tag_02"
+                                                    app:layout_constraintTop_toBottomOf="@id/tv_jigaowei_tag_02" />
+
+                                                <TextView
+                                                    android:id="@+id/tv_zhongwei_tag_02"
+                                                    android:layout_width="0dp"
+                                                    android:layout_height="wrap_content"
+                                                    android:text="中危 -"
+                                                    app:layout_constraintBottom_toTopOf="@id/tv_diwei_tag_02"
+                                                    app:layout_constraintRight_toRightOf="@id/tv_level_tag_02"
+                                                    app:layout_constraintTop_toBottomOf="@id/tv_gaowei_tag_02" />
+
+                                                <TextView
+                                                    android:id="@+id/tv_diwei_tag_02"
+                                                    android:layout_width="0dp"
+                                                    android:layout_height="wrap_content"
+                                                    android:layout_marginBottom="@dimen/dp_3"
+                                                    android:text="低危 -"
+                                                    app:layout_constraintBottom_toBottomOf="@id/chartview_02"
+                                                    app:layout_constraintRight_toRightOf="@id/tv_level_tag_02"
+                                                    app:layout_constraintTop_toBottomOf="@id/tv_zhongwei_tag_02" />
+
+                                                <TextView
+                                                    android:id="@+id/tv_day_02"
+                                                    android:layout_width="0dp"
+                                                    android:layout_height="wrap_content"
+                                                    android:layout_marginBottom="@dimen/dp_10"
+                                                    android:text="日期"
+                                                    app:layout_constraintBottom_toBottomOf="@id/chartview_02"
+                                                    app:layout_constraintRight_toRightOf="@id/chartview_02" />-->
+
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/chartview_02"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/dp_150"
+                            android:layout_marginStart="@dimen/dp_40"
+                            android:layout_marginLeft="@dimen/dp_40"
+                            android:layout_marginTop="@dimen/dp_5"
+                            android:layout_marginEnd="@dimen/dp_40"
+                            android:layout_marginRight="@dimen/dp_40"
+                            android:background="@color/white"
+                            android:paddingRight="@dimen/dp_10"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+
+                        <LinearLayout
+                            android:id="@+id/lly_03_02"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            app:layout_constraintLeft_toLeftOf="@id/chartview_02"
+                            app:layout_constraintRight_toRightOf="@id/chartview_02"
+                            app:layout_constraintTop_toBottomOf="@id/chartview_02">
+
+                            <RelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2">
+
+                                <TextView
+                                    android:id="@+id/t_coding_02"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/dp_15"
+                                    android:layout_marginTop="@dimen/dp_5"
+                                    android:text="报告编码："
+                                    android:textSize="@dimen/sp_10"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/txt_coding_02"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/dp_5"
+                                    android:layout_toRightOf="@id/t_coding_02"
+                                    android:textSize="@dimen/sp_10" />
+
+                                <TextView
+                                    android:id="@+id/t_time_02"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@id/t_coding_02"
+                                    android:layout_marginLeft="@dimen/dp_15"
+                                    android:layout_marginTop="@dimen/dp_8"
+                                    android:text="评估时间："
+                                    android:textSize="@dimen/sp_10"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/txt_time_02"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@id/txt_coding_02"
+                                    android:layout_marginTop="@dimen/dp_8"
+                                    android:layout_toRightOf="@id/t_time_02"
+                                    android:textSize="@dimen/sp_10" />
+
+                                <TextView
+                                    android:id="@+id/t_total_02"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@id/t_time_02"
+                                    android:layout_marginLeft="@dimen/dp_15"
+                                    android:layout_marginTop="@dimen/dp_8"
+                                    android:text="评估总分："
+                                    android:textSize="@dimen/sp_10"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/txt_total_02"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@id/txt_time_02"
+                                    android:layout_marginTop="@dimen/dp_8"
+                                    android:layout_toRightOf="@id/t_total_02"
+                                    android:textSize="@dimen/sp_10"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/t_grade_02"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@id/t_total_02"
+                                    android:layout_marginLeft="@dimen/dp_15"
+                                    android:layout_marginTop="@dimen/dp_8"
+                                    android:text="风险等级："
+                                    android:textSize="@dimen/sp_10"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/txt_grade_02"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@id/txt_total_02"
+                                    android:layout_marginTop="@dimen/dp_3"
+                                    android:layout_toRightOf="@id/t_grade_02"
+                                    android:textSize="@dimen/sp_15"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/t_show_02"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@id/t_grade_02"
+                                    android:layout_marginLeft="@dimen/dp_15"
+                                    android:layout_marginTop="@dimen/dp_8"
+                                    android:text="评估说明："
+                                    android:textSize="@dimen/sp_10"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/txt_show_02"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@id/txt_grade_02"
+                                    android:layout_marginTop="@dimen/dp_8"
+                                    android:layout_toRightOf="@id/t_show_02"
+                                    android:text=""
+                                    android:textSize="@dimen/sp_10" />
+
+                                <!--<TextView-->
+                                <!--android:id="@+id/t_harm"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_below="@id/t_show"-->
+                                <!--android:layout_marginBottom="@dimen/dp_8"-->
+                                <!--android:textSize="@dimen/sp_9"-->
+                                <!--android:textStyle="bold"-->
+                                <!--android:layout_marginLeft="@dimen/dp_15"-->
+                                <!--android:layout_marginTop="@dimen/dp_27"-->
+                                <!--android:text="风险危害：" />-->
+
+                                <!--<TextView-->
+                                <!--android:id="@+id/txt_harm"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_below="@id/txt_show"-->
+                                <!--android:layout_marginBottom="@dimen/dp_8"-->
+                                <!--android:textSize="@dimen/sp_9"-->
+                                <!--android:layout_marginTop="@dimen/dp_8"-->
+                                <!--android:layout_toRightOf="@id/t_harm"-->
+                                <!--android:text="" />-->
+
+                                <!--<TextView-->
+                                <!--android:id="@+id/t_contr"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_below="@id/t_harm"-->
+                                <!--android:layout_marginBottom="@dimen/dp_10"-->
+                                <!--android:textSize="@dimen/sp_9"-->
+                                <!--android:textStyle="bold"-->
+                                <!--android:layout_marginLeft="@dimen/dp_15"-->
+                                <!--android:text="风险控制：" />-->
+
+                                <!--<TextView-->
+                                <!--android:id="@+id/txt_contr"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_below="@id/txt_harm"-->
+                                <!--android:layout_marginBottom="@dimen/dp_5"-->
+                                <!--android:textSize="@dimen/sp_9"-->
+                                <!--android:layout_toRightOf="@id/t_contr"-->
+                                <!--android:text="" />-->
+                            </RelativeLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="@dimen/dp_180"
+                                android:layout_weight="3"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:id="@+id/iv_yuan_02"
+                                    android:layout_width="@dimen/dp_130"
+                                    android:layout_height="@dimen/dp_130"
+                                    android:src="@mipmap/ic_launcher" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <View
+                            android:id="@+id/view_01_02"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/dp_1"
+                            android:background="#dedddd"
+                            app:layout_constraintLeft_toLeftOf="@id/chartview_02"
+                            app:layout_constraintRight_toRightOf="@id/chartview_02"
+                            app:layout_constraintTop_toBottomOf="@id/lly_03_02" />
+
+                        <LinearLayout
+                            android:id="@+id/lly_04_02"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintLeft_toLeftOf="@id/chartview_02"
+                            app:layout_constraintRight_toRightOf="@id/chartview_02"
+                            app:layout_constraintTop_toBottomOf="@id/view_01_02">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dp_5"
+                                android:layout_marginBottom="@dimen/dp_5"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="@dimen/dp_5"
+                                    android:layout_height="@dimen/dp_5"
+                                    android:layout_marginLeft="@dimen/dp_7"
+                                    android:layout_marginRight="@dimen/dp_3"
+                                    android:src="@drawable/yuan" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="风险因素："
+                                    android:textSize="@dimen/sp_10"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/txt_element_02"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dp_15"
+                                android:layout_marginRight="@dimen/dp_15"
+                                android:layout_marginBottom="@dimen/dp_5"
+                                android:text="暂无风险"
+                                android:textSize="@dimen/sp_10" />
+                        </LinearLayout>
+
+                        <!--<View-->
+                        <!--android:id="@+id/view_02"-->
+                        <!--android:layout_width="0dp"-->
+                        <!--android:layout_height="@dimen/dp_1"-->
+                        <!--android:background="#dedddd"-->
+                        <!--app:layout_constraintLeft_toLeftOf="@id/chartview"-->
+                        <!--app:layout_constraintRight_toRightOf="@id/chartview"-->
+                        <!--app:layout_constraintTop_toBottomOf="@id/lly_04" />-->
+
+                        <LinearLayout
+                            android:id="@+id/lly_05_02"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintLeft_toLeftOf="@id/chartview_02"
+                            app:layout_constraintRight_toRightOf="@id/chartview_02"
+                            app:layout_constraintTop_toBottomOf="@id/lly_04_02">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dp_5"
+
+                                android:layout_marginBottom="@dimen/dp_5"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="@dimen/dp_5"
+                                    android:layout_height="@dimen/dp_5"
+                                    android:layout_marginLeft="@dimen/dp_7"
+                                    android:layout_marginRight="@dimen/dp_3"
+                                    android:src="@drawable/yuan" />
+
+                                <TextView
+
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="预防处理建议："
+                                    android:textSize="@dimen/sp_10"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/txt_advise_02"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dp_15"
+                                android:layout_marginRight="@dimen/dp_15"
+                                android:layout_marginBottom="@dimen/dp_5"
+                                android:text=""
+                                android:textSize="@dimen/sp_10" />
+                        </LinearLayout>
+
+                        <!--<View-->
+                        <!--android:id="@+id/view_03"-->
+                        <!--android:layout_width="0dp"-->
+                        <!--android:layout_height="@dimen/dp_1"-->
+                        <!--android:background="#dedddd"-->
+                        <!--app:layout_constraintLeft_toLeftOf="@id/chartview"-->
+                        <!--app:layout_constraintRight_toRightOf="@id/chartview"-->
+                        <!--app:layout_constraintTop_toBottomOf="@id/lly_05" />-->
+
+                        <LinearLayout
+                            android:id="@+id/lly_06_02"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintLeft_toLeftOf="@id/chartview_02"
+                            app:layout_constraintRight_toRightOf="@id/chartview_02"
+                            app:layout_constraintTop_toBottomOf="@id/lly_05_02">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dp_5"
+                                android:layout_marginBottom="@dimen/dp_5"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="@dimen/dp_5"
+                                    android:layout_height="@dimen/dp_5"
+                                    android:layout_marginLeft="@dimen/dp_7"
+                                    android:layout_marginRight="@dimen/dp_3"
+                                    android:src="@drawable/yuan" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="护理处置建议："
+                                    android:textSize="@dimen/sp_10"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/txt_nursing_02"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dp_15"
+                                android:layout_marginRight="@dimen/dp_15"
+                                android:layout_marginBottom="@dimen/dp_5"
+                                android:text=""
+                                android:textSize="@dimen/sp_10" />
+                        </LinearLayout>
+
+                        <!--<View-->
+                        <!--android:id="@+id/view_04"-->
+                        <!--android:layout_width="0dp"-->
+                        <!--android:layout_height="@dimen/dp_1"-->
+                        <!--android:background="#dedddd"-->
+                        <!--app:layout_constraintLeft_toLeftOf="@id/chartview"-->
+                        <!--app:layout_constraintRight_toRightOf="@id/chartview"-->
+                        <!--app:layout_constraintTop_toBottomOf="@id/lly_06" />-->
+
+                        <LinearLayout
+                            android:id="@+id/lly_07_02"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintLeft_toLeftOf="@id/chartview_02"
+                            app:layout_constraintRight_toRightOf="@id/chartview_02"
+                            app:layout_constraintTop_toBottomOf="@id/lly_06_02">
+
+                            <LinearLayout
+                                android:id="@+id/lly_08_02"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dp_5"
+                                android:layout_marginBottom="@dimen/dp_5"
+                                android:orientation="horizontal"
+                                app:layout_constraintLeft_toLeftOf="@id/chartview"
+                                app:layout_constraintTop_toBottomOf="@id/lly_07">
+
+                                <ImageView
+                                    android:layout_width="@dimen/dp_5"
+                                    android:layout_height="@dimen/dp_5"
+                                    android:layout_marginLeft="@dimen/dp_7"
+                                    android:layout_marginRight="@dimen/dp_3"
+                                    android:src="@drawable/yuan" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="患者温馨提示："
+                                    android:textSize="@dimen/sp_10"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/txt_note_02"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dp_15"
+                                android:layout_marginRight="@dimen/dp_15"
+                                android:layout_marginBottom="10dp"
+                                android:text=""
+                                android:textSize="@dimen/sp_10"
+                                app:layout_constraintTop_toBottomOf="@id/lly_07" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/lly_09_02"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintLeft_toLeftOf="@id/chartview_02"
+                            app:layout_constraintRight_toRightOf="@id/chartview_02"
+                            app:layout_constraintTop_toBottomOf="@id/lly_07_02">
+
+                            <LinearLayout
+                                android:id="@+id/lly_10_02"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dp_5"
+                                android:layout_marginBottom="@dimen/dp_5"
+                                android:orientation="horizontal"
+                                app:layout_constraintLeft_toLeftOf="@id/chartview"
+                                app:layout_constraintTop_toBottomOf="@id/lly_07">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="其他："
+                                    android:textSize="@dimen/sp_10"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/txt_other_02"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dp_15"
+                                android:layout_marginRight="@dimen/dp_15"
+                                android:layout_marginBottom="10dp"
+                                android:text=""
+                                android:textSize="@dimen/sp_10"
+                                app:layout_constraintTop_toBottomOf="@id/lly_07" />
+
+                        </LinearLayout>
+
+                    </android.support.constraint.ConstraintLayout>
+
+                </ScrollView>
+
+            </android.support.constraint.ConstraintLayout>
+
 
         </android.support.constraint.ConstraintLayout>
 
-        <ScrollView
-            android:id="@+id/scroll_view_02"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cly_01_02">
-
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-
-                <TextView
-                    android:id="@+id/tv_level_tag_02"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/dp_5"
-                    android:text="危险等级"
-                    app:layout_constraintRight_toLeftOf="@id/chartview_02"
-                    app:layout_constraintTop_toTopOf="@id/chartview_02" />
-
-                <TextView
-                    android:id="@+id/tv_quezhen_tag_02"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:text="确诊 -"
-                    app:layout_constraintBottom_toTopOf="@id/tv_jigaowei_tag_02"
-                    app:layout_constraintRight_toRightOf="@id/tv_level_tag_02"
-                    app:layout_constraintTop_toBottomOf="@id/tv_level_tag_02" />
-
-                <TextView
-                    android:id="@+id/tv_jigaowei_tag_02"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="极高危 -"
-                    app:layout_constraintBottom_toTopOf="@id/tv_gaowei_tag_02"
-                    app:layout_constraintRight_toRightOf="@id/tv_level_tag_02"
-                    app:layout_constraintTop_toBottomOf="@id/tv_quezhen_tag_02" />
-
-                <TextView
-                    android:id="@+id/tv_gaowei_tag_02"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="高危 -"
-                    app:layout_constraintBottom_toTopOf="@id/tv_zhongwei_tag_02"
-                    app:layout_constraintRight_toRightOf="@id/tv_level_tag_02"
-                    app:layout_constraintTop_toBottomOf="@id/tv_jigaowei_tag_02" />
-
-                <TextView
-                    android:id="@+id/tv_zhongwei_tag_02"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="中危 -"
-                    app:layout_constraintBottom_toTopOf="@id/tv_diwei_tag_02"
-                    app:layout_constraintRight_toRightOf="@id/tv_level_tag_02"
-                    app:layout_constraintTop_toBottomOf="@id/tv_gaowei_tag_02" />
-
-                <TextView
-                    android:id="@+id/tv_diwei_tag_02"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/dp_3"
-                    android:text="低危 -"
-                    app:layout_constraintBottom_toBottomOf="@id/chartview_02"
-                    app:layout_constraintRight_toRightOf="@id/tv_level_tag_02"
-                    app:layout_constraintTop_toBottomOf="@id/tv_zhongwei_tag_02" />
-
-                <TextView
-                    android:id="@+id/tv_day_02"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/dp_10"
-                    android:text="日期"
-                    app:layout_constraintBottom_toBottomOf="@id/chartview_02"
-                    app:layout_constraintRight_toRightOf="@id/chartview_02" />
-
-                <com.example.tidus.ristrat.weight.ChartView
-                    android:id="@+id/chartview_02"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/dp_150"
-                    android:layout_marginStart="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_40"
-                    android:layout_marginTop="@dimen/dp_5"
-                    android:layout_marginEnd="@dimen/dp_40"
-                    android:layout_marginRight="@dimen/dp_40"
-                    android:paddingRight="@dimen/dp_10"
-                    app:bgcolor="#ffffff"
-                    app:interval="50dp"
-                    app:isScroll="false"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:linecolor="#02bbb7"
-                    app:xylinecolor="#e2e2e2"
-                    app:xylinewidth="1dp"
-                    app:xytextcolor="#7e7e7e"
-                    app:xytextsize="12sp" />
-
-
-                <LinearLayout
-                    android:id="@+id/lly_03_02"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    app:layout_constraintLeft_toLeftOf="@id/chartview_02"
-                    app:layout_constraintRight_toRightOf="@id/chartview_02"
-                    app:layout_constraintTop_toBottomOf="@id/chartview_02">
-
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2">
-
-                        <TextView
-                            android:id="@+id/t_coding_02"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/dp_15"
-                            android:layout_marginTop="@dimen/dp_5"
-                            android:text="报告编码："
-                            android:textSize="@dimen/sp_10"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/txt_coding_02"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dp_5"
-                            android:layout_toRightOf="@id/t_coding_02"
-                            android:textSize="@dimen/sp_10" />
-
-                        <TextView
-                            android:id="@+id/t_time_02"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/t_coding_02"
-                            android:layout_marginLeft="@dimen/dp_15"
-                            android:layout_marginTop="@dimen/dp_8"
-                            android:text="评估时间："
-                            android:textSize="@dimen/sp_10"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/txt_time_02"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/txt_coding_02"
-                            android:layout_marginTop="@dimen/dp_8"
-                            android:layout_toRightOf="@id/t_time_02"
-                            android:textSize="@dimen/sp_10" />
-
-                        <TextView
-                            android:id="@+id/t_total_02"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/t_time_02"
-                            android:layout_marginLeft="@dimen/dp_15"
-                            android:layout_marginTop="@dimen/dp_8"
-                            android:text="评估总分："
-                            android:textSize="@dimen/sp_10"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/txt_total_02"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/txt_time_02"
-                            android:layout_marginTop="@dimen/dp_8"
-                            android:layout_toRightOf="@id/t_total_02"
-                            android:textSize="@dimen/sp_10"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/t_grade_02"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/t_total_02"
-                            android:layout_marginLeft="@dimen/dp_15"
-                            android:layout_marginTop="@dimen/dp_8"
-                            android:text="风险等级："
-                            android:textSize="@dimen/sp_10"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/txt_grade_02"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/txt_total_02"
-                            android:layout_marginTop="@dimen/dp_3"
-                            android:layout_toRightOf="@id/t_grade_02"
-                            android:textSize="@dimen/sp_15"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/t_show_02"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/t_grade_02"
-                            android:layout_marginLeft="@dimen/dp_15"
-                            android:layout_marginTop="@dimen/dp_8"
-                            android:text="评估说明："
-                            android:textSize="@dimen/sp_10"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/txt_show_02"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/txt_grade_02"
-                            android:layout_marginTop="@dimen/dp_8"
-                            android:layout_toRightOf="@id/t_show_02"
-                            android:text=""
-                            android:textSize="@dimen/sp_10" />
-
-                        <!--<TextView-->
-                        <!--android:id="@+id/t_harm"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_below="@id/t_show"-->
-                        <!--android:layout_marginBottom="@dimen/dp_8"-->
-                        <!--android:textSize="@dimen/sp_9"-->
-                        <!--android:textStyle="bold"-->
-                        <!--android:layout_marginLeft="@dimen/dp_15"-->
-                        <!--android:layout_marginTop="@dimen/dp_27"-->
-                        <!--android:text="风险危害：" />-->
-
-                        <!--<TextView-->
-                        <!--android:id="@+id/txt_harm"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_below="@id/txt_show"-->
-                        <!--android:layout_marginBottom="@dimen/dp_8"-->
-                        <!--android:textSize="@dimen/sp_9"-->
-                        <!--android:layout_marginTop="@dimen/dp_8"-->
-                        <!--android:layout_toRightOf="@id/t_harm"-->
-                        <!--android:text="" />-->
-
-                        <!--<TextView-->
-                        <!--android:id="@+id/t_contr"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_below="@id/t_harm"-->
-                        <!--android:layout_marginBottom="@dimen/dp_10"-->
-                        <!--android:textSize="@dimen/sp_9"-->
-                        <!--android:textStyle="bold"-->
-                        <!--android:layout_marginLeft="@dimen/dp_15"-->
-                        <!--android:text="风险控制：" />-->
-
-                        <!--<TextView-->
-                        <!--android:id="@+id/txt_contr"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_below="@id/txt_harm"-->
-                        <!--android:layout_marginBottom="@dimen/dp_5"-->
-                        <!--android:textSize="@dimen/sp_9"-->
-                        <!--android:layout_toRightOf="@id/t_contr"-->
-                        <!--android:text="" />-->
-                    </RelativeLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="@dimen/dp_180"
-                        android:layout_weight="3"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:id="@+id/iv_yuan_02"
-                            android:layout_width="@dimen/dp_130"
-                            android:layout_height="@dimen/dp_130"
-                            android:src="@mipmap/ic_launcher" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <View
-                    android:id="@+id/view_01_02"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/dp_1"
-                    android:background="#dedddd"
-                    app:layout_constraintLeft_toLeftOf="@id/chartview_02"
-                    app:layout_constraintRight_toRightOf="@id/chartview_02"
-                    app:layout_constraintTop_toBottomOf="@id/lly_03_02" />
-
-                <LinearLayout
-                    android:id="@+id/lly_04_02"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintLeft_toLeftOf="@id/chartview_02"
-                    app:layout_constraintRight_toRightOf="@id/chartview_02"
-                    app:layout_constraintTop_toBottomOf="@id/view_01_02">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_5"
-                        android:layout_marginBottom="@dimen/dp_5"
-                        android:gravity="center"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="@dimen/dp_5"
-                            android:layout_height="@dimen/dp_5"
-                            android:layout_marginLeft="@dimen/dp_7"
-                            android:layout_marginRight="@dimen/dp_3"
-                            android:src="@drawable/yuan" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="风险因素："
-                            android:textSize="@dimen/sp_10"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/txt_element_02"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/dp_15"
-                        android:layout_marginRight="@dimen/dp_15"
-                        android:layout_marginBottom="@dimen/dp_5"
-                        android:text="暂无风险"
-                        android:textSize="@dimen/sp_10" />
-                </LinearLayout>
-
-                <!--<View-->
-                <!--android:id="@+id/view_02"-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="@dimen/dp_1"-->
-                <!--android:background="#dedddd"-->
-                <!--app:layout_constraintLeft_toLeftOf="@id/chartview"-->
-                <!--app:layout_constraintRight_toRightOf="@id/chartview"-->
-                <!--app:layout_constraintTop_toBottomOf="@id/lly_04" />-->
-
-                <LinearLayout
-                    android:id="@+id/lly_05_02"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintLeft_toLeftOf="@id/chartview_02"
-                    app:layout_constraintRight_toRightOf="@id/chartview_02"
-                    app:layout_constraintTop_toBottomOf="@id/lly_04_02">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_5"
-
-                        android:layout_marginBottom="@dimen/dp_5"
-                        android:gravity="center"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="@dimen/dp_5"
-                            android:layout_height="@dimen/dp_5"
-                            android:layout_marginLeft="@dimen/dp_7"
-                            android:layout_marginRight="@dimen/dp_3"
-                            android:src="@drawable/yuan" />
-
-                        <TextView
-
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="预防处理建议："
-                            android:textSize="@dimen/sp_10"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/txt_advise_02"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/dp_15"
-                        android:layout_marginRight="@dimen/dp_15"
-                        android:layout_marginBottom="@dimen/dp_5"
-                        android:text=""
-                        android:textSize="@dimen/sp_10" />
-                </LinearLayout>
-
-                <!--<View-->
-                <!--android:id="@+id/view_03"-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="@dimen/dp_1"-->
-                <!--android:background="#dedddd"-->
-                <!--app:layout_constraintLeft_toLeftOf="@id/chartview"-->
-                <!--app:layout_constraintRight_toRightOf="@id/chartview"-->
-                <!--app:layout_constraintTop_toBottomOf="@id/lly_05" />-->
-
-                <LinearLayout
-                    android:id="@+id/lly_06_02"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintLeft_toLeftOf="@id/chartview_02"
-                    app:layout_constraintRight_toRightOf="@id/chartview_02"
-                    app:layout_constraintTop_toBottomOf="@id/lly_05_02">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_5"
-                        android:layout_marginBottom="@dimen/dp_5"
-                        android:gravity="center"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="@dimen/dp_5"
-                            android:layout_height="@dimen/dp_5"
-                            android:layout_marginLeft="@dimen/dp_7"
-                            android:layout_marginRight="@dimen/dp_3"
-                            android:src="@drawable/yuan" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="护理处置建议："
-                            android:textSize="@dimen/sp_10"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/txt_nursing_02"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/dp_15"
-                        android:layout_marginRight="@dimen/dp_15"
-                        android:layout_marginBottom="@dimen/dp_5"
-                        android:text=""
-                        android:textSize="@dimen/sp_10" />
-                </LinearLayout>
-
-                <!--<View-->
-                <!--android:id="@+id/view_04"-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="@dimen/dp_1"-->
-                <!--android:background="#dedddd"-->
-                <!--app:layout_constraintLeft_toLeftOf="@id/chartview"-->
-                <!--app:layout_constraintRight_toRightOf="@id/chartview"-->
-                <!--app:layout_constraintTop_toBottomOf="@id/lly_06" />-->
-
-                <LinearLayout
-                    android:id="@+id/lly_07_02"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintLeft_toLeftOf="@id/chartview_02"
-                    app:layout_constraintRight_toRightOf="@id/chartview_02"
-                    app:layout_constraintTop_toBottomOf="@id/lly_06_02">
-
-                    <LinearLayout
-                        android:id="@+id/lly_08_02"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_5"
-                        android:layout_marginBottom="@dimen/dp_5"
-                        android:orientation="horizontal"
-                        app:layout_constraintLeft_toLeftOf="@id/chartview"
-                        app:layout_constraintTop_toBottomOf="@id/lly_07">
-
-                        <ImageView
-                            android:layout_width="@dimen/dp_5"
-                            android:layout_height="@dimen/dp_5"
-                            android:layout_marginLeft="@dimen/dp_7"
-                            android:layout_marginRight="@dimen/dp_3"
-                            android:src="@drawable/yuan" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="患者温馨提示："
-                            android:textSize="@dimen/sp_10"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/txt_note_02"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/dp_15"
-                        android:layout_marginRight="@dimen/dp_15"
-                        android:layout_marginBottom="10dp"
-                        android:text=""
-                        android:textSize="@dimen/sp_10"
-                        app:layout_constraintTop_toBottomOf="@id/lly_07" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/lly_09_02"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintLeft_toLeftOf="@id/chartview_02"
-                    app:layout_constraintRight_toRightOf="@id/chartview_02"
-                    app:layout_constraintTop_toBottomOf="@id/lly_07_02">
-
-                    <LinearLayout
-                        android:id="@+id/lly_10_02"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_5"
-                        android:layout_marginBottom="@dimen/dp_5"
-                        android:orientation="horizontal"
-                        app:layout_constraintLeft_toLeftOf="@id/chartview"
-                        app:layout_constraintTop_toBottomOf="@id/lly_07">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="其他："
-                            android:textSize="@dimen/sp_10"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/txt_other_02"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/dp_15"
-                        android:layout_marginRight="@dimen/dp_15"
-                        android:layout_marginBottom="10dp"
-                        android:text=""
-                        android:textSize="@dimen/sp_10"
-                        app:layout_constraintTop_toBottomOf="@id/lly_07" />
-
-                </LinearLayout>
-
-            </android.support.constraint.ConstraintLayout>
-
-        </ScrollView>
-
 
     </android.support.constraint.ConstraintLayout>
 
-
 </android.support.constraint.ConstraintLayout>
+

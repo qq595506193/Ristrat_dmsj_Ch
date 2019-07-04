@@ -16,76 +16,86 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHolder> {
-    private Context context;
-    private List<RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean> wenjuannameBeans;
-    private String age;
 
-    public QuestionAdapter(Context context, String age) {
-        wenjuannameBeans = new ArrayList<>();
+    private Context context;
+
+    private List<RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean> wenjuanBeans;
+
+
+    public QuestionAdapter(Context context) {
+        wenjuanBeans = new ArrayList<>();
         this.context = context;
-        this.age = age;
     }
 
-    public void setSublistBeans(List<RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean> wenjuannameBeans) {
-        if (wenjuannameBeans != null) {
-            this.wenjuannameBeans = wenjuannameBeans;
+    public void setWenjuanBeans(List<RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean> wenjuanBeans) {
+        if (wenjuanBeans != null) {
+            this.wenjuanBeans = wenjuanBeans;
         }
         notifyDataSetChanged();
     }
 
-    public interface onCheckedClickListener {
-        void onCheckedClick(View view, int position, String itemText, String initNowTime, boolean isChecked);
-    }
-
-    private onCheckedClickListener onCheckedClickListener;
-
-    public void setOnCheckedClickListener(QuestionAdapter.onCheckedClickListener onCheckedClickListener) {
-        this.onCheckedClickListener = onCheckedClickListener;
-    }
 
     @NonNull
     @Override
     public QuestionAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.risk_list, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.rv_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final QuestionAdapter.ViewHolder holder, final int position) {
-        RiskItemAdapter riskItemAdapter = new RiskItemAdapter(context, age);
-        holder.rv_risk_list.setLayoutManager(new GridLayoutManager(context, 4));
-        holder.rv_risk_list.setAdapter(riskItemAdapter);
-        for (RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean wenjuannameBean : wenjuannameBeans) {
-            if (wenjuannameBean.getFORM_ID() == 1) {
-                RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean xuanxiangBean = wenjuannameBean.getXUANXIANG().get(0);
-                holder.tv_name.setText(xuanxiangBean.getWENJUAN().get(position).getFACTOR_GROUP_NAME());
-                for (RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean wenjuanBean : xuanxiangBean.getWENJUAN()) {
-                    riskItemAdapter.setSublistBeans(wenjuanBean.getSublist());
+    public void onBindViewHolder(@NonNull QuestionAdapter.ViewHolder holder, int position) {
+        final RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean wenjuanBean = wenjuanBeans.get(position);
+        for (RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean : wenjuanBean.getSublist()) {
+            holder.tv_xiaobiao_name.setText(sublistBean.getFACTOR_GROUP_NAME());
+            final TopicAdapter topicAdapter = new TopicAdapter(context);
+            holder.rv_question_check.setLayoutManager(new GridLayoutManager(context, 4));
+            holder.rv_question_check.setAdapter(topicAdapter);
+            topicAdapter.setSublistBeans(wenjuanBean.getSublist(), wenjuanBean.getFACTOR_GROUP_SEQ());
+            topicAdapter.setOnCheckedClickListener(new TopicAdapter.onCheckedClickListener() {
+                @Override
+                public void onCheckedClick(View view, int position, boolean isChecked, RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean) {
+                    setItemNumber.onCheckedClick(view, position, isChecked, sublistBean);
                 }
-            }
+
+                @Override
+                public void onMorenSelect(boolean checked, RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean) {
+                    setItemNumber.onMorenSelect(checked, sublistBean);
+                }
+            });
+            topicAdapter.setWenjuanBeans(wenjuanBeans);
+
         }
+
+
     }
 
     @Override
     public int getItemCount() {
-        for (RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean wenjuannameBean : wenjuannameBeans) {
-            for (RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean xuanxiangBean : wenjuannameBean.getXUANXIANG()) {
-                return xuanxiangBean.getWENJUAN().size();
-            }
-        }
-        return 4;
+        return wenjuanBeans.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-
-        private final TextView tv_name;
-        private final RecyclerView rv_risk_list;
+        private final TextView tv_xiaobiao_name;
+        private final RecyclerView rv_question_check;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            tv_name = itemView.findViewById(R.id.tv_name);
-            rv_risk_list = itemView.findViewById(R.id.rv_risk_list);
+            tv_xiaobiao_name = itemView.findViewById(R.id.tv_xiaobiao_name);
+            rv_question_check = itemView.findViewById(R.id.rv_question_check);
         }
+    }
+
+    private SetItemNumber setItemNumber;
+
+    public interface SetItemNumber {
+        void onCheckedClick(View view, int position, boolean isChecked, RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean);
+
+        void onMorenSelect(boolean checked, RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean);
+
+    }
+
+    public void setSetItemNumber(SetItemNumber setItemNumber) {
+        this.setItemNumber = setItemNumber;
     }
 }

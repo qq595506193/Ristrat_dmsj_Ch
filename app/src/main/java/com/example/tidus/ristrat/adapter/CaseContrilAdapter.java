@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.tidus.ristrat.R;
+import com.example.tidus.ristrat.application.App;
 import com.example.tidus.ristrat.bean.CaseControlBean;
 import com.example.tidus.ristrat.bean.QueryHMBean;
 import com.example.tidus.ristrat.mvp.view.CaseControlActivity;
@@ -51,6 +53,7 @@ public class CaseContrilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     if (serverParamsBean.getVISIT_SQ_NO() != null) {
                         if (serverParamsBean.getVISIT_SQ_NO().equals(listBean.getVISIT_SQ_NO())) {
                             serverParamsBean.setType(true);
+                            serverParamsBean.setColor(listBean.getREMINDE_COLOR());
                         }
                     }
                 }
@@ -113,10 +116,15 @@ public class CaseContrilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 viewHolder.tv_doctor_name.setText(serverParamsBean.getDOCTOR_NAME());
             }
 
+            // 判断提示框颜色
             if (serverParamsBean.isType()) {
-                viewHolder.card_view.setBackgroundColor(Color.RED);
+                viewHolder.card_view.setBackgroundColor(Color.parseColor(serverParamsBean.getColor()));
             } else {
                 viewHolder.card_view.setBackgroundColor(Color.WHITE);
+            }
+
+            if (serverParamsBean.getCARE_UNIT_NAME() != null) {
+                viewHolder.tv_danyuan.setText(serverParamsBean.getCARE_UNIT_NAME());
             }
 
 
@@ -134,40 +142,14 @@ public class CaseContrilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             if (serverParamsBean.getJibinlist().size() != 0 && serverParamsBean != null) {
                 viewHolder.tv_content.setText(serverParamsBean.getJibinlist().get(0).getDIAGNOSIS_DISEASE_NAME());
             } else {
-                viewHolder.tv_content.setText("");
+                viewHolder.tv_content.setText("暂无就诊信息");
             }
 
+            IconAdapter iconAdapter = new IconAdapter(context, serverParamsBean);
+            ((ViewHolder) holder).rv_icon.setLayoutManager(new LinearLayoutManager(App.getContext(), LinearLayoutManager.HORIZONTAL, false));
+            ((ViewHolder) holder).rv_icon.setAdapter(iconAdapter);
 
-            if (serverParamsBean.getLevlist().size() != 0 && serverParamsBean.getCURRENT_RISK_LEVEL() != null) {
-                if (serverParamsBean.getLevlist().get(0).getCURRENT_RISK_LEVEL().equals("5")) {
-                    viewHolder.iv_assess.setVisibility(View.VISIBLE);
-                    viewHolder.iv_assess.setImageResource(R.mipmap.vet_green);
-                } else if (serverParamsBean.getLevlist().get(0).getCURRENT_RISK_LEVEL().equals("6")) {
-                    viewHolder.iv_assess.setVisibility(View.VISIBLE);
-                    viewHolder.iv_assess.setImageResource(R.mipmap.vet_blue);
-                } else if (serverParamsBean.getLevlist().get(0).getCURRENT_RISK_LEVEL().equals("7")) {
-                    viewHolder.iv_assess.setVisibility(View.VISIBLE);
-                    viewHolder.iv_assess.setImageResource(R.mipmap.vet_yellow);
-                } else if (serverParamsBean.getLevlist().get(0).getCURRENT_RISK_LEVEL().equals("8")) {
-                    viewHolder.iv_assess.setVisibility(View.VISIBLE);
-                    viewHolder.iv_assess.setImageResource(R.mipmap.vet_orange);
-                } else if (serverParamsBean.getLevlist().get(0).getCURRENT_RISK_LEVEL().equals("9")) {
-                    viewHolder.iv_assess.setVisibility(View.VISIBLE);
-                    viewHolder.iv_assess.setImageResource(R.mipmap.vet_red);
-                } else if (serverParamsBean.getLevlist().get(0).getCURRENT_RISK_LEVEL().equals("21")) {
-                    viewHolder.iv_chuxue.setVisibility(View.VISIBLE);
-                    viewHolder.iv_chuxue.setImageResource(R.mipmap.chuxuedi);
-                } else if (serverParamsBean.getLevlist().get(0).getCURRENT_RISK_LEVEL().equals("22")) {
-                    viewHolder.iv_chuxue.setVisibility(View.VISIBLE);
-                    viewHolder.iv_chuxue.setImageResource(R.mipmap.chuxuegao);
-                } else {
-                    viewHolder.iv_assess.setVisibility(View.GONE);
-                    viewHolder.iv_chuxue.setVisibility(View.GONE);
-                }
-            } else {
-                viewHolder.iv_assess.setVisibility(View.GONE);
-                viewHolder.iv_chuxue.setVisibility(View.GONE);
-            }
+
 
 
             initListener(viewHolder, view_pop, serverParamsBean, position);// 事件监听
@@ -207,6 +189,13 @@ public class CaseContrilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     @Override
                     public void onIntentActivityPop() {
                         setOnIntentActivityCancel.onStartActivity(queryHMBean, position);// 接口回调
+                    }
+                });
+
+                popWindowUtil.setSetOnTanChuang(new PopWindowUtil.SetOnTanChuang() {
+                    @Override
+                    public void OnTanChuang() {
+                        setOnTanChuangDiaLog.OnTanChuangDiaLog(serverParamsBean, queryHMBean, position);
                     }
                 });
 
@@ -258,9 +247,9 @@ public class CaseContrilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         private final TextView tv_section;
         private final TextView tv_doctor_name;
         private final TextView tv_content;
-        private final ImageView iv_assess;
         private final CardView card_view;
-        private final ImageView iv_chuxue;
+        private TextView tv_danyuan;
+        private final RecyclerView rv_icon;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -272,9 +261,9 @@ public class CaseContrilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             tv_section = itemView.findViewById(R.id.tv_section);
             tv_doctor_name = itemView.findViewById(R.id.tv_doctor_name);
             tv_content = itemView.findViewById(R.id.tv_content);
-            iv_assess = itemView.findViewById(R.id.iv_assess);
             card_view = itemView.findViewById(R.id.card_view);
-            iv_chuxue = itemView.findViewById(R.id.iv_chuxue);
+            tv_danyuan = itemView.findViewById(R.id.tv_danyuan);
+            rv_icon = itemView.findViewById(R.id.rv_icon);
 
         }
     }
@@ -284,11 +273,13 @@ public class CaseContrilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         private ImageView iv_wu_bed;
         private TextView tv_wu_bed_id;
 
+
         public WuViewHolder(View itemView) {
             super(itemView);
 
             iv_wu_bed = itemView.findViewById(R.id.iv_wu_bed);
             tv_wu_bed_id = itemView.findViewById(R.id.tv_wu_bed_id);
+
         }
     }
 
@@ -331,5 +322,15 @@ public class CaseContrilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     public void setSetOnIntentStartActivity(SetOnIntentStartActivity setOnIntentStartActivity) {
         this.setOnIntentStartActivity = setOnIntentStartActivity;
+    }
+
+    private SetOnTanChuangDiaLog setOnTanChuangDiaLog;
+
+    public interface SetOnTanChuangDiaLog {
+        void OnTanChuangDiaLog(CaseControlBean.ServerParamsBean serverParamsBean, QueryHMBean.ServerParamsBean queryHMBean, int position);
+    }
+
+    public void setSetOnTanChuangDiaLog(SetOnTanChuangDiaLog setOnTanChuangDiaLog) {
+        this.setOnTanChuangDiaLog = setOnTanChuangDiaLog;
     }
 }

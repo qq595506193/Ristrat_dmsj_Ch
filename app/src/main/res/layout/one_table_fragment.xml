@@ -52,100 +52,16 @@
 
     </android.support.constraint.ConstraintLayout>
 
-    <ScrollView
-        android:id="@+id/scroll_01"
-        android:layout_width="match_parent"
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_question_check"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/tv_bottom_bar"
-
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cly_01">
+        app:layout_constraintTop_toBottomOf="@id/cly_01" />
 
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintTop_toBottomOf="@id/cly_01">
-
-            <TextView
-                android:id="@+id/tv_score_01"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/dp_20"
-                android:background="@color/gray_text"
-                android:gravity="center"
-                android:text="以下每项风险因素记 1 分"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_question_check_01"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_50"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_score_01" />
-
-            <TextView
-                android:id="@+id/tv_score_02"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/dp_20"
-                android:background="@color/gray_text"
-                android:gravity="center"
-                android:text="以下每项风险因素记 2 分"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rv_question_check_01" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_question_check_02"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_50"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_score_02" />
-
-            <TextView
-                android:id="@+id/tv_score_03"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/dp_20"
-                android:background="@color/gray_text"
-                android:gravity="center"
-                android:text="以下每项风险因素记 3 分"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rv_question_check_02" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_question_check_03"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_50"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_score_03" />
-
-            <TextView
-                android:id="@+id/tv_score_04"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/dp_20"
-                android:background="@color/gray_text"
-                android:gravity="center"
-                android:text="以下每项风险因素记 5 分"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rv_question_check_03" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_question_check_04"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_50"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_score_04" />
-
-        </android.support.constraint.ConstraintLayout>
-
-    </ScrollView>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/tv_bottom_bar"
@@ -154,7 +70,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/scroll_01">
+        app:layout_constraintTop_toBottomOf="@id/rv_question_check_01">
 
 
         <Button

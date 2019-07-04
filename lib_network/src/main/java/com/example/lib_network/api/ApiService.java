@@ -30,5 +30,11 @@ public class ApiService {
     // 取消评估
     public static final String CANCEL_ASSESS = "XiaoYiRobotSer/RobotBackground.do";
 
+    // 评估中监控
+    public static final String EVALUATING = "XiaoYiRobotSer/RobotBackground.do";
+
+    // 加勾选
+    public static final String CHECK_RISK = "XiaoYiRobotSer/RobotBackground.do";
+
 
 }

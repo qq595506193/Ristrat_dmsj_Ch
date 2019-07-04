@@ -1,7 +1,9 @@
 package com.example.tidus.ristrat.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,12 +42,42 @@ public class RiskTableListAdapter extends RecyclerView.Adapter<RiskTableListAdap
 
     @Override
     public void onBindViewHolder(@NonNull RiskTableListAdapter.ViewHolder holder, final int position) {
-        RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean wenjuannameBean = wenjuannameBeans.get(position);
+
+
+        final RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean wenjuannameBean = wenjuannameBeans.get(position);
+        if (wenjuannameBean.getFORM_ID() == 2) {
+            wenjuannameBean.form_id = 2;
+        } else if (wenjuannameBean.getFORM_ID() == 1) {
+            wenjuannameBean.form_id = 1;
+        }
+
+        if (wenjuannameBean.che_color) {
+            holder.cly.setBackgroundColor(Color.parseColor("#28c48f"));
+        } else {
+            holder.cly.setBackgroundColor(Color.WHITE);
+        }
+        if (wenjuannameBean.che_color) {
+            holder.cly.setBackgroundColor(Color.parseColor("#28c48f"));
+            holder.tv_risk_table.setTextColor(Color.WHITE);
+
+        } else {
+            holder.cly.setBackgroundColor(Color.WHITE);
+            holder.tv_risk_table.setTextColor(Color.parseColor("#d2d0d0"));
+        }
         holder.tv_risk_table.setText(wenjuannameBean.getFORM_NAME());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //setSelectTableListener.onClickSelectTable(position,v);
+                for (int i = 0; i < wenjuannameBeans.size(); i++) {
+                    RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean bean = wenjuannameBeans.get(i);
+                    if (i == position) {
+                        bean.che_color = true;
+                    } else {
+                        bean.che_color = false;
+                    }
+//                    wenjuannameBeans.get(i).che_color = false;
+                }
+                setSelectTableListener.onClickSelectTable(wenjuannameBean, wenjuannameBean.form_id, v);
             }
         });
     }
@@ -58,17 +90,19 @@ public class RiskTableListAdapter extends RecyclerView.Adapter<RiskTableListAdap
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView tv_risk_table;
+        private final ConstraintLayout cly;
 
         public ViewHolder(View itemView) {
             super(itemView);
             tv_risk_table = itemView.findViewById(R.id.tv_risk_table);
+            cly = itemView.findViewById(R.id.cly);
         }
     }
 
     private SetSelectTableListener setSelectTableListener;
 
     public interface SetSelectTableListener {
-        void onClickSelectTable(int position, View v);
+        void onClickSelectTable(RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean wenjuannameBean, int form_id, View v);
     }
 
     public void setSetSelectTableListener(SetSelectTableListener setSelectTableListener) {

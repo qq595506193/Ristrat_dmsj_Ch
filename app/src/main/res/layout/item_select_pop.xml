@@ -40,10 +40,10 @@
 
         <CheckBox
             android:id="@+id/ck_question_01"
-            android:layout_width="@dimen/dp_200"
+            android:layout_width="@dimen/dp_120"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_20"
-            android:background="@color/white"
+            android:background="@drawable/checkbox_select"
             android:buttonTint="@color/black"
             android:gravity="center"
             android:text="Caprinn静脉血栓栓塞症风险评估"
@@ -52,13 +52,24 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_appaly_set" />
 
+        <TextView
+            android:id="@+id/tv_user_id_01"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="正在评估"
+            android:textColor="@color/gray_text"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/ck_question_01"
+            app:layout_constraintLeft_toRightOf="@id/ck_question_01"
+            app:layout_constraintTop_toTopOf="@id/ck_question_01" />
+
 
         <CheckBox
             android:id="@+id/ck_question_02"
-            android:layout_width="@dimen/dp_200"
+            android:layout_width="@dimen/dp_120"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_20"
-            android:background="@color/white"
+            android:background="@drawable/checkbox_select"
             android:buttonTint="@color/black"
             android:gravity="center"
             android:text="大出血并发症危险因素评估"
@@ -67,6 +78,16 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ck_question_01" />
 
+        <TextView
+            android:id="@+id/tv_user_id_02"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="正在评估"
+            android:textColor="@color/gray_text"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/ck_question_02"
+            app:layout_constraintLeft_toRightOf="@id/ck_question_02"
+            app:layout_constraintTop_toTopOf="@id/ck_question_02" />
 
         <Button
             android:id="@+id/btn_sure"

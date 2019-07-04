@@ -1,19 +1,19 @@
 package com.example.tidus.ristrat.mvp.view.fragment;
 
-import android.support.v7.widget.GridLayoutManager;
+import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.lib_core.base.mvp.BaseMvpFragment;
 import com.example.lib_core.base.mvp.BasePresenter;
 import com.example.tidus.ristrat.R;
-import com.example.tidus.ristrat.adapter.QuestionFourAdapter;
 import com.example.tidus.ristrat.adapter.QuestionAdapter;
-import com.example.tidus.ristrat.adapter.QuestionThreeAdapter;
-import com.example.tidus.ristrat.adapter.QuestionTwoAdapter;
 import com.example.tidus.ristrat.application.App;
 import com.example.tidus.ristrat.bean.CaseControlBean;
 import com.example.tidus.ristrat.bean.CommitDataBean;
@@ -41,22 +41,8 @@ public class OneTableFragment extends BaseMvpFragment<IRiskAssessmentContart.IRi
     RadioButton rb_score_02;
     @BindView(R.id.btn_log)
     Button btn_log;
-    @BindView(R.id.tv_score_01)
-    TextView tv_score_01;
-    @BindView(R.id.tv_score_02)
-    TextView tv_score_02;
-    @BindView(R.id.tv_score_03)
-    TextView tv_score_03;
-    @BindView(R.id.tv_score_04)
-    TextView tv_score_04;
-    @BindView(R.id.rv_question_check_01)
-    RecyclerView rv_question_check_01;
-    @BindView(R.id.rv_question_check_02)
-    RecyclerView rv_question_check_02;
-    @BindView(R.id.rv_question_check_03)
-    RecyclerView rv_question_check_03;
-    @BindView(R.id.rv_question_check_04)
-    RecyclerView rv_question_check_04;
+    @BindView(R.id.rv_question_check)
+    RecyclerView rv_question_check;
     @BindView(R.id.btn_sign_list)
     Button btn_sign_list;
     @BindView(R.id.tv_score_sum)
@@ -74,10 +60,6 @@ public class OneTableFragment extends BaseMvpFragment<IRiskAssessmentContart.IRi
     private InfoBean infoBean;
     private List<CommitDataBean.DataBean> dataBeans = new ArrayList<>();
 
-    private QuestionAdapter questionOneAdapter;
-    private QuestionTwoAdapter questionTwoAdapter;
-    private QuestionThreeAdapter questionThreeAdapter;
-    private QuestionFourAdapter questionFourAdapter;
 
     private List<RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean> oneList;
     private List<RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean> twoList;
@@ -86,6 +68,8 @@ public class OneTableFragment extends BaseMvpFragment<IRiskAssessmentContart.IRi
     private ArrayList<String> intentList;
     private SelectQuestionListBean selectQuestionListBean;
     private CaseControlBean.ServerParamsBean serverParamsBean;
+    private BaseQuickAdapter<String, BaseViewHolder> mAdapter;
+    private QuestionAdapter questionAdapter;
 
     @Override
     protected void init() {
@@ -96,31 +80,22 @@ public class OneTableFragment extends BaseMvpFragment<IRiskAssessmentContart.IRi
     public void onStart() {
         super.onStart();
         if (isAdded()) {//判断Fragment已经依附Activity
-            selectQuestionListBean = (SelectQuestionListBean) getArguments().getSerializable("selectQuestionListBean");
-            serverParamsBean = (CaseControlBean.ServerParamsBean) getArguments().getSerializable("serverParamsBean");
+            Bundle arguments = getArguments();
+            assert getArguments() != null;
+            selectQuestionListBean = (SelectQuestionListBean) arguments.getSerializable("selectQuestionListBean");
+            serverParamsBean = (CaseControlBean.ServerParamsBean) arguments.getSerializable("serverParamsBean");
+
         }
     }
 
     @Override
     protected void initView() {
-        // 展示题目适配器1分
-        questionOneAdapter = new QuestionAdapter(App.getContext(), age);
-        rv_question_check_01.setLayoutManager(new GridLayoutManager(App.getContext(), 4));
-        rv_question_check_01.setAdapter(questionOneAdapter);
-        // 展示题目适配器2分
-        questionTwoAdapter = new QuestionTwoAdapter(App.getContext(), age);
-        rv_question_check_02.setLayoutManager(new GridLayoutManager(App.getContext(), 4));
-        rv_question_check_02.setAdapter(questionTwoAdapter);
-        ////////////////
-        // 展示题目适配器3分
-        questionThreeAdapter = new QuestionThreeAdapter(App.getContext(), age);
-        rv_question_check_03.setLayoutManager(new GridLayoutManager(App.getContext(), 4));
-        rv_question_check_03.setAdapter(questionThreeAdapter);
-        ///////////////
-        // 展示题目适配器5分
-        questionFourAdapter = new QuestionFourAdapter(App.getContext(), age);
-        rv_question_check_04.setLayoutManager(new GridLayoutManager(App.getContext(), 4));
-        rv_question_check_04.setAdapter(questionFourAdapter);
+        // 展示题目适配器
+        questionAdapter = new QuestionAdapter(App.getContext());
+        rv_question_check.setLayoutManager(new LinearLayoutManager(App.getContext()));
+        rv_question_check.setAdapter(questionAdapter);
+
+
         //////////////
     }
 
@@ -132,11 +107,11 @@ public class OneTableFragment extends BaseMvpFragment<IRiskAssessmentContart.IRi
     }
 
     private void initPresenterData() {
-        HashMap<String, Object> params = new HashMap<>();
-        params.put("Type", "queryHZfengxianPG");
-        params.put("FORM_ID", selectQuestionListBean.getIndexTable());
-        params.put("PATIENT_ID", serverParamsBean.getPATIENT_ID());
-        presenter.getRiskAssessment(params);
+//        HashMap<String, Object> params = new HashMap<>();
+//        params.put("Type", "queryHZfengxianPG");
+//        params.put("FORM_ID", selectQuestionListBean.getIndexTable());
+//        params.put("PATIENT_ID", serverParamsBean.getPATIENT_ID());
+//        presenter.getRiskAssessment(params);
     }
 
     @Override
@@ -180,6 +155,18 @@ public class OneTableFragment extends BaseMvpFragment<IRiskAssessmentContart.IRi
             if (result instanceof RiskAssessmentBean) {
                 if (((RiskAssessmentBean) result).getCode().equals("0")) {
                     LogUtils.e(((RiskAssessmentBean) result).getMessage());
+                    for (RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean wenjuannameBean : ((RiskAssessmentBean) result).getServer_params().getWENJUANNAME()) {
+                        if (wenjuannameBean.getFORM_ID() == 1) {
+                            for (RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean xuanxiangBean : wenjuannameBean.getXUANXIANG()) {
+                                if (xuanxiangBean.getGROUP_TAB_ID() == 1) {
+                                    questionAdapter.setWenjuanBeans(xuanxiangBean.getWENJUAN());// 按计分
+                                } else {
+                                    questionAdapter.setWenjuanBeans(xuanxiangBean.getWENJUAN());// 按临床
+                                }
+
+                            }
+                        }
+                    }
 
                 } else {
                     LogUtils.e(((RiskAssessmentBean) result).getMessage());

@@ -1,6 +1,5 @@
 package com.example.tidus.ristrat.utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
@@ -82,7 +81,7 @@ public class PopWindowUtil {
             }
         });
 
-        tv_no_assess.setOnClickListener(new View.OnClickListener() {
+        tv_next_assess.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setOnIntentActivityCancelPop.onIntentActivityPop();
@@ -94,6 +93,14 @@ public class PopWindowUtil {
             @Override
             public void onClick(View v) {
                 setOnIntentActivityHistoryPop.onIntentActivityPop();
+                disPopupWindow();
+            }
+        });
+
+        tv_no_assess.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setOnTanChuang.OnTanChuang();
                 disPopupWindow();
             }
         });
@@ -137,5 +144,15 @@ public class PopWindowUtil {
 
     public void setSetOnIntentActivityHistoryPop(SetOnIntentActivityHistoryPop setOnIntentActivityHistoryPop) {
         this.setOnIntentActivityHistoryPop = setOnIntentActivityHistoryPop;
+    }
+
+    private SetOnTanChuang setOnTanChuang;
+
+    public interface SetOnTanChuang {
+        void OnTanChuang();
+    }
+
+    public void setSetOnTanChuang(SetOnTanChuang setOnTanChuang) {
+        this.setOnTanChuang = setOnTanChuang;
     }
 }

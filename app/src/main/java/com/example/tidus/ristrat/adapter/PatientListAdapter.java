@@ -65,36 +65,7 @@ public class PatientListAdapter extends BaseMultiItemQuickAdapter<CaseControlBea
                 helper.setText(R.id.tv_content, item.getJibinlist().get(0).getDIAGNOSIS_DISEASE_NAME());
 
 
-                if (item.getLevlist().size() != 0 && item.getCURRENT_RISK_LEVEL() != null) {
-                    if (item.getLevlist().get(0).getCURRENT_RISK_LEVEL().equals("5")) {
-                        helper.setVisible(R.id.iv_assess, true);
-                        helper.setImageResource(R.id.iv_assess, R.mipmap.vet_green);
-                    } else if (item.getLevlist().get(0).getCURRENT_RISK_LEVEL().equals("6")) {
-                        helper.setVisible(R.id.iv_assess, true);
-                        helper.setImageResource(R.id.iv_assess, R.mipmap.vet_blue);
-                    } else if (item.getLevlist().get(0).getCURRENT_RISK_LEVEL().equals("7")) {
-                        helper.setVisible(R.id.iv_assess, true);
-                        helper.setImageResource(R.id.iv_assess, R.mipmap.vet_yellow);
-                    } else if (item.getLevlist().get(0).getCURRENT_RISK_LEVEL().equals("8")) {
-                        helper.setVisible(R.id.iv_assess, true);
-                        helper.setImageResource(R.id.iv_assess, R.mipmap.vet_orange);
-                    } else if (item.getLevlist().get(0).getCURRENT_RISK_LEVEL().equals("9")) {
-                        helper.setVisible(R.id.iv_assess, true);
-                        helper.setImageResource(R.id.iv_assess, R.mipmap.vet_red);
-                    } else if (item.getLevlist().get(0).getCURRENT_RISK_LEVEL().equals("21")) {
-                        helper.setVisible(R.id.iv_chuxue, true);
-                        helper.setImageResource(R.id.iv_chuxue, R.mipmap.chuxuedi);
-                    } else if (item.getLevlist().get(0).getCURRENT_RISK_LEVEL().equals("22")) {
-                        helper.setVisible(R.id.iv_chuxue, true);
-                        helper.setImageResource(R.id.iv_chuxue, R.mipmap.chuxuegao);
-                    } else {
-                        helper.setVisible(R.id.iv_assess, false);
-                        helper.setVisible(R.id.iv_chuxue, false);
-                    }
-                } else {
-                    helper.setVisible(R.id.iv_assess, true);
-                    helper.setVisible(R.id.iv_chuxue, false);
-                }
+
 
                 initListener(helper, view_pop, item, helper.getAdapterPosition());// 事件监听
 

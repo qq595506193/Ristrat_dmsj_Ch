@@ -74,10 +74,19 @@ public class HistoryAssessBean implements Serializable {
         private String IN_DEPT_NAME;
         private String PATIENT_NAME;
         private String BIRTHDAY;
+        private String VISIT_SQ_NO;
         private String PATIENT_SEX;
         private String MEDICAL_REC_NUMBER;
         private List<JibinlistBean> jibinlist;
         private List<ReportListBean> reportList;
+
+        public String getVISIT_SQ_NO() {
+            return VISIT_SQ_NO;
+        }
+
+        public void setVISIT_SQ_NO(String VISIT_SQ_NO) {
+            this.VISIT_SQ_NO = VISIT_SQ_NO;
+        }
 
         public String getPATIENT_ID() {
             return PATIENT_ID;
@@ -213,6 +222,8 @@ public class HistoryAssessBean implements Serializable {
             private int FORM_SEQ;
             private String BUSINESS_CLASS;
             private List<WENJUANBean> WENJUAN;
+            public boolean che_color = false;
+            public int form_id = 1;
 
             public int getMERCHANT_ID() {
                 return MERCHANT_ID;
@@ -334,8 +345,17 @@ public class HistoryAssessBean implements Serializable {
                 private List<PATIENTADVICEBean> PATIENT_ADVICE;
                 private List<DOCTORADVICEBean> DOCTOR_ADVICE;
                 private List<NURSEADVICEBean> NURSE_ADVICE;
+                private List<ELSE_ADVICEBean> ELSE_ADVICE;
                 private List<SublistBean> sublist;
                 private List<WxysBean> wxys;
+
+                public List<ELSE_ADVICEBean> getELSE_ADVICE() {
+                    return ELSE_ADVICE;
+                }
+
+                public void setELSE_ADVICE(List<ELSE_ADVICEBean> ELSE_ADVICE) {
+                    this.ELSE_ADVICE = ELSE_ADVICE;
+                }
 
                 public int getREPORT_ID() {
                     return REPORT_ID;
@@ -621,6 +641,63 @@ public class HistoryAssessBean implements Serializable {
                     }
 
                     public void setADVICE_CONTENT(String ADVICE_CONTENT) {
+                        this.ADVICE_CONTENT = ADVICE_CONTENT;
+                    }
+
+                    public int getVALID_SEQ() {
+                        return VALID_SEQ;
+                    }
+
+                    public void setVALID_SEQ(int VALID_SEQ) {
+                        this.VALID_SEQ = VALID_SEQ;
+                    }
+                }
+
+                public static class ELSE_ADVICEBean implements Serializable {
+
+                    /**
+                     * REPORT_ID : 361
+                     * ADVICE_TYPE : Else
+                     * ADVICE_CODE : 333
+                     * ADVICE_CONTENT : null
+                     * VALID_SEQ : 0
+                     */
+
+                    private int REPORT_ID;
+                    private String ADVICE_TYPE;
+                    private int ADVICE_CODE;
+                    private Object ADVICE_CONTENT;
+                    private int VALID_SEQ;
+
+                    public int getREPORT_ID() {
+                        return REPORT_ID;
+                    }
+
+                    public void setREPORT_ID(int REPORT_ID) {
+                        this.REPORT_ID = REPORT_ID;
+                    }
+
+                    public String getADVICE_TYPE() {
+                        return ADVICE_TYPE;
+                    }
+
+                    public void setADVICE_TYPE(String ADVICE_TYPE) {
+                        this.ADVICE_TYPE = ADVICE_TYPE;
+                    }
+
+                    public int getADVICE_CODE() {
+                        return ADVICE_CODE;
+                    }
+
+                    public void setADVICE_CODE(int ADVICE_CODE) {
+                        this.ADVICE_CODE = ADVICE_CODE;
+                    }
+
+                    public Object getADVICE_CONTENT() {
+                        return ADVICE_CONTENT;
+                    }
+
+                    public void setADVICE_CONTENT(Object ADVICE_CONTENT) {
                         this.ADVICE_CONTENT = ADVICE_CONTENT;
                     }
 

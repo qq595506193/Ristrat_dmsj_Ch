@@ -50,15 +50,16 @@ public class QueryHMBean implements Serializable {
         this.server_code = server_code;
     }
 
-    public static class ServerParamsBean  implements Serializable{
-        private List<?> tixingLIST;
+    public static class ServerParamsBean implements Serializable {
+        private List<TixingListBean> tixingLIST;
         private List<LISTBean> LIST;
 
-        public List<?> getTixingLIST() {
+
+        public List<TixingListBean> getTixingLIST() {
             return tixingLIST;
         }
 
-        public void setTixingLIST(List<?> tixingLIST) {
+        public void setTixingLIST(List<TixingListBean> tixingLIST) {
             this.tixingLIST = tixingLIST;
         }
 
@@ -70,7 +71,125 @@ public class QueryHMBean implements Serializable {
             this.LIST = LIST;
         }
 
-        public static class LISTBean  implements Serializable{
+        public static class TixingListBean implements Serializable {
+
+            /**
+             * MERCHANT_ID : 1400
+             * SITE_ID : 1400
+             * VISIT_SQ_NO : ZY00001577856
+             * BED_NUMBER : 07
+             * PATIENT_ID : 1616097
+             * FORM_ID : 1
+             * USER_ID : 202
+             * RECORD_TIME : null
+             * PATIENT_NAME : 廖朝枢
+             * USER_NAME : 系统管理员
+             * FORM_NAME : Caprini风险评估量表
+             */
+
+            private int MERCHANT_ID;
+            private int SITE_ID;
+            private String VISIT_SQ_NO;
+            private String BED_NUMBER;
+            private String PATIENT_ID;
+            private int FORM_ID;
+            private int USER_ID;
+            private Object RECORD_TIME;
+            private String PATIENT_NAME;
+            private String USER_NAME;
+            private String FORM_NAME;
+
+
+            public int getMERCHANT_ID() {
+                return MERCHANT_ID;
+            }
+
+            public void setMERCHANT_ID(int MERCHANT_ID) {
+                this.MERCHANT_ID = MERCHANT_ID;
+            }
+
+            public int getSITE_ID() {
+                return SITE_ID;
+            }
+
+            public void setSITE_ID(int SITE_ID) {
+                this.SITE_ID = SITE_ID;
+            }
+
+            public String getVISIT_SQ_NO() {
+                return VISIT_SQ_NO;
+            }
+
+            public void setVISIT_SQ_NO(String VISIT_SQ_NO) {
+                this.VISIT_SQ_NO = VISIT_SQ_NO;
+            }
+
+            public String getBED_NUMBER() {
+                return BED_NUMBER;
+            }
+
+            public void setBED_NUMBER(String BED_NUMBER) {
+                this.BED_NUMBER = BED_NUMBER;
+            }
+
+            public String getPATIENT_ID() {
+                return PATIENT_ID;
+            }
+
+            public void setPATIENT_ID(String PATIENT_ID) {
+                this.PATIENT_ID = PATIENT_ID;
+            }
+
+            public int getFORM_ID() {
+                return FORM_ID;
+            }
+
+            public void setFORM_ID(int FORM_ID) {
+                this.FORM_ID = FORM_ID;
+            }
+
+            public int getUSER_ID() {
+                return USER_ID;
+            }
+
+            public void setUSER_ID(int USER_ID) {
+                this.USER_ID = USER_ID;
+            }
+
+            public Object getRECORD_TIME() {
+                return RECORD_TIME;
+            }
+
+            public void setRECORD_TIME(Object RECORD_TIME) {
+                this.RECORD_TIME = RECORD_TIME;
+            }
+
+            public String getPATIENT_NAME() {
+                return PATIENT_NAME;
+            }
+
+            public void setPATIENT_NAME(String PATIENT_NAME) {
+                this.PATIENT_NAME = PATIENT_NAME;
+            }
+
+            public String getUSER_NAME() {
+                return USER_NAME;
+            }
+
+            public void setUSER_NAME(String USER_NAME) {
+                this.USER_NAME = USER_NAME;
+            }
+
+            public String getFORM_NAME() {
+                return FORM_NAME;
+            }
+
+            public void setFORM_NAME(String FORM_NAME) {
+                this.FORM_NAME = FORM_NAME;
+            }
+        }
+
+        public static class LISTBean implements Serializable {
             /**
              * MERCHANT_ID : 1400
              * SITE_ID : 1400

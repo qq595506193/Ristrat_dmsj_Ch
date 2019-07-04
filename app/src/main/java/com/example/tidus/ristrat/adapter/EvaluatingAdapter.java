@@ -10,15 +10,28 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.tidus.ristrat.R;
+import com.example.tidus.ristrat.bean.QueryHMBean;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class EvaluatingAdapter extends RecyclerView.Adapter<EvaluatingAdapter.ViewHolder> {
     private Context context;
+    private List<QueryHMBean.ServerParamsBean.TixingListBean> tixingListBeans;
 
     public EvaluatingAdapter(Context context) {
+        tixingListBeans = new ArrayList<>();
         this.context = context;
+    }
+
+    public void setTixingListBean(List<QueryHMBean.ServerParamsBean.TixingListBean> tixingListBeans) {
+        if (tixingListBeans != null) {
+            this.tixingListBeans = tixingListBeans;
+        }
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -30,12 +43,28 @@ public class EvaluatingAdapter extends RecyclerView.Adapter<EvaluatingAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull EvaluatingAdapter.ViewHolder holder, int position) {
-        
+        QueryHMBean.ServerParamsBean.TixingListBean tixingListBean = tixingListBeans.get(position);
+        holder.tv_serial.setText(position + "");
+        holder.tv_name.setText(tixingListBean.getPATIENT_NAME());
+        holder.tv_explain.setText("上次评估未完成");
+        holder.btn_anew_assess.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 重新评估
+            }
+        });
+
+        holder.btn_termination_assess.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 终止评估
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return tixingListBeans.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

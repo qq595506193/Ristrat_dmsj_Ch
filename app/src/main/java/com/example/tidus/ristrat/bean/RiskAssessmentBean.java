@@ -188,6 +188,9 @@ public class RiskAssessmentBean implements Serializable {
             private String BUSINESS_CLASS;
             private List<XUANXIANGBean> XUANXIANG;
 
+            public boolean che_color = false;
+            public int form_id = 1;
+
             public int getMERCHANT_ID() {
                 return MERCHANT_ID;
             }
@@ -307,6 +310,15 @@ public class RiskAssessmentBean implements Serializable {
                     private String FACTOR_GROUP_ID;
                     private String FACTOR_GROUP_NAME;
                     private List<SublistBean> sublist;
+                    private boolean isSelect;
+
+                    public boolean isSelect() {
+                        return isSelect;
+                    }
+
+                    public void setSelect(boolean select) {
+                        isSelect = select;
+                    }
 
                     public int getFACTOR_GROUP_SEQ() {
                         return FACTOR_GROUP_SEQ;
@@ -369,7 +381,25 @@ public class RiskAssessmentBean implements Serializable {
                         private int CAN_CHANGE;
                         private int SCORE_SHOW_TYPE;
                         private int MUTEX_GROUP;
+                        private String isslect;
                         private List<OptionListBean> optionList;
+                        private boolean isChildSelect;
+
+                        public boolean isChildSelect() {
+                            return isChildSelect;
+                        }
+
+                        public void setChildSelect(boolean childSelect) {
+                            isChildSelect = childSelect;
+                        }
+
+                        public String getIsslect() {
+                            return isslect;
+                        }
+
+                        public void setIsslect(String isslect) {
+                            this.isslect = isslect;
+                        }
 
                         public int getFACTOR_GROUP_ID() {
                             return FACTOR_GROUP_ID;

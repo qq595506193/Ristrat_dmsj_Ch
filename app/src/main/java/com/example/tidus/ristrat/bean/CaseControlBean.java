@@ -110,6 +110,15 @@ public class CaseControlBean implements Serializable, MultiItemEntity {
         private List<JibinlistBean> jibinlist;
         private int itemType;
         private boolean isType;
+        private String color;
+
+        public String getColor() {
+            return color;
+        }
+
+        public void setColor(String color) {
+            this.color = color;
+        }
 
         public void setItemType(int itemType) {
             this.itemType = itemType;

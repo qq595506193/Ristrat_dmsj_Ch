@@ -2,7 +2,9 @@ package com.example.tidus.ristrat.callback;
 
 import com.example.tidus.ristrat.bean.CancelAssessBean;
 import com.example.tidus.ristrat.bean.CaseControlBean;
+import com.example.tidus.ristrat.bean.CheckRiskBean;
 import com.example.tidus.ristrat.bean.CommitBean;
+import com.example.tidus.ristrat.bean.EvaluatingBean;
 import com.example.tidus.ristrat.bean.HistoryAssessBean;
 import com.example.tidus.ristrat.bean.MessageBean;
 import com.example.tidus.ristrat.bean.QueryHMBean;
@@ -44,4 +46,12 @@ public interface IRetrofitService {
     // 取消评估
     @GET
     Observable<CancelAssessBean> doCancelAssessGet(@Url String apiUrl, @QueryMap HashMap<String, Object> params);
+
+    // 评估中监控
+    @GET
+    Observable<EvaluatingBean> doEvaluatingGet(@Url String apiUrl, @QueryMap HashMap<String, Object> params);
+
+    // 加勾选
+    @GET
+    Observable<CheckRiskBean> doCheckRiskGet(@Url String apiUrl, @QueryMap HashMap<String, Object> params);
 }

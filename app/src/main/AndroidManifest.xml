@@ -32,7 +32,12 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:icon">
-        <activity android:name=".mvp.view.EvaluatingActivity"></activity>
+        <activity android:name=".mvp.view.HistoryAssess_02Activity"></activity>
+        <activity android:name=".mvp.view.RiskAssessment_02Activity"></activity>
+        <activity
+            android:name=".mvp.view.EvaluatingActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/Theme.DialogActivity"></activity>
         <activity android:name=".mvp.view.DetailsActivity"></activity>
         <activity android:name=".mvp.view.RiskAssessActivity"></activity>
         <activity
@@ -72,8 +77,7 @@
         <activity
             android:name=".mvp.view.ForgetPwdActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden">>
-        </activity>
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
 
 
     </application>

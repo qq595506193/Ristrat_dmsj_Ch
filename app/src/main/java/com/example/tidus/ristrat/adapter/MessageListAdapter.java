@@ -17,6 +17,7 @@ import com.example.tidus.ristrat.weight.MyRecyclerViewItem;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MessageListAdapter extends XRecyclerView.Adapter<MessageListAdapter.ViewHolder> {
@@ -46,18 +47,19 @@ public class MessageListAdapter extends XRecyclerView.Adapter<MessageListAdapter
     @Override
     public void onBindViewHolder(@NonNull final MessageListAdapter.ViewHolder holder, final int position) {
         final MessageBean.ServerParamsBean.ListBean listBean = listBeans.get(position);
-        String strTime = TimeChangeUtil.getStrTime(listBean.getSEND_TIME());
+        Date date = TimeChangeUtil.strToDateLong(listBean.getSEND_TIME());
+
         //恢复状态
         holder.recyclerViewItem.apply();
         if (listBean.getMESSAGE_STATUS() == 0) {
             holder.iv_dian.setImageResource(R.mipmap.red_dian);
-            holder.tv_message_time.setText(strTime);
+            holder.tv_message_time.setText(date.toString());
             holder.tv_system_message.setTextColor(Color.BLACK);
             holder.tv_message_content.setText(listBean.getMESSAGE_CONTENT());
         } else {
             holder.tv_system_message.setTextColor(Color.GRAY);
             holder.iv_dian.setImageResource(R.mipmap.gray_dian);
-            holder.tv_message_time.setText(strTime);
+            holder.tv_message_time.setText(date.toString());
             holder.tv_message_content.setText(listBean.getMESSAGE_CONTENT());
         }
         holder.click.setOnClickListener(new View.OnClickListener() {

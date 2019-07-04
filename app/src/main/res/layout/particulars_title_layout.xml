@@ -34,9 +34,9 @@
         android:layout_width="@dimen/dp_10"
         android:layout_height="@dimen/dp_10"
         android:layout_marginRight="@dimen/dp_10"
-        android:layout_marginBottom="@dimen/dp_2"
         android:src="@mipmap/tuichu2"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_text"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_text"
         app:layout_constraintRight_toRightOf="parent" />
 
     <ImageView
@@ -44,9 +44,9 @@
         android:layout_width="@dimen/dp_10"
         android:layout_height="@dimen/dp_10"
         android:layout_marginRight="@dimen/dp_10"
-        android:layout_marginBottom="@dimen/dp_2"
         android:src="@mipmap/xiaoxi2"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_text"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_text"
         app:layout_constraintRight_toLeftOf="@id/iv_close" />
 
     <TextView
@@ -56,7 +56,8 @@
         android:layout_marginRight="@dimen/dp_10"
         android:gravity="center"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="@id/iv_message"
+        app:layout_constraintTop_toTopOf="@+id/tv_text"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_text"
         app:layout_constraintRight_toLeftOf="@id/iv_message" />
 
     <ImageView
@@ -64,18 +65,20 @@
         android:layout_width="@dimen/dp_10"
         android:layout_height="@dimen/dp_10"
         android:layout_marginRight="@dimen/dp_3"
-        android:layout_marginBottom="@dimen/dp_2"
         android:src="@mipmap/yisheng"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_text"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_text"
         app:layout_constraintRight_toLeftOf="@id/tv_login_name" />
 
     <TextView
+        android:id="@+id/tv_text"
         android:layout_width="@dimen/dp_0"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="患者详情"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/sp_15"
+        android:layout_marginTop="@dimen/dp_10"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
