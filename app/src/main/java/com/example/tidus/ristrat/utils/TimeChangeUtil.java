@@ -1,5 +1,6 @@
 package com.example.tidus.ristrat.utils;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
@@ -42,7 +43,7 @@ public class TimeChangeUtil {
         return format.format(date);
     }
 
-    public static String ms2DateOnlyDay(long _ms){
+    public static String ms2DateOnlyDay(long _ms) {
         Date date = new Date(_ms);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         return format.format(date);
@@ -59,5 +60,26 @@ public class TimeChangeUtil {
         ParsePosition pos = new ParsePosition(0);
         Date strtodate = formatter.parse(strDate, pos);
         return strtodate;
+    }
+
+    /**
+     * 日期格式转换yyyy-MM-dd‘T‘HH:mm:ss.SSSXXX  TO  yyyy-MM-dd HH:mm:ss
+     *
+     * @throws ParseException
+     */
+    public static String dealDateFormat(String oldDateStr) throws ParseException {
+        //此格式只有  jdk 1.7才支持  yyyy-MM-dd‘T‘HH:mm:ss.SSSXXX
+        //这个后面的.SSSXXX写了的话这一行就直接抛异常了，所以我去掉了，还有前面的T  一定要用英文的单引号包裹起来
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        Date date = df.parse(oldDateStr);
+        SimpleDateFormat df1 = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", Locale.UK);
+        Date date1 = df1.parse(date.toString());
+        DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return df2.format(date1);
+    }
+
+    public static String dataToString(String dataTime) {
+        SimpleDateFormat myFormatter = new SimpleDateFormat("yyyyMMddHHmmss");
+        return myFormatter.format(new Date(dataTime));
     }
 }

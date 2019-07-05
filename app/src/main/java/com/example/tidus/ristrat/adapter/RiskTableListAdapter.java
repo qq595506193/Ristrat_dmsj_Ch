@@ -45,6 +45,23 @@ public class RiskTableListAdapter extends RecyclerView.Adapter<RiskTableListAdap
 
 
         final RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean wenjuannameBean = wenjuannameBeans.get(position);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (int i = 0; i < wenjuannameBeans.size(); i++) {
+                    RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean bean = wenjuannameBeans.get(i);
+                    if (i == position) {
+                        bean.che_color = true;
+                    } else {
+                        bean.che_color = false;
+                    }
+//                    wenjuannameBeans.get(i).che_color = false;
+                }
+                setSelectTableListener.onClickSelectTable(wenjuannameBean, wenjuannameBean.form_id, v);
+            }
+        });
+
         if (wenjuannameBean.getFORM_ID() == 2) {
             wenjuannameBean.form_id = 2;
         } else if (wenjuannameBean.getFORM_ID() == 1) {
@@ -65,21 +82,7 @@ public class RiskTableListAdapter extends RecyclerView.Adapter<RiskTableListAdap
             holder.tv_risk_table.setTextColor(Color.parseColor("#d2d0d0"));
         }
         holder.tv_risk_table.setText(wenjuannameBean.getFORM_NAME());
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                for (int i = 0; i < wenjuannameBeans.size(); i++) {
-                    RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean bean = wenjuannameBeans.get(i);
-                    if (i == position) {
-                        bean.che_color = true;
-                    } else {
-                        bean.che_color = false;
-                    }
-//                    wenjuannameBeans.get(i).che_color = false;
-                }
-                setSelectTableListener.onClickSelectTable(wenjuannameBean, wenjuannameBean.form_id, v);
-            }
-        });
+
     }
 
     @Override
@@ -87,7 +90,7 @@ public class RiskTableListAdapter extends RecyclerView.Adapter<RiskTableListAdap
         return wenjuannameBeans.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView tv_risk_table;
         private final ConstraintLayout cly;

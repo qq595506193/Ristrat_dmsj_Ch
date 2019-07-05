@@ -6,6 +6,7 @@ import com.example.lib_core.base.mvp.IBaseView;
 import com.example.tidus.ristrat.callback.IRequestCallback;
 import com.example.tidus.ristrat.mvp.model.HistoryAssessModel;
 
+import java.text.ParseException;
 import java.util.HashMap;
 
 public interface IHistoryAssessContract {
@@ -23,7 +24,7 @@ public interface IHistoryAssessContract {
     }
 
     interface IHistoryAssessView extends IBaseView {
-        void onHistoryAssessSuccess(Object result);
+        void onHistoryAssessSuccess(Object result) throws ParseException;
 
         void onFailed(Object error);
     }

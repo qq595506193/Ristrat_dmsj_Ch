@@ -38,7 +38,6 @@
             android:name=".mvp.view.EvaluatingActivity"
             android:launchMode="singleTop"
             android:theme="@style/Theme.DialogActivity"></activity>
-        <activity android:name=".mvp.view.DetailsActivity"></activity>
         <activity android:name=".mvp.view.RiskAssessActivity"></activity>
         <activity
             android:name=".mvp.view.LogActivity"

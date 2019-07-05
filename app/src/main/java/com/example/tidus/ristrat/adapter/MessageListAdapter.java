@@ -53,13 +53,15 @@ public class MessageListAdapter extends XRecyclerView.Adapter<MessageListAdapter
         holder.recyclerViewItem.apply();
         if (listBean.getMESSAGE_STATUS() == 0) {
             holder.iv_dian.setImageResource(R.mipmap.red_dian);
-            holder.tv_message_time.setText(date.toString());
+            String substring = listBean.getSEND_TIME().substring(0,8);
+            holder.tv_message_time.setText(substring);
             holder.tv_system_message.setTextColor(Color.BLACK);
             holder.tv_message_content.setText(listBean.getMESSAGE_CONTENT());
         } else {
             holder.tv_system_message.setTextColor(Color.GRAY);
             holder.iv_dian.setImageResource(R.mipmap.gray_dian);
-            holder.tv_message_time.setText(date.toString());
+            String substring = listBean.getSEND_TIME().substring(0,8);
+            holder.tv_message_time.setText(substring);
             holder.tv_message_content.setText(listBean.getMESSAGE_CONTENT());
         }
         holder.click.setOnClickListener(new View.OnClickListener() {

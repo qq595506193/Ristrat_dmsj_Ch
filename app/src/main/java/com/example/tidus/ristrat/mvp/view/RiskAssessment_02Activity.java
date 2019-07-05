@@ -19,7 +19,6 @@ import com.example.tidus.ristrat.adapter.OtherQuestionOneAdapter;
 import com.example.tidus.ristrat.adapter.OtherQuestionThreeAdapter;
 import com.example.tidus.ristrat.adapter.OtherQuestionTwoAdapter;
 import com.example.tidus.ristrat.adapter.QuestionAdapter;
-import com.example.tidus.ristrat.adapter.QuestionChuxueAdapter;
 import com.example.tidus.ristrat.adapter.QuestionFourAdapter;
 import com.example.tidus.ristrat.adapter.QuestionThreeAdapter;
 import com.example.tidus.ristrat.adapter.QuestionTwoAdapter;
@@ -61,28 +60,16 @@ public class RiskAssessment_02Activity extends BaseMvpActivity<IRiskAssessmentCo
 
     @BindView(R.id.cly_table_01)
     ConstraintLayout cly_table_01;
-    @BindView(R.id.cly_table_02)
-    ConstraintLayout cly_table_02;
-
-
-    @BindView(R.id.rv_question_check_01_02)
-    RecyclerView rv_question_check_01_02;
 
 
     @BindView(R.id.tv_level)
     TextView tv_level;
-    @BindView(R.id.tv_level_02)
-    TextView tv_level_02;
 
     @BindView(R.id.tv_score_sum)
     TextView tv_score_sum;
-    @BindView(R.id.tv_score_sum_02)
-    TextView tv_score_sum_02;
 
     @BindView(R.id.btn_sign_list)
     Button btn_sign_list;
-    @BindView(R.id.btn_sign_list_02)
-    Button btn_sign_list_02;
 
     @BindView(R.id.tv_name)
     TextView tv_name;
@@ -99,6 +86,10 @@ public class RiskAssessment_02Activity extends BaseMvpActivity<IRiskAssessmentCo
     RadioButton rb_score_jifen;
     @BindView(R.id.rb_score_linchuang)
     RadioButton rb_score_linchuang;
+    @BindView(R.id.cly_01)
+    ConstraintLayout cly_01;
+    @BindView(R.id.cly_01_02)
+    ConstraintLayout cly_01_02;
 
 
     private CaseControlBean.ServerParamsBean serverParamsBean;
@@ -116,9 +107,7 @@ public class RiskAssessment_02Activity extends BaseMvpActivity<IRiskAssessmentCo
     private ArrayList<String> intentList;
     private int index = 1;//01分数
     private int allNum = 0; //01总和
-    private int allNum_02 = 0; //01总和
     private int FORM_ID = 1;// 01问卷Id
-    private int FORM_ID_02 = 2;// 01问卷Id
     private ArrayList<String> logList = new ArrayList<>();
     private LoginBean loginBean;
     private ImageView iv_close;
@@ -136,7 +125,6 @@ public class RiskAssessment_02Activity extends BaseMvpActivity<IRiskAssessmentCo
     private LogMessageBean logMessageBean;
     private int form_id;
     private RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean wenjuannameBean;
-    private QuestionChuxueAdapter questionChuxueAdapter;
 
 
     @Override
@@ -170,12 +158,14 @@ public class RiskAssessment_02Activity extends BaseMvpActivity<IRiskAssessmentCo
 
         // 判断选择了几个表
         for (String s : selectQuestionListBean.getIndexTable()) {
-            if (s.equals("1")) {
-                cly_table_01.setVisibility(View.GONE);
-                cly_table_02.setVisibility(View.VISIBLE);
+            if (s.equals("2")) {
+                form_id = 2;
+                cly_01.setVisibility(View.GONE);
+                cly_01_02.setVisibility(View.VISIBLE);
             } else {
-                cly_table_01.setVisibility(View.VISIBLE);
-                cly_table_02.setVisibility(View.GONE);
+                form_id = 1;
+                cly_01.setVisibility(View.VISIBLE);
+                cly_01_02.setVisibility(View.GONE);
             }
         }
 
@@ -214,16 +204,6 @@ public class RiskAssessment_02Activity extends BaseMvpActivity<IRiskAssessmentCo
         rv_question_check_01.setLayoutManager(new LinearLayoutManager(App.getContext()));
         rv_question_check_01.setAdapter(questionAdapter);
 
-        // 展示题目适配器2表
-
-        rv_question_check_01_02.setLayoutManager(new LinearLayoutManager(App.getContext()));
-
-
-        // 展示合并症或并发症适配器
-        otherQuestionOneAdapter = new OtherQuestionOneAdapter(App.getContext(), age);
-        rv_question_check_01_02.setLayoutManager(new LinearLayoutManager(App.getContext()));
-        rv_question_check_01_02.setAdapter(otherQuestionOneAdapter);
-
 
 //        for (String s : selectQuestionListBean.getIndexTable()) {
 //            if (s.equals("2")) {
@@ -256,46 +236,28 @@ public class RiskAssessment_02Activity extends BaseMvpActivity<IRiskAssessmentCo
             @Override
             public void onClick(View v) {
 
-                initPresenterCommint();
+                initPresenterCommint(form_id);
                 LogUtils.e("FORM_ID=====" + FORM_ID);
                 String s = selectQuestionListBean.getIndexTable().get(0);
-                if (allNum_02 == 0 && s.equals("2")) {
-                    cly_table_02.setVisibility(View.VISIBLE);
-                    cly_table_01.setVisibility(View.GONE);
-                } else {
-                    finish();
-                }
+
 
             }
         });
-        btn_sign_list_02.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                initPresenterCommint_02();
-                LogUtils.e("FORM_ID=====" + FORM_ID_02);
-                String s = selectQuestionListBean.getIndexTable().get(0);
-                if (allNum == 0 && s.equals("1")) {
-                    cly_table_02.setVisibility(View.GONE);
-                    cly_table_01.setVisibility(View.VISIBLE);
-                } else {
-                    finish();
-                }
-
-            }
-        });
 
         riskTableListAdapter.setSetSelectTableListener(new RiskTableListAdapter.SetSelectTableListener() {
             @Override
             public void onClickSelectTable(RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean wenjuannameBean, int form_id, View v) {
                 initPresenterData();
                 RiskAssessment_02Activity.this.form_id = form_id;
-                if (form_id == 1) {
-                    cly_table_01.setVisibility(View.VISIBLE);
-                    cly_table_02.setVisibility(View.GONE);
+                if (form_id == 2) {
+                    cly_01.setVisibility(View.GONE);
+                    cly_01_02.setVisibility(View.VISIBLE);
                 } else {
-                    cly_table_01.setVisibility(View.GONE);
-                    cly_table_02.setVisibility(View.VISIBLE);
+
+                    cly_01.setVisibility(View.VISIBLE);
+                    cly_01_02.setVisibility(View.GONE);
+
                 }
             }
         });
@@ -303,7 +265,7 @@ public class RiskAssessment_02Activity extends BaseMvpActivity<IRiskAssessmentCo
 
     }
 
-    private void initPresenterCommint() {
+    private void initPresenterCommint(int form_id) {
 //        List<String> list = new ArrayList<>();
 //        list.clear();
 //
@@ -330,50 +292,15 @@ public class RiskAssessment_02Activity extends BaseMvpActivity<IRiskAssessmentCo
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            params.put("FORM_ID", FORM_ID);
+
 
         }
-        LogUtils.e("==========json=========" + jsonStringer);
+        params.put("FORM_ID", form_id);
         params.put("OPTIONS", jsonStringer);
-
+        LogUtils.e("==========json=========" + params.toString());
         presenter.getCommit(params);
     }
 
-    private void initPresenterCommint_02() {
-//        List<String> list = new ArrayList<>();
-//        list.clear();
-//
-//        HashMap<String, String> commitFormBeanHashMap = new HashMap<>();
-//        for (String s : intentList) {
-//            list.add("[{\"CURRENT_OPTION_ID\":\"\",\"CURRENT_VALUE\":\"\",\"RISK_FACTOR_ID\":\"" + s + "\"}]");
-//        }
-        CommitDataBean commitDataBean = new CommitDataBean();
-        JSONStringer jsonStringer = new JSONStringer();
-
-
-        HashMap<String, Object> params = new HashMap<>();
-        params.put("Type", "saveReportCommit");
-        params.put("PATIENT_ID", serverParamsBean.getPATIENT_ID());
-        params.put("INTEGRAL", allNum);
-        for (int i = 0; i < intentList.size(); i++) {
-
-            try {
-                jsonStringer.array();
-                for (String s : intentList) {
-                    jsonStringer.object().key("CURRENT_OPTION_ID").value("").key("CURRENT_VALUE").value("").key("RISK_FACTOR_ID").value(s).endObject();
-                }
-                jsonStringer.endArray();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            params.put("FORM_ID", FORM_ID_02);
-
-        }
-        LogUtils.e("==========json=========" + jsonStringer);
-        params.put("OPTIONS", jsonStringer);
-
-        presenter.getCommit(params);
-    }
 
     @Override
     protected void initData() {
@@ -432,6 +359,13 @@ public class RiskAssessment_02Activity extends BaseMvpActivity<IRiskAssessmentCo
             if (result instanceof CommitBean) {
                 if (((CommitBean) result).getCode().equals("0")) {
                     ToastUtils.show("提交成功");
+                    if (form_id == 1) {
+                        allNum = 0;
+                        tv_score_sum.setText(allNum + "分");
+                    } else {
+                        allNum = 0;
+                        tv_score_sum.setText(allNum + "分");
+                    }
 
                 } else {
                     ToastUtils.show("提交失败");
@@ -448,208 +382,131 @@ public class RiskAssessment_02Activity extends BaseMvpActivity<IRiskAssessmentCo
                     riskTableListAdapter.setWenjuannameBeans(((RiskAssessmentBean) result).getServer_params().getWENJUANNAME());
                     for (RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean bean : ((RiskAssessmentBean) result).getServer_params().getWENJUANNAME()) {
                         for (RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean xuanxiangBean : bean.getXUANXIANG()) {
-                            if (bean.getFORM_ID() == form_id && xuanxiangBean.getGROUP_TAB_ID() == 1) {
-                                // 判断哪个表
-                                bean.che_color = true;
-                                for (final RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean wenjuanBean : xuanxiangBean.getWENJUAN()) {
-
-                                    questionAdapter.setWenjuanBeans(xuanxiangBean.getWENJUAN());
-                                    questionAdapter.setSetItemNumber(new QuestionAdapter.SetItemNumber() {
-                                        @Override
-                                        public void onCheckedClick(View view, int position, boolean isChecked, RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean) {
-                                            switch (sublistBean.getFACTOR_GROUP_SEQ()) {
-                                                case 1:
-                                                    index = 1;
-                                                    sum(isChecked, sublistBean);
-                                                    if (isChecked) {
-                                                        intentList.add(sublistBean.getRISK_FACTOR_ID() + "");
-                                                    } else {
-                                                        tv_level.setText("");
-                                                        intentList.remove(sublistBean.getRISK_FACTOR_ID() + "");
-                                                    }
-                                                    if (allNum > 0 && allNum <= 20) {
-                                                        tv_level.setText("低危");
-                                                    } else if (allNum > 20 && allNum <= 40) {
-                                                        tv_level.setText("中危");
-                                                    } else if (allNum > 40 && allNum <= 60) {
-                                                        tv_level.setText("高危");
-                                                    } else if (allNum > 60 && allNum <= 80) {
-                                                        tv_level.setText("极高危");
-                                                    } else if (allNum > 80 && allNum <= 100) {
-                                                        tv_level.setText("确诊");
-                                                    }
-
-                                                    break;
-                                                case 2:
-                                                    index = 2;
-                                                    sum(isChecked, sublistBean);
-                                                    if (isChecked) {
-                                                        intentList.add(sublistBean.getRISK_FACTOR_ID() + "");
-                                                    } else {
-                                                        tv_level.setText("");
-                                                        intentList.remove(sublistBean.getRISK_FACTOR_ID() + "");
-                                                    }
-                                                    if (allNum > 0 && allNum <= 20) {
-                                                        tv_level.setText("低危");
-                                                    } else if (allNum > 20 && allNum <= 40) {
-                                                        tv_level.setText("中危");
-                                                    } else if (allNum > 40 && allNum <= 60) {
-                                                        tv_level.setText("高危");
-                                                    } else if (allNum > 60 && allNum <= 80) {
-                                                        tv_level.setText("极高危");
-                                                    } else if (allNum > 80 && allNum <= 100) {
-                                                        tv_level.setText("确诊");
-                                                    }
-                                                    break;
-                                                case 3:
-                                                    index = 3;
-                                                    sum(isChecked, sublistBean);
-                                                    if (isChecked) {
-                                                        intentList.add(sublistBean.getRISK_FACTOR_ID() + "");
-                                                    } else {
-                                                        tv_level.setText("");
-                                                        intentList.remove(sublistBean.getRISK_FACTOR_ID() + "");
-                                                    }
-                                                    if (allNum > 0 && allNum <= 20) {
-                                                        tv_level.setText("低危");
-                                                    } else if (allNum > 20 && allNum <= 40) {
-                                                        tv_level.setText("中危");
-                                                    } else if (allNum > 40 && allNum <= 60) {
-                                                        tv_level.setText("高危");
-                                                    } else if (allNum > 60 && allNum <= 80) {
-                                                        tv_level.setText("极高危");
-                                                    } else if (allNum > 80 && allNum <= 100) {
-                                                        tv_level.setText("确诊");
-                                                    }
-                                                    break;
-                                                case 4:
-                                                    index = 5;
-                                                    sum(isChecked, sublistBean);
-                                                    if (isChecked) {
-                                                        intentList.add(sublistBean.getRISK_FACTOR_ID() + "");
-                                                    } else {
-                                                        tv_level.setText("");
-                                                        intentList.remove(sublistBean.getRISK_FACTOR_ID() + "");
-                                                    }
-                                                    if (allNum > 0 && allNum <= 20) {
-                                                        tv_level.setText("低危");
-                                                    } else if (allNum > 20 && allNum <= 40) {
-                                                        tv_level.setText("中危");
-                                                    } else if (allNum > 40 && allNum <= 60) {
-                                                        tv_level.setText("高危");
-                                                    } else if (allNum > 60 && allNum <= 80) {
-                                                        tv_level.setText("极高危");
-                                                    } else if (allNum > 80 && allNum <= 100) {
-                                                        tv_level.setText("确诊");
-                                                    }
-                                                    break;
-                                            }
-
-
-                                        }
-
-                                        @Override
-                                        public void onMorenSelect(boolean checked, RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean) {
-                                            index = 1;
-                                            allNum = 0;
-                                            sum(checked, sublistBean);
-                                        }
-                                    });
-
-                                    questionAdapter.notifyDataSetChanged();
-
+                            if (bean.getFORM_ID() == form_id) {
+                                if (form_id == 2) {
+                                    cly_01.setVisibility(View.GONE);
+                                    cly_01_02.setVisibility(View.VISIBLE);
+                                } else {
+                                    cly_01.setVisibility(View.VISIBLE);
+                                    cly_01_02.setVisibility(View.GONE);
 
                                 }
-                            } else if (bean.getFORM_ID() == form_id && xuanxiangBean.getGROUP_TAB_ID() == 3) {
                                 bean.che_color = true;
-                                // 判断哪个表
-                                for (RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean wenjuanBean : xuanxiangBean.getWENJUAN()) {
-                                    if (questionChuxueAdapter == null) {
-                                        questionChuxueAdapter = new QuestionChuxueAdapter(App.getContext(), xuanxiangBean.getWENJUAN());
-                                        rv_question_check_01_02.setAdapter(questionChuxueAdapter);
-                                    }
-                                    questionChuxueAdapter.setSetItemNumber(new QuestionChuxueAdapter.SetItemNumber() {
-                                        @Override
-                                        public void onCheckedClick(View view, int position, String itemText, String initNowTime, boolean isChecked, RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean) {
-                                            switch (sublistBean.getFACTOR_GROUP_SEQ()) {
-                                                case 1:
-                                                    index = 1;
-                                                    sum_02(isChecked);
-                                                    if (isChecked) {
-                                                        intentList.add(sublistBean.getRISK_FACTOR_ID() + "");
-                                                    } else {
-                                                        tv_level_02.setText("");
-                                                        intentList.remove(sublistBean.getRISK_FACTOR_ID() + "");
-                                                    }
-                                                    if (allNum_02 > 0 && allNum_02 <= 20) {
-                                                        tv_level_02.setText("低危");
-                                                    } else if (allNum_02 > 20 && allNum_02 <= 40) {
-                                                        tv_level_02.setText("中危");
-                                                    } else if (allNum_02 > 40 && allNum_02 <= 60) {
-                                                        tv_level_02.setText("高危");
-                                                    } else if (allNum_02 > 60 && allNum_02 <= 80) {
-                                                        tv_level_02.setText("极高危");
-                                                    } else if (allNum_02 > 80 && allNum_02 <= 100) {
-                                                        tv_level_02.setText("确诊");
-                                                    }
+                                if (xuanxiangBean.getGROUP_TAB_ID() == 2) {
+                                    for (final RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean wenjuanBean : xuanxiangBean.getWENJUAN()) {
 
-                                                    break;
-                                                case 2:
-                                                    index = 1;
-                                                    sum_02(isChecked);
-                                                    if (isChecked) {
-                                                        intentList.add(sublistBean.getRISK_FACTOR_ID() + "");
-                                                    } else {
-                                                        tv_level_02.setText("");
-                                                        intentList.remove(sublistBean.getRISK_FACTOR_ID() + "");
-                                                    }
-                                                    if (allNum > 0 && allNum <= 20) {
-                                                        tv_level_02.setText("低危");
-                                                    } else if (allNum_02 > 20 && allNum_02 <= 40) {
-                                                        tv_level_02.setText("中危");
-                                                    } else if (allNum_02 > 40 && allNum_02 <= 60) {
-                                                        tv_level_02.setText("高危");
-                                                    } else if (allNum_02 > 60 && allNum_02 <= 80) {
-                                                        tv_level_02.setText("极高危");
-                                                    } else if (allNum_02 > 80 && allNum_02 <= 100) {
-                                                        tv_level_02.setText("确诊");
-                                                    }
-                                                    break;
-                                                case 3:
-                                                    index = 1;
-                                                    sum_02(isChecked);
-                                                    if (isChecked) {
-                                                        intentList.add(sublistBean.getRISK_FACTOR_ID() + "");
-                                                    } else {
-                                                        tv_level_02.setText("");
-                                                        intentList.remove(sublistBean.getRISK_FACTOR_ID() + "");
-                                                    }
-                                                    if (allNum_02 > 0 && allNum_02 <= 20) {
-                                                        tv_level_02.setText("低危");
-                                                    } else if (allNum_02 > 20 && allNum_02 <= 40) {
-                                                        tv_level_02.setText("中危");
-                                                    } else if (allNum_02 > 40 && allNum_02 <= 60) {
-                                                        tv_level_02.setText("高危");
-                                                    } else if (allNum_02 > 60 && allNum_02 <= 80) {
-                                                        tv_level_02.setText("极高危");
-                                                    } else if (allNum_02 > 80 && allNum_02 <= 100) {
-                                                        tv_level_02.setText("确诊");
-                                                    }
-                                                    break;
+                                        questionAdapter.setWenjuanBeans(xuanxiangBean.getWENJUAN());
+                                        questionAdapter.setSetItemGroupCheckListener(new QuestionAdapter.SetItemGroupCheckListener() {
+                                            @Override
+                                            public void setItemGroupCheck(boolean isChecked, int position, RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean) {
+                                                switch (sublistBean.getFACTOR_GROUP_SEQ()) {
+                                                    case 1:
+                                                        index = 1;
+                                                        sum(isChecked);
+                                                        if (isChecked) {
+                                                            intentList.add(sublistBean.getRISK_FACTOR_ID() + "");
+                                                        } else {
+                                                            tv_level.setText("");
+                                                            intentList.remove(sublistBean.getRISK_FACTOR_ID() + "");
+                                                        }
+                                                        // 危险等级
+
+                                                        break;
+                                                    case 2:
+                                                        index = 2;
+                                                        sum(isChecked);
+                                                        if (isChecked) {
+                                                            intentList.add(sublistBean.getRISK_FACTOR_ID() + "");
+                                                        } else {
+                                                            tv_level.setText("");
+                                                            intentList.remove(sublistBean.getRISK_FACTOR_ID() + "");
+                                                        }
+                                                        // 危险等级
+                                                        break;
+                                                    case 3:
+                                                        index = 3;
+                                                        sum(isChecked);
+                                                        if (isChecked) {
+                                                            intentList.add(sublistBean.getRISK_FACTOR_ID() + "");
+                                                        } else {
+                                                            tv_level.setText("");
+                                                            intentList.remove(sublistBean.getRISK_FACTOR_ID() + "");
+                                                        }
+                                                        // 危险等级
+                                                        break;
+                                                    case 4:
+                                                        index = 5;
+                                                        sum(isChecked);
+                                                        if (isChecked) {
+                                                            intentList.add(sublistBean.getRISK_FACTOR_ID() + "");
+                                                        } else {
+                                                            tv_level.setText("");
+                                                            intentList.remove(sublistBean.getRISK_FACTOR_ID() + "");
+                                                        }
+                                                        // 危险等级
+                                                        break;
+                                                }
                                             }
-                                        }
+                                        });
+                                        questionAdapter.notifyDataSetChanged();
 
-                                        @Override
-                                        public void onMorenSelect(boolean checked, RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean) {
-                                            index = 1;
-                                            allNum_02 = 0;
-                                            sum_02(checked);
-                                        }
-                                    });
-                                    questionChuxueAdapter.notifyDataSetChanged();
+
+                                    }
+
+                                } else {
+                                    for (final RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean wenjuanBean : xuanxiangBean.getWENJUAN()) {
+
+                                        questionAdapter.setWenjuanBeans(xuanxiangBean.getWENJUAN());
+                                        questionAdapter.setSetItemGroupCheckListener(new QuestionAdapter.SetItemGroupCheckListener() {
+                                            @Override
+                                            public void setItemGroupCheck(boolean isChecked, int position, RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean) {
+                                                switch (sublistBean.getFACTOR_GROUP_SEQ()) {
+                                                    case 1:
+                                                        index = 1;
+                                                        sum(isChecked);
+                                                        if (isChecked) {
+                                                            intentList.add(sublistBean.getRISK_FACTOR_ID() + "");
+                                                        } else {
+                                                            tv_level.setText("");
+                                                            intentList.remove(sublistBean.getRISK_FACTOR_ID() + "");
+                                                        }
+                                                        // 危险等级
+
+                                                        break;
+                                                    case 2:
+                                                        index = 1;
+                                                        sum(isChecked);
+                                                        if (isChecked) {
+                                                            intentList.add(sublistBean.getRISK_FACTOR_ID() + "");
+                                                        } else {
+                                                            tv_level.setText("");
+                                                            intentList.remove(sublistBean.getRISK_FACTOR_ID() + "");
+                                                        }
+                                                        // 危险等级
+                                                        break;
+                                                    case 3:
+                                                        index = 1;
+                                                        sum(isChecked);
+                                                        if (isChecked) {
+                                                            intentList.add(sublistBean.getRISK_FACTOR_ID() + "");
+                                                        } else {
+                                                            tv_level.setText("");
+                                                            intentList.remove(sublistBean.getRISK_FACTOR_ID() + "");
+                                                        }
+                                                        // 危险等级
+                                                        break;
+
+                                                }
+                                            }
+                                        });
+                                        questionAdapter.notifyDataSetChanged();
+
+
+                                    }
+
+
                                 }
                             }
-
                         }
                     }
                     rg_select.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -663,107 +520,6 @@ public class RiskAssessment_02Activity extends BaseMvpActivity<IRiskAssessmentCo
                                             if (bean.getFORM_ID() == 1 && xuanxiangBean.getGROUP_TAB_ID() == 1) {// 判断哪个表
                                                 for (RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean wenjuanBean : xuanxiangBean.getWENJUAN()) {
                                                     questionAdapter.setWenjuanBeans(xuanxiangBean.getWENJUAN());
-                                                    questionAdapter.setSetItemNumber(new QuestionAdapter.SetItemNumber() {
-                                                        @Override
-                                                        public void onCheckedClick(View view, int position, boolean isChecked, RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean) {
-                                                            switch (sublistBean.getFACTOR_GROUP_SEQ()) {
-                                                                case 1:
-                                                                    index = 1;
-                                                                    sum(isChecked, sublistBean);
-                                                                    if (isChecked) {
-                                                                        intentList.add(sublistBean.getRISK_FACTOR_ID() + "");
-                                                                    } else {
-                                                                        tv_level.setText("");
-                                                                        intentList.remove(sublistBean.getRISK_FACTOR_ID() + "");
-                                                                    }
-                                                                    if (allNum > 0 && allNum <= 20) {
-                                                                        tv_level.setText("低危");
-                                                                    } else if (allNum > 20 && allNum <= 40) {
-                                                                        tv_level.setText("中危");
-                                                                    } else if (allNum > 40 && allNum <= 60) {
-                                                                        tv_level.setText("高危");
-                                                                    } else if (allNum > 60 && allNum <= 80) {
-                                                                        tv_level.setText("极高危");
-                                                                    } else if (allNum > 80 && allNum <= 100) {
-                                                                        tv_level.setText("确诊");
-                                                                    }
-
-                                                                    break;
-                                                                case 2:
-                                                                    index = 2;
-                                                                    sum(isChecked, sublistBean);
-                                                                    if (isChecked) {
-                                                                        intentList.add(sublistBean.getRISK_FACTOR_ID() + "");
-                                                                    } else {
-                                                                        tv_level.setText("");
-                                                                        intentList.remove(sublistBean.getRISK_FACTOR_ID() + "");
-                                                                    }
-                                                                    if (allNum > 0 && allNum <= 20) {
-                                                                        tv_level.setText("低危");
-                                                                    } else if (allNum > 20 && allNum <= 40) {
-                                                                        tv_level.setText("中危");
-                                                                    } else if (allNum > 40 && allNum <= 60) {
-                                                                        tv_level.setText("高危");
-                                                                    } else if (allNum > 60 && allNum <= 80) {
-                                                                        tv_level.setText("极高危");
-                                                                    } else if (allNum > 80 && allNum <= 100) {
-                                                                        tv_level.setText("确诊");
-                                                                    }
-                                                                    break;
-                                                                case 3:
-                                                                    index = 3;
-                                                                    sum(isChecked, sublistBean);
-                                                                    if (isChecked) {
-                                                                        intentList.add(sublistBean.getRISK_FACTOR_ID() + "");
-                                                                    } else {
-                                                                        tv_level.setText("");
-                                                                        intentList.remove(sublistBean.getRISK_FACTOR_ID() + "");
-                                                                    }
-                                                                    if (allNum > 0 && allNum <= 20) {
-                                                                        tv_level.setText("低危");
-                                                                    } else if (allNum > 20 && allNum <= 40) {
-                                                                        tv_level.setText("中危");
-                                                                    } else if (allNum > 40 && allNum <= 60) {
-                                                                        tv_level.setText("高危");
-                                                                    } else if (allNum > 60 && allNum <= 80) {
-                                                                        tv_level.setText("极高危");
-                                                                    } else if (allNum > 80 && allNum <= 100) {
-                                                                        tv_level.setText("确诊");
-                                                                    }
-                                                                    break;
-                                                                case 4:
-                                                                    index = 5;
-                                                                    sum(isChecked, sublistBean);
-                                                                    if (isChecked) {
-                                                                        intentList.add(sublistBean.getRISK_FACTOR_ID() + "");
-                                                                    } else {
-                                                                        tv_level.setText("");
-                                                                        intentList.remove(sublistBean.getRISK_FACTOR_ID() + "");
-                                                                    }
-                                                                    if (allNum > 0 && allNum <= 20) {
-                                                                        tv_level.setText("低危");
-                                                                    } else if (allNum > 20 && allNum <= 40) {
-                                                                        tv_level.setText("中危");
-                                                                    } else if (allNum > 40 && allNum <= 60) {
-                                                                        tv_level.setText("高危");
-                                                                    } else if (allNum > 60 && allNum <= 80) {
-                                                                        tv_level.setText("极高危");
-                                                                    } else if (allNum > 80 && allNum <= 100) {
-                                                                        tv_level.setText("确诊");
-                                                                    }
-                                                                    break;
-                                                            }
-
-
-                                                        }
-
-                                                        @Override
-                                                        public void onMorenSelect(boolean checked, RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean) {
-                                                            index = 1;
-                                                            allNum = 0;
-                                                            sum(checked, sublistBean);
-                                                        }
-                                                    });
                                                 }
                                             }
 
@@ -777,191 +533,6 @@ public class RiskAssessment_02Activity extends BaseMvpActivity<IRiskAssessmentCo
                                             if (bean.getFORM_ID() == 1 && xuanxiangBean.getGROUP_TAB_ID() == 2) {// 判断哪个表
                                                 for (RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean wenjuanBean : xuanxiangBean.getWENJUAN()) {
                                                     questionAdapter.setWenjuanBeans(xuanxiangBean.getWENJUAN());
-                                                    questionAdapter.setSetItemNumber(new QuestionAdapter.SetItemNumber() {
-                                                        @Override
-                                                        public void onCheckedClick(View view, int position, boolean isChecked, RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean) {
-                                                            switch (sublistBean.getFACTOR_GROUP_SEQ()) {
-                                                                case 1:
-                                                                    index = 1;
-                                                                    sum(isChecked, sublistBean);
-                                                                    if (isChecked) {
-                                                                        intentList.add(sublistBean.getRISK_FACTOR_ID() + "");
-                                                                    } else {
-                                                                        tv_level.setText("");
-                                                                        intentList.remove(sublistBean.getRISK_FACTOR_ID() + "");
-                                                                    }
-                                                                    if (allNum > 0 && allNum <= 20) {
-                                                                        tv_level.setText("低危");
-                                                                    } else if (allNum > 20 && allNum <= 40) {
-                                                                        tv_level.setText("中危");
-                                                                    } else if (allNum > 40 && allNum <= 60) {
-                                                                        tv_level.setText("高危");
-                                                                    } else if (allNum > 60 && allNum <= 80) {
-                                                                        tv_level.setText("极高危");
-                                                                    } else if (allNum > 80 && allNum <= 100) {
-                                                                        tv_level.setText("确诊");
-                                                                    }
-
-                                                                    break;
-                                                                case 2:
-                                                                    index = 1;
-                                                                    sum(isChecked, sublistBean);
-                                                                    if (isChecked) {
-                                                                        intentList.add(sublistBean.getRISK_FACTOR_ID() + "");
-                                                                    } else {
-                                                                        tv_level.setText("");
-                                                                        intentList.remove(sublistBean.getRISK_FACTOR_ID() + "");
-                                                                    }
-                                                                    if (allNum > 0 && allNum <= 20) {
-                                                                        tv_level.setText("低危");
-                                                                    } else if (allNum > 20 && allNum <= 40) {
-                                                                        tv_level.setText("中危");
-                                                                    } else if (allNum > 40 && allNum <= 60) {
-                                                                        tv_level.setText("高危");
-                                                                    } else if (allNum > 60 && allNum <= 80) {
-                                                                        tv_level.setText("极高危");
-                                                                    } else if (allNum > 80 && allNum <= 100) {
-                                                                        tv_level.setText("确诊");
-                                                                    }
-                                                                    break;
-                                                                case 3:
-                                                                    index = 1;
-                                                                    sum(isChecked, sublistBean);
-                                                                    if (isChecked) {
-                                                                        intentList.add(sublistBean.getRISK_FACTOR_ID() + "");
-                                                                    } else {
-                                                                        tv_level.setText("");
-                                                                        intentList.remove(sublistBean.getRISK_FACTOR_ID() + "");
-                                                                    }
-                                                                    if (allNum > 0 && allNum <= 20) {
-                                                                        tv_level.setText("低危");
-                                                                    } else if (allNum > 20 && allNum <= 40) {
-                                                                        tv_level.setText("中危");
-                                                                    } else if (allNum > 40 && allNum <= 60) {
-                                                                        tv_level.setText("高危");
-                                                                    } else if (allNum > 60 && allNum <= 80) {
-                                                                        tv_level.setText("极高危");
-                                                                    } else if (allNum > 80 && allNum <= 100) {
-                                                                        tv_level.setText("确诊");
-                                                                    }
-                                                                    break;
-                                                                case 4:
-                                                                    index = 1;
-                                                                    sum(isChecked, sublistBean);
-                                                                    if (isChecked) {
-                                                                        intentList.add(sublistBean.getRISK_FACTOR_ID() + "");
-                                                                    } else {
-                                                                        tv_level.setText("");
-                                                                        intentList.remove(sublistBean.getRISK_FACTOR_ID() + "");
-                                                                    }
-                                                                    if (allNum > 0 && allNum <= 20) {
-                                                                        tv_level.setText("低危");
-                                                                    } else if (allNum > 20 && allNum <= 40) {
-                                                                        tv_level.setText("中危");
-                                                                    } else if (allNum > 40 && allNum <= 60) {
-                                                                        tv_level.setText("高危");
-                                                                    } else if (allNum > 60 && allNum <= 80) {
-                                                                        tv_level.setText("极高危");
-                                                                    } else if (allNum > 80 && allNum <= 100) {
-                                                                        tv_level.setText("确诊");
-                                                                    }
-                                                                    break;
-                                                                case 5:
-                                                                    index = 1;
-                                                                    sum(isChecked, sublistBean);
-                                                                    if (isChecked) {
-                                                                        intentList.add(sublistBean.getRISK_FACTOR_ID() + "");
-                                                                    } else {
-                                                                        tv_level.setText("");
-                                                                        intentList.remove(sublistBean.getRISK_FACTOR_ID() + "");
-                                                                    }
-                                                                    if (allNum > 0 && allNum <= 20) {
-                                                                        tv_level.setText("低危");
-                                                                    } else if (allNum > 20 && allNum <= 40) {
-                                                                        tv_level.setText("中危");
-                                                                    } else if (allNum > 40 && allNum <= 60) {
-                                                                        tv_level.setText("高危");
-                                                                    } else if (allNum > 60 && allNum <= 80) {
-                                                                        tv_level.setText("极高危");
-                                                                    } else if (allNum > 80 && allNum <= 100) {
-                                                                        tv_level.setText("确诊");
-                                                                    }
-                                                                    break;
-                                                                case 6:
-                                                                    index = 1;
-                                                                    sum(isChecked, sublistBean);
-                                                                    if (isChecked) {
-                                                                        intentList.add(sublistBean.getRISK_FACTOR_ID() + "");
-                                                                    } else {
-                                                                        tv_level.setText("");
-                                                                        intentList.remove(sublistBean.getRISK_FACTOR_ID() + "");
-                                                                    }
-                                                                    if (allNum > 0 && allNum <= 20) {
-                                                                        tv_level.setText("低危");
-                                                                    } else if (allNum > 20 && allNum <= 40) {
-                                                                        tv_level.setText("中危");
-                                                                    } else if (allNum > 40 && allNum <= 60) {
-                                                                        tv_level.setText("高危");
-                                                                    } else if (allNum > 60 && allNum <= 80) {
-                                                                        tv_level.setText("极高危");
-                                                                    } else if (allNum > 80 && allNum <= 100) {
-                                                                        tv_level.setText("确诊");
-                                                                    }
-                                                                    break;
-                                                                case 7:
-                                                                    index = 1;
-                                                                    sum(isChecked, sublistBean);
-                                                                    if (isChecked) {
-                                                                        intentList.add(sublistBean.getRISK_FACTOR_ID() + "");
-                                                                    } else {
-                                                                        tv_level.setText("");
-                                                                        intentList.remove(sublistBean.getRISK_FACTOR_ID() + "");
-                                                                    }
-                                                                    if (allNum > 0 && allNum <= 20) {
-                                                                        tv_level.setText("低危");
-                                                                    } else if (allNum > 20 && allNum <= 40) {
-                                                                        tv_level.setText("中危");
-                                                                    } else if (allNum > 40 && allNum <= 60) {
-                                                                        tv_level.setText("高危");
-                                                                    } else if (allNum > 60 && allNum <= 80) {
-                                                                        tv_level.setText("极高危");
-                                                                    } else if (allNum > 80 && allNum <= 100) {
-                                                                        tv_level.setText("确诊");
-                                                                    }
-                                                                    break;
-                                                                case 8:
-                                                                    index = 1;
-                                                                    sum(isChecked, sublistBean);
-                                                                    if (isChecked) {
-                                                                        intentList.add(sublistBean.getRISK_FACTOR_ID() + "");
-                                                                    } else {
-                                                                        tv_level.setText("");
-                                                                        intentList.remove(sublistBean.getRISK_FACTOR_ID() + "");
-                                                                    }
-                                                                    if (allNum > 0 && allNum <= 20) {
-                                                                        tv_level.setText("低危");
-                                                                    } else if (allNum > 20 && allNum <= 40) {
-                                                                        tv_level.setText("中危");
-                                                                    } else if (allNum > 40 && allNum <= 60) {
-                                                                        tv_level.setText("高危");
-                                                                    } else if (allNum > 60 && allNum <= 80) {
-                                                                        tv_level.setText("极高危");
-                                                                    } else if (allNum > 80 && allNum <= 100) {
-                                                                        tv_level.setText("确诊");
-                                                                    }
-                                                                    break;
-                                                            }
-
-
-                                                        }
-
-                                                        @Override
-                                                        public void onMorenSelect(boolean checked, RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean) {
-                                                            index = 1;
-                                                            allNum = 0;
-                                                            sum(checked, sublistBean);
-                                                        }
-                                                    });
                                                 }
                                             }
 
@@ -983,28 +554,16 @@ public class RiskAssessment_02Activity extends BaseMvpActivity<IRiskAssessmentCo
 
     }
 
-    private void sum(boolean isChecked, RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean) {
+    private void sum(boolean isChecked) {
         if (isChecked) {
             allNum = index + allNum;
         } else {
-            if (allNum > 0) {
-                allNum = allNum - index;
-            } else {
-                allNum = 0;
-            }
+            allNum = allNum - index;
         }
         tv_score_sum.setText(allNum + "分");
 
     }
 
-    private void sum_02(boolean isChecked) {
-        if (isChecked) {
-            allNum_02 = index + allNum_02;
-        } else {
-            allNum_02 = allNum_02 - index;
-        }
-        tv_score_sum_02.setText(allNum_02 + "分");
-    }
 
     @Override
     protected void onDestroy() {

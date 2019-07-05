@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import com.example.tidus.ristrat.R;
 import com.example.tidus.ristrat.bean.CaseControlBean;
 
+import java.util.List;
+
 public class IconAdapter extends RecyclerView.Adapter<IconAdapter.ViewHolder> {
     private Context context;
     private CaseControlBean.ServerParamsBean serverParamsBean;
@@ -29,36 +31,31 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull IconAdapter.ViewHolder holder, int position) {
-        CaseControlBean.ServerParamsBean.LevlistBean levlistBean1 = serverParamsBean.getLevlist().get(position);
-        if (serverParamsBean.getLevlist().size() != 0 && serverParamsBean.getCURRENT_RISK_LEVEL() != null) {
-            if (levlistBean1.getCURRENT_RISK_LEVEL().equals("5")) {
-                holder.iv_icon.setVisibility(View.VISIBLE);
-                holder.iv_icon.setImageResource(R.mipmap.vet_green);
-            } else if (levlistBean1.getCURRENT_RISK_LEVEL().equals("6")) {
-                holder.iv_icon.setVisibility(View.VISIBLE);
-                holder.iv_icon.setImageResource(R.mipmap.vet_blue);
-            } else if (levlistBean1.getCURRENT_RISK_LEVEL().equals("7")) {
-                holder.iv_icon.setVisibility(View.VISIBLE);
-                holder.iv_icon.setImageResource(R.mipmap.vet_yellow);
-            } else if (levlistBean1.getCURRENT_RISK_LEVEL().equals("8")) {
-                holder.iv_icon.setVisibility(View.VISIBLE);
-                holder.iv_icon.setImageResource(R.mipmap.vet_orange);
-            } else if (levlistBean1.getCURRENT_RISK_LEVEL().equals("9")) {
-                holder.iv_icon.setVisibility(View.VISIBLE);
-                holder.iv_icon.setImageResource(R.mipmap.vet_red);
-            } else if (levlistBean1.getCURRENT_RISK_LEVEL().equals("21")) {
-                holder.iv_icon.setVisibility(View.VISIBLE);
-                holder.iv_icon.setImageResource(R.mipmap.chuxuedi);
-            } else if (levlistBean1.getCURRENT_RISK_LEVEL().equals("22")) {
-                holder.iv_icon.setVisibility(View.VISIBLE);
-                holder.iv_icon.setImageResource(R.mipmap.chuxuegao);
+        List<CaseControlBean.ServerParamsBean.LevlistBean> levlist = serverParamsBean.getLevlist();
+        for (int i = 0; i < levlist.size(); i++) {
+            CaseControlBean.ServerParamsBean.LevlistBean levlistBean = levlist.get(i);
+            if (serverParamsBean.getLevlist().size() != 0 && serverParamsBean.getCURRENT_RISK_LEVEL() != null) {
+                if (levlistBean.getCURRENT_RISK_LEVEL().equals("5")) {
+                    holder.iv_icon.setImageResource(R.mipmap.vet_green);
+                } else if (levlistBean.getCURRENT_RISK_LEVEL().equals("6")) {
+                    holder.iv_icon.setImageResource(R.mipmap.vet_blue);
+                } else if (levlistBean.getCURRENT_RISK_LEVEL().equals("7")) {
+                    holder.iv_icon.setImageResource(R.mipmap.vet_yellow);
+                } else if (levlistBean.getCURRENT_RISK_LEVEL().equals("8")) {
+                    holder.iv_icon.setImageResource(R.mipmap.vet_orange);
+                } else if (levlistBean.getCURRENT_RISK_LEVEL().equals("9")) {
+                    holder.iv_icon.setImageResource(R.mipmap.vet_red);
+                } else if (levlistBean.getCURRENT_RISK_LEVEL().equals("21")) {
+                    holder.iv_icon.setImageResource(R.mipmap.chuxuedi);
+                } else if (levlistBean.getCURRENT_RISK_LEVEL().equals("22")) {
+                    holder.iv_icon.setImageResource(R.mipmap.chuxuegao);
+                }
+
             } else {
                 holder.iv_icon.setVisibility(View.GONE);
             }
-
-        } else {
-            holder.iv_icon.setVisibility(View.GONE);
         }
+
     }
 
     @Override

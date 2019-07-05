@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.lib_core.base.mvp.BaseMvpActivity;
@@ -25,7 +24,6 @@ import com.example.tidus.ristrat.contract.IHistoryAssessContract;
 import com.example.tidus.ristrat.mvp.presenter.HistoryAssessPresenter;
 import com.example.tidus.ristrat.utils.LogUtils;
 import com.example.tidus.ristrat.utils.TimeChangeUtil;
-import com.example.tidus.ristrat.weight.LineChartData;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
@@ -38,6 +36,7 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -49,14 +48,9 @@ import static com.example.tidus.ristrat.application.App.getContext;
 public class HistoryAssess_02Activity extends BaseMvpActivity<IHistoryAssessContract.IHistoryAssessModel, IHistoryAssessContract.HistoryAssessPresenter> implements IHistoryAssessContract.IHistoryAssessView {
 
 
-    private List<LineChartData> dataList1 = new ArrayList<>();
-    private List<LineChartData> dataList2 = new ArrayList<>();
-    private List<String> timeList = new ArrayList<>();
-    private List<Integer> pointsList = new ArrayList<>();
     private LoginBean loginBean;
     private CaseControlBean.ServerParamsBean serverParamsBean;
     private ArrayList<Integer> colors = new ArrayList<Integer>();
-    private ArrayList<Integer> colors_2 = new ArrayList<Integer>();
 
     @BindView(R.id.rv_table_list)
     RecyclerView rv_table_list;
@@ -101,6 +95,8 @@ public class HistoryAssess_02Activity extends BaseMvpActivity<IHistoryAssessCont
 
     @BindView(R.id.btn_log)
     Button btn_log;// 评估按钮
+    @BindView(R.id.cly_01)
+    ConstraintLayout cly_01;
 
     @BindView(R.id.tv_zhenduan_content)
     TextView tv_zhenduan_content;
@@ -112,8 +108,6 @@ public class HistoryAssess_02Activity extends BaseMvpActivity<IHistoryAssessCont
     TextView tv_table_name;
     @BindView(R.id.iv_yuan)
     ImageView iv_yuan;
-    @BindView(R.id.btn_log_wu)
-    Button btn_log_wu;
     @BindView(R.id.txt_other)
     TextView txt_other;
     @BindView(R.id.cly_02)
@@ -186,18 +180,6 @@ public class HistoryAssess_02Activity extends BaseMvpActivity<IHistoryAssessCont
             }
         });
 
-        btn_log_wu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(App.getContext(), SelectQuestionActivity.class);
-                intent.putExtra("listBean", listBean);
-                intent.putExtra("loginBean", loginBean);
-                intent.putExtra("serverParamsBean", serverParamsBean);
-
-                startActivity(intent);
-            }
-        });
-
         btn_log.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -221,14 +203,18 @@ public class HistoryAssess_02Activity extends BaseMvpActivity<IHistoryAssessCont
                 initPresenterData(form_id);
                 if (form_id == 1) {
                     entries.clear();
-                    listX.clear();
+                    if (listX != null) {
+                        listX.clear();
+                    }
                     listY.clear();
                     colors.clear();
                     cly_visib.setVisibility(View.VISIBLE);
                     cly_visib_02.setVisibility(View.GONE);
                 } else if (form_id == 2) {
                     entries.clear();
-                    listX.clear();
+                    if (listX != null) {
+                        listX.clear();
+                    }
                     listY.clear();
                     colors.clear();
                     cly_visib.setVisibility(View.VISIBLE);
@@ -271,7 +257,7 @@ public class HistoryAssess_02Activity extends BaseMvpActivity<IHistoryAssessCont
 
     @Override
     protected int bindLayoutId() {
-        return R.layout.activity_history_assess_02;
+        return R.layout.activity_history_assess_03;
     }
 
     @Override
@@ -295,12 +281,21 @@ public class HistoryAssess_02Activity extends BaseMvpActivity<IHistoryAssessCont
     }
 
     @Override
-    public void onHistoryAssessSuccess(Object result) {
+    public void onHistoryAssessSuccess(Object result) throws ParseException {
         if (result != null) {
             if (result instanceof HistoryAssessBean) {
                 if (((HistoryAssessBean) result).getCode().equals("0")) {
                     server_params = ((HistoryAssessBean) result).getServer_params();
-                    tv_zhenduan_content.setText(((HistoryAssessBean) result).getServer_params().getJibinlist().get(0).getDIAGNOSIS_DISEASE_NAME());
+                    String zhenduan = "";
+                    for (HistoryAssessBean.ServerParamsBean.JibinlistBean jibinlistBean : ((HistoryAssessBean) result).getServer_params().getJibinlist()) {
+                        // 诊断说明
+                        String replace = jibinlistBean.getDIAGNOSIS_DISEASE_NAME().replace("\n", "");
+                        zhenduan += "(" + jibinlistBean.getDIAGNOSIS_DATE() + ")" + replace + "\n";
+
+
+                    }
+                    tv_zhenduan_content.setText(zhenduan);
+
 
                     tv_name.setText(((HistoryAssessBean) result).getServer_params().getPATIENT_NAME());
                     if (((HistoryAssessBean) result).getServer_params().getPATIENT_SEX().equals("M")) {
@@ -311,10 +306,13 @@ public class HistoryAssess_02Activity extends BaseMvpActivity<IHistoryAssessCont
                     tv_office.setText(((HistoryAssessBean) result).getServer_params().getIN_DEPT_NAME());
                     tv_mark.setText(((HistoryAssessBean) result).getServer_params().getVISIT_SQ_NO());
                     if (((HistoryAssessBean) result).getServer_params().getReportList().size() != 0) {
+                        cly_02.setVisibility(View.VISIBLE);
                         cly_visib.setVisibility(View.VISIBLE);
                         cly_visib_02.setVisibility(View.GONE);
                         historyTableListAdapter.setWenjuannameBeans(((HistoryAssessBean) result).getServer_params().getReportList());
+                        historyTableListAdapter.notifyDataSetChanged();
                         for (HistoryAssessBean.ServerParamsBean.ReportListBean reportListBean : ((HistoryAssessBean) result).getServer_params().getReportList()) {
+                            // 判断是哪个表
                             if (reportListBean.getFORM_ID() == form_id) {
                                 reportListBean.che_color = true;// 按钮颜色
                                 tv_table_name.setText(reportListBean.getFORM_NAME());
@@ -330,10 +328,13 @@ public class HistoryAssess_02Activity extends BaseMvpActivity<IHistoryAssessCont
                                     cly_visib.setVisibility(View.GONE);
                                     cly_visib_02.setVisibility(View.VISIBLE);
                                 }
+                            } else {
+
                             }
 
                         }
                     } else {
+                        cly_02.setVisibility(View.GONE);
                         cly_visib.setVisibility(View.GONE);
                         cly_visib_02.setVisibility(View.VISIBLE);
                     }
@@ -365,7 +366,7 @@ public class HistoryAssess_02Activity extends BaseMvpActivity<IHistoryAssessCont
         } else if (form_id == 2) {
             listY = new ArrayList<>();
             listY.add("");
-            listY.add("地出血");
+            listY.add("底出血");
             listY.add("");
             listY.add("");
             listY.add("高出血");
@@ -379,7 +380,8 @@ public class HistoryAssess_02Activity extends BaseMvpActivity<IHistoryAssessCont
         LogUtils.e(wenjuan.size() + "问卷长度");
         listX = new ArrayList<>();
         for (HistoryAssessBean.ServerParamsBean.ReportListBean.WENJUANBean wenjuanBean : wenjuan) {
-            listX.add(wenjuanBean.getREPORT_TIME());
+            String substring = wenjuanBean.getREPORT_TIME().substring(0, 8);
+            listX.add(substring);
         }
 
         //设置样式
@@ -581,19 +583,19 @@ public class HistoryAssess_02Activity extends BaseMvpActivity<IHistoryAssessCont
 
         // 其他
         if (wenjuanBean.getELSE_ADVICE().size() != 0) {
-            List<HistoryAssessBean.ServerParamsBean.ReportListBean.WENJUANBean.ELSE_ADVICEBean> else_advice = wenjuanBean.getELSE_ADVICE();
+            List<HistoryAssessBean.ServerParamsBean.ReportListBean.WENJUANBean.ELSEADVICEBean> else_advice = wenjuanBean.getELSE_ADVICE();
             String s = "";
             for (int i = 0; i < else_advice.size(); i++) {
-                HistoryAssessBean.ServerParamsBean.ReportListBean.WENJUANBean.ELSE_ADVICEBean else_adviceBean = else_advice.get(i);
+                HistoryAssessBean.ServerParamsBean.ReportListBean.WENJUANBean.ELSEADVICEBean else_adviceBean = else_advice.get(i);
                 if (else_adviceBean.getADVICE_CONTENT() != null) {
                     s += else_adviceBean.getADVICE_CONTENT() + "\n";
                 } else {
                     s = "暂无建议";
                 }
             }
-            txt_note.setText(s);
+            txt_other.setText(s);
         } else {
-            txt_note.setText("暂无建议");
+            txt_other.setText("暂无建议");
         }
     }
 
@@ -652,7 +654,11 @@ public class HistoryAssess_02Activity extends BaseMvpActivity<IHistoryAssessCont
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        entries.clear();
-        listY.clear();
+        if (entries != null) {
+            entries.clear();
+        }
+        if (listY != null) {
+            listY.clear();
+        }
     }
 }

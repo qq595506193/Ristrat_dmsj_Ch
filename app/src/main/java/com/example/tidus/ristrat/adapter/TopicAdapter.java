@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.example.tidus.ristrat.R;
 import com.example.tidus.ristrat.bean.RiskAssessmentBean;
@@ -24,6 +25,9 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder> 
     private static int temp = -1;
     private int factor_group_seq;
     private boolean childItem;
+    private final int CHECK_BOX = 0;
+    private final int WENHAO = 1;
+    private final int SHURU = 2;
 
     public TopicAdapter(Context context) {
         wenjuanBeans = new ArrayList<>();
@@ -51,6 +55,7 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder> 
     @Override
 
     public TopicAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         View view = LayoutInflater.from(context).inflate(R.layout.risk_item, parent, false);
         return new ViewHolder(view);
     }
@@ -60,64 +65,68 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder> 
         final RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean = sublistBeans.get(position);
         if (sublistBean.getIsslect().equals("1")) {
             holder.cb_checked.setChecked(true);
-            onCheckedClickListener.onMorenSelect(holder.cb_checked.isChecked(), sublistBean);
+            holder.iv_wenhao.setVisibility(View.VISIBLE);
+        } else {
+            holder.cb_checked.setChecked(false);
+            holder.iv_wenhao.setVisibility(View.GONE);
         }
+        holder.cb_checked.setText(sublistBean.getRISK_FACTOR_NAME());
+        holder.cb_checked.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (setItemCheckListener != null) {
+                    setItemCheckListener.onItemCheck(holder.itemView, holder.cb_checked.isChecked(), position, sublistBean);
+                }
+
+            }
+        });
+        // 输入框
         holder.cb_checked.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    holder.cb_checked.setChecked(true);
-                    for (RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean bean : sublistBeans) {
-                        if (bean.getMUTEX_GROUP() == 1) {
-                            bean.setChildSelect(false);
-                        }
+                    if (sublistBean.getSCORE_SHOW_TYPE() == 30) {
+                        holder.et_shuru.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    if (sublistBean.getSCORE_SHOW_TYPE() == 30) {
+                        holder.et_shuru.setVisibility(View.GONE);
                     }
                 }
             }
         });
 
 
-        holder.cb_checked.setText(sublistBean.getRISK_FACTOR_NAME());
-        holder.cb_checked.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (onCheckedClickListener != null) {
-
-                    onCheckedClickListener.onCheckedClick(holder.itemView, position, holder.cb_checked.isChecked(), sublistBean);
-
-                }
-            }
-        });
     }
+
 
     @Override
     public int getItemCount() {
         return sublistBeans.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         private final CheckBox cb_checked;
+        private final ImageView iv_wenhao;
         private final EditText et_shuru;
 
         public ViewHolder(View itemView) {
             super(itemView);
             cb_checked = itemView.findViewById(R.id.cb_checked);
+            iv_wenhao = itemView.findViewById(R.id.iv_wenhao);
             et_shuru = itemView.findViewById(R.id.et_shuru);
         }
     }
 
-    public interface onCheckedClickListener {
-        void onCheckedClick(View view, int position, boolean isChecked, RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean);
+    private SetItemCheckListener setItemCheckListener;
 
-        void onMorenSelect(boolean checked, RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean);
+    public interface SetItemCheckListener {
+        void onItemCheck(View itemView, boolean isChecked, int position, RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean);
     }
 
-    private onCheckedClickListener onCheckedClickListener;
-
-    public void setOnCheckedClickListener(TopicAdapter.onCheckedClickListener onCheckedClickListener) {
-        this.onCheckedClickListener = onCheckedClickListener;
+    public void setSetItemCheckListener(SetItemCheckListener setItemCheckListener) {
+        this.setItemCheckListener = setItemCheckListener;
     }
-
-
 }

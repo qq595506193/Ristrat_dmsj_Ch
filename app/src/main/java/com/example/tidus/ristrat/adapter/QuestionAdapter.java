@@ -51,18 +51,20 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
             holder.rv_question_check.setLayoutManager(new GridLayoutManager(context, 4));
             holder.rv_question_check.setAdapter(topicAdapter);
             topicAdapter.setSublistBeans(wenjuanBean.getSublist(), wenjuanBean.getFACTOR_GROUP_SEQ());
-            topicAdapter.setOnCheckedClickListener(new TopicAdapter.onCheckedClickListener() {
+            topicAdapter.setWenjuanBeans(wenjuanBeans);
+            topicAdapter.setSetItemCheckListener(new TopicAdapter.SetItemCheckListener() {
                 @Override
-                public void onCheckedClick(View view, int position, boolean isChecked, RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean) {
-                    setItemNumber.onCheckedClick(view, position, isChecked, sublistBean);
-                }
+                public void onItemCheck(View itemView, boolean isChecked, int position, RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean) {
+                    if (isChecked) {
+                        if (setItemGroupCheckListener != null) {
 
-                @Override
-                public void onMorenSelect(boolean checked, RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean) {
-                    setItemNumber.onMorenSelect(checked, sublistBean);
+                            setItemGroupCheckListener.setItemGroupCheck(isChecked, position, sublistBean);
+
+                        }
+                    }
                 }
             });
-            topicAdapter.setWenjuanBeans(wenjuanBeans);
+            topicAdapter.notifyDataSetChanged();
 
         }
 
@@ -74,7 +76,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
         return wenjuanBeans.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView tv_xiaobiao_name;
         private final RecyclerView rv_question_check;
@@ -86,16 +88,13 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
         }
     }
 
-    private SetItemNumber setItemNumber;
+    private SetItemGroupCheckListener setItemGroupCheckListener;
 
-    public interface SetItemNumber {
-        void onCheckedClick(View view, int position, boolean isChecked, RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean);
-
-        void onMorenSelect(boolean checked, RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean);
-
+    public interface SetItemGroupCheckListener {
+        void setItemGroupCheck(boolean isChecked, int position, RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean);
     }
 
-    public void setSetItemNumber(SetItemNumber setItemNumber) {
-        this.setItemNumber = setItemNumber;
+    public void setSetItemGroupCheckListener(SetItemGroupCheckListener setItemGroupCheckListener) {
+        this.setItemGroupCheckListener = setItemGroupCheckListener;
     }
 }

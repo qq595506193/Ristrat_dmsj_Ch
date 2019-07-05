@@ -128,46 +128,49 @@
 
             </LinearLayout>
 
-            <ScrollView
-                android:id="@+id/scll_00"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/dp_30"
-                app:layout_constraintBottom_toTopOf="@id/view_02"
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/lly_01_02"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lly_01">
 
-                <android.support.constraint.ConstraintLayout
-                    android:id="@+id/lly_01_02"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/white">
+                <TextView
+                    android:id="@+id/tv_zhenduan"
+                    android:layout_width="@dimen/dp_45"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_40"
+                    android:gravity="center"
+                    android:text="诊断情况："
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:id="@+id/tv_zhenduan"
-                        android:layout_width="@dimen/dp_45"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/dp_40"
-                        android:layout_marginBottom="8dp"
-                        android:gravity="center"
-                        android:text="诊断情况："
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                <jaydenxiao.com.expandabletextview.ExpandableTextView
+                    android:id="@+id/tv_zhenduan_content"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:layout_marginRight="@dimen/dp_50"
+                    android:padding="8dp"
+                    app:animDuration="200"
+                    app:collapseDrawable="@drawable/icon_green_arrow_up"
+                    app:collapseExpandGrarity="right"
+                    app:collapseExpandTextColor="@color/main_color"
+                    app:contentTextColor="@color/gray"
+                    app:contentTextSize="14sp"
+                    app:expandDrawable="@drawable/icon_green_arrow_down"
+                    app:layout_constraintLeft_toRightOf="@id/tv_zhenduan"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_zhenduan"
+                    app:maxCollapsedLines="2"
+                    app:textCollapse="@string/collapse"
+                    app:textExpand="@string/expand" />
 
-                    <TextView
-                        android:id="@+id/tv_zhenduan_content"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/dp_5"
-                        android:layout_marginRight="@dimen/dp_50"
-                        app:layout_constraintLeft_toRightOf="@id/tv_zhenduan"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/tv_zhenduan" />
-
-                </android.support.constraint.ConstraintLayout>
-
-            </ScrollView>
+            </android.support.constraint.ConstraintLayout>
 
 
             <View
@@ -178,7 +181,7 @@
                 app:layout_constraintBottom_toTopOf="@id/cly_02"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/scll_00" />
+                app:layout_constraintTop_toBottomOf="@id/lly_01_02" />
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/cly_02"

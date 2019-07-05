@@ -110,7 +110,6 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
     @Override
     protected void onResume() {
         super.onResume();
-        initPresenterData();
     }
 
     @Override
@@ -174,6 +173,7 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
                 startActivity(intent);
             }
         });
+
 
         caseContrilAdapter.setSetOnIntentActivityHistory(new CaseContrilAdapter.SetOnIntentActivityHistory() {
             @Override
@@ -254,7 +254,7 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
                 message.what = 10000;
                 mHandlerQueryHM.sendMessage(message);
             }
-        }, 0, 15000);//每隔一秒使用handler发送一下消息,也就是每隔一秒执行一次,一直重复执行
+        }, 0, 3000);//每隔一秒使用handler发送一下消息,也就是每隔一秒执行一次,一直重复执行
 
 
     }

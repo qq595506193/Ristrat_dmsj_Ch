@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/t_coding"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_25"
+        android:text="报告编码："
+        android:textSize="@dimen/sp_8"
+        app:layout_constraintBottom_toTopOf="@id/t_time"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txt_coding"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp_6"
+        app:layout_constraintBottom_toBottomOf="@id/t_coding"
+        app:layout_constraintLeft_toRightOf="@id/t_coding"
+        app:layout_constraintRight_toLeftOf="@id/iv_yuan"
+        app:layout_constraintTop_toTopOf="@id/t_coding" />
+
+    <TextView
+        android:id="@+id/t_time"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/t_coding"
+        android:text="评估时间："
+        android:textSize="@dimen/sp_8"
+        app:layout_constraintBottom_toTopOf="@id/t_total"
+        app:layout_constraintLeft_toLeftOf="@id/t_coding"
+        app:layout_constraintTop_toBottomOf="@id/t_coding" />
+
+    <TextView
+        android:id="@+id/txt_time"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp_6"
+        app:layout_constraintBottom_toBottomOf="@id/t_time"
+        app:layout_constraintLeft_toRightOf="@id/t_time"
+        app:layout_constraintRight_toLeftOf="@id/iv_yuan"
+        app:layout_constraintTop_toTopOf="@id/t_time" />
+
+    <TextView
+        android:id="@+id/t_total"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="评估总分："
+        android:textSize="@dimen/sp_8"
+        app:layout_constraintBottom_toTopOf="@id/t_grade"
+        app:layout_constraintLeft_toLeftOf="@id/t_coding"
+        app:layout_constraintTop_toBottomOf="@id/t_time" />
+
+    <TextView
+        android:id="@+id/txt_total"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp_6"
+        app:layout_constraintBottom_toBottomOf="@id/t_total"
+        app:layout_constraintLeft_toRightOf="@id/t_total"
+        app:layout_constraintRight_toLeftOf="@id/iv_yuan"
+        app:layout_constraintTop_toTopOf="@id/t_total" />
+
+    <TextView
+        android:id="@+id/t_grade"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="风险等级："
+        android:textSize="@dimen/sp_8"
+        app:layout_constraintBottom_toTopOf="@id/t_show"
+        app:layout_constraintLeft_toLeftOf="@id/t_coding"
+        app:layout_constraintTop_toBottomOf="@id/t_total" />
+
+    <TextView
+        android:id="@+id/txt_grade"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp_15"
+        app:layout_constraintBottom_toBottomOf="@id/t_grade"
+        app:layout_constraintLeft_toRightOf="@id/t_grade"
+        app:layout_constraintRight_toLeftOf="@id/iv_yuan"
+        app:layout_constraintTop_toTopOf="@id/t_grade" />
+
+    <TextView
+        android:id="@+id/t_show"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="评估说明："
+        android:textSize="@dimen/sp_8"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/t_coding"
+        app:layout_constraintTop_toBottomOf="@id/t_grade" />
+
+    <TextView
+        android:id="@+id/txt_show"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp_6"
+        app:layout_constraintBottom_toBottomOf="@id/t_show"
+        app:layout_constraintLeft_toRightOf="@id/t_show"
+        app:layout_constraintRight_toLeftOf="@id/iv_yuan"
+        app:layout_constraintTop_toTopOf="@id/t_show" />
+
+    <ImageView
+        android:id="@+id/iv_yuan"
+        android:layout_width="@dimen/dp_130"
+        android:layout_height="@dimen/dp_130"
+        android:layout_marginRight="@dimen/dp_25"
+        android:src="@mipmap/diwei_yuan"
+        app:layout_constraintLeft_toRightOf="@id/txt_coding"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

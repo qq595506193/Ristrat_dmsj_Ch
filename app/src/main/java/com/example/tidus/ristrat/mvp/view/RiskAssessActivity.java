@@ -228,7 +228,7 @@ public class RiskAssessActivity extends BaseMvpActivity<IRiskAssessmentContart.I
                         tv_sex.setText("女");
                     }
                     tv_office.setText(((RiskAssessmentBean) result).getServer_params().getIN_DEPT_NAME());
-                    tv_mark.setText(((RiskAssessmentBean) result).getServer_params().getMEDICAL_REC_NUMBER());
+                    tv_mark.setText(((RiskAssessmentBean) result).getServer_params().getVISIT_SQ_NO());
                 } else {
                     LogUtils.e(((RiskAssessmentBean) result).getMessage());
                 }
