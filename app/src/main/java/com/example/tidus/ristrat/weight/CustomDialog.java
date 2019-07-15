@@ -64,10 +64,12 @@ public class CustomDialog extends Dialog {
      * 初始化界面控件的显示数据
      */
     private void initData() {
-        title.setText(titleStr);
-
-        tv_name.setText(nameStr);
-
+        if (titleStr != null) {
+            title.setText(titleStr);
+        }
+        if (nameStr != null) {
+            tv_name.setText(nameStr);
+        }
         if (messageStr != null) {
             message.setText(messageStr);
         }

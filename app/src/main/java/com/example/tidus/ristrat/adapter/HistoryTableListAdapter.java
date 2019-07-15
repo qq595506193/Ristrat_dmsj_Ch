@@ -28,6 +28,9 @@ public class HistoryTableListAdapter extends RecyclerView.Adapter<HistoryTableLi
     public void setWenjuannameBeans(List<HistoryAssessBean.ServerParamsBean.ReportListBean> wenjuannameBeans) {
         if (wenjuannameBeans != null) {
             this.wenjuannameBeans = wenjuannameBeans;
+            if (wenjuannameBeans.size() == 1) {
+                setTableItem.setOnClickTableItem(wenjuannameBeans.get(0).getFORM_ID(), wenjuannameBeans.get(0));
+            }
         }
 //        notifyDataSetChanged();
     }

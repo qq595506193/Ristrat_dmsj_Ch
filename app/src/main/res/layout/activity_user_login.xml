@@ -51,7 +51,8 @@
                 android:layout_gravity="center"
                 android:hint="请输入您的账号"
                 android:maxLines="1"
-                android:text="admin" />
+                android:singleLine="true"
+                android:text="xgwkhs" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -71,6 +72,7 @@
                 android:layout_gravity="center"
                 android:hint="请输入您的密码"
                 android:inputType="numberPassword"
+                android:singleLine="true"
                 android:text="123123" />
 
             <TextView

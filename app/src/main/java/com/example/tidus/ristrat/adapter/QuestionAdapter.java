@@ -22,9 +22,17 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
     private List<RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean> wenjuanBeans;
 
 
+    private boolean isCommit = false;
+
+
     public QuestionAdapter(Context context) {
         wenjuanBeans = new ArrayList<>();
         this.context = context;
+    }
+
+    public void setCommit(boolean commit) {
+        isCommit = commit;
+        notifyDataSetChanged();
     }
 
     public void setWenjuanBeans(List<RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean> wenjuanBeans) {
@@ -43,28 +51,29 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull QuestionAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull QuestionAdapter.ViewHolder holder, final int position) {
         final RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean wenjuanBean = wenjuanBeans.get(position);
         for (RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean : wenjuanBean.getSublist()) {
             holder.tv_xiaobiao_name.setText(sublistBean.getFACTOR_GROUP_NAME());
-            final TopicAdapter topicAdapter = new TopicAdapter(context);
+            final TopicAdapter topicAdapter = new TopicAdapter(context, wenjuanBeans.get(position).getSublist(), wenjuanBeans, this, wenjuanBeans.get(position));
             holder.rv_question_check.setLayoutManager(new GridLayoutManager(context, 4));
             holder.rv_question_check.setAdapter(topicAdapter);
-            topicAdapter.setSublistBeans(wenjuanBean.getSublist(), wenjuanBean.getFACTOR_GROUP_SEQ());
-            topicAdapter.setWenjuanBeans(wenjuanBeans);
-            topicAdapter.setSetItemCheckListener(new TopicAdapter.SetItemCheckListener() {
+            /*// 算分回调
+            topicAdapter.setSetCheckItem(new TopicAdapter.SetCheckItem() {
                 @Override
-                public void onItemCheck(View itemView, boolean isChecked, int position, RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean) {
-                    if (isChecked) {
-                        if (setItemGroupCheckListener != null) {
-
-                            setItemGroupCheckListener.setItemGroupCheck(isChecked, position, sublistBean);
-
-                        }
-                    }
+                public void onSetCheckItem(boolean checked, int position, RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean) {
+                    setItemGroupCheckListener.setItemGroupCheck(checked, position, sublistBean);
                 }
             });
-            topicAdapter.notifyDataSetChanged();
+            // 提交后置为不可选
+            topicAdapter.setCommit(isCommit);
+            // 互斥回调
+            topicAdapter.setSetCheckedItem(new TopicAdapter.SetCheckedItem() {
+                @Override
+                public void onSetCheckedItem(int itemPosition) {
+                    setItemChecked.onSetItemChecked(itemPosition, position);
+                }
+            });*/
 
         }
 
@@ -88,7 +97,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
         }
     }
 
-    private SetItemGroupCheckListener setItemGroupCheckListener;
+    /*private SetItemGroupCheckListener setItemGroupCheckListener;
 
     public interface SetItemGroupCheckListener {
         void setItemGroupCheck(boolean isChecked, int position, RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean);
@@ -97,4 +106,14 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
     public void setSetItemGroupCheckListener(SetItemGroupCheckListener setItemGroupCheckListener) {
         this.setItemGroupCheckListener = setItemGroupCheckListener;
     }
+
+    private SetItemChecked setItemChecked;
+
+    public interface SetItemChecked {
+        void onSetItemChecked(int i, int position);
+    }
+
+    public void setSetItemChecked(SetItemChecked setItemChecked) {
+        this.setItemChecked = setItemChecked;
+    }*/
 }

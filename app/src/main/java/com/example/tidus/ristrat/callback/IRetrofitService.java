@@ -1,5 +1,6 @@
 package com.example.tidus.ristrat.callback;
 
+import com.example.tidus.ristrat.bean.AssessCancelBean;
 import com.example.tidus.ristrat.bean.CancelAssessBean;
 import com.example.tidus.ristrat.bean.CaseControlBean;
 import com.example.tidus.ristrat.bean.CheckRiskBean;
@@ -7,8 +8,12 @@ import com.example.tidus.ristrat.bean.CommitBean;
 import com.example.tidus.ristrat.bean.EvaluatingBean;
 import com.example.tidus.ristrat.bean.HistoryAssessBean;
 import com.example.tidus.ristrat.bean.MessageBean;
+import com.example.tidus.ristrat.bean.MessageNumBean;
+import com.example.tidus.ristrat.bean.MessageUpdateBean;
+import com.example.tidus.ristrat.bean.NowSelectTablesBean;
 import com.example.tidus.ristrat.bean.QueryHMBean;
 import com.example.tidus.ristrat.bean.RiskAssessmentBean;
+import com.example.tidus.ristrat.bean.SelectedTablesBean;
 
 import java.util.HashMap;
 
@@ -26,6 +31,15 @@ public interface IRetrofitService {
     // 消息列表展示
     @GET
     Observable<MessageBean> doMessageListGet(@Url String apiUrl, @QueryMap HashMap<String, Object> params);
+
+    // 消息状态修改
+    @GET
+    Observable<MessageUpdateBean> doMessageTypeUpdateGet(@Url String apiUrl, @QueryMap HashMap<String, Object> params);
+
+    // 查询未读消息条数
+    @GET
+    Observable<MessageNumBean> doMessageNumGet(@Url String apiUrl, @QueryMap HashMap<String, Object> params);
+
 
     // 查询题目表格列表
     @GET
@@ -54,4 +68,16 @@ public interface IRetrofitService {
     // 加勾选
     @GET
     Observable<CheckRiskBean> doCheckRiskGet(@Url String apiUrl, @QueryMap HashMap<String, Object> params);
+
+    // 终止评估
+    @GET
+    Observable<AssessCancelBean> doAssessCancelGet(@Url String apiUrl, @QueryMap HashMap<String, Object> params);
+
+    // 立即问卷查询
+    @GET
+    Observable<NowSelectTablesBean> doNowSelectTablesGet(@Url String apiUrl, @QueryMap HashMap<String, Object> params);
+
+    // 业务问卷查询
+    @GET
+    Observable<SelectedTablesBean> doSelectedTablesGet(@Url String apiUrl, @QueryMap HashMap<String, Object> params);
 }

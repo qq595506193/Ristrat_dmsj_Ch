@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffff"
-    tools:context=".mvp.view.RiskActivity">
+    tools:context=".activity.RiskActivity">
     <LinearLayout
         android:id="@+id/llll"
         android:layout_width="match_parent"

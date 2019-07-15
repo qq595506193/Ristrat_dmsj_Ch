@@ -2,25 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.tidus.ristrat">
-
     <!-- 允许应用程序改变网络状态 -->
-
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-
-    <!-- 允许应用程序改变WIFI连接状态 -->
-
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-
-    <!-- 允许应用程序访问有关的网络信息 -->
-
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-    <!-- 允许应用程序访问WIFI网卡的网络信息 -->
-
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-
-    <!-- 允许应用程序完全使用网络 -->
-
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" /> <!-- 允许应用程序改变WIFI连接状态 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> <!-- 允许应用程序访问有关的网络信息 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 允许应用程序访问WIFI网卡的网络信息 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 允许应用程序完全使用网络 -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -32,32 +18,36 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:icon">
-        <activity android:name=".mvp.view.HistoryAssess_02Activity"></activity>
-        <activity android:name=".mvp.view.RiskAssessment_02Activity"></activity>
+        <activity android:name=".activity.NowSelectTablesActivity"></activity>
+        <activity android:name=".activity.SelectedTablesActivity" />
+
+        <service android:name=".service.MessageService" />
+
+        <activity android:name=".activity.HistoryAssess_02Activity" />
+        <activity android:name=".activity.RiskAssessment_02Activity" />
         <activity
-            android:name=".mvp.view.EvaluatingActivity"
+            android:name=".activity.EvaluatingActivity"
             android:launchMode="singleTop"
-            android:theme="@style/Theme.DialogActivity"></activity>
-        <activity android:name=".mvp.view.RiskAssessActivity"></activity>
+            android:theme="@style/TransparentTheme" />
         <activity
-            android:name=".mvp.view.LogActivity"
-            android:theme="@style/TransparentTheme"></activity>
-        <activity android:name=".mvp.view.HistoryAssessActivity"></activity>
+            android:name=".activity.LogActivity"
+            android:theme="@style/TransparentTheme" />
+        <activity android:name=".activity.HistoryAssessActivity" />
         <activity
-            android:name=".mvp.view.CancelQuestionActivity"
-            android:theme="@style/TransparentTheme"></activity>
-        <activity android:name=".mvp.view.RiskAssessmentActivity"></activity>
+            android:name=".activity.CancelQuestionActivity"
+            android:theme="@style/TransparentTheme" />
+        <activity android:name=".activity.RiskAssessmentActivity" />
         <activity
-            android:name=".mvp.view.SelectQuestionActivity"
-            android:theme="@style/TransparentTheme"></activity>
-        <activity android:name=".mvp.view.MessageActivity"></activity>
-        <activity android:name=".mvp.view.CaseControlActivity"></activity>
+            android:name=".activity.SelectQuestionActivity"
+            android:theme="@style/TransparentTheme" />
+        <activity android:name=".activity.MessageActivity" />
+        <activity android:name=".activity.CaseControlActivity" />
         <activity
-            android:name=".mvp.view.MainActivity"
+            android:name=".activity.MainActivity"
             android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".mvp.view.UserLoginActivity"
+            android:name=".activity.UserLoginActivity"
             android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="adjustResize|adjustUnspecified|stateHidden">
             <intent-filter>
@@ -67,19 +57,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".mvp.view.RuestionnaireActivity"
+            android:name=".activity.RuestionnaireActivity"
             android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <activity android:name=".mvp.view.RiskActivity" />
-        <activity android:name=".mvp.view.ReportActivity" />
-        <activity android:name=".mvp.view.InfromActivity" />
+        <activity android:name=".activity.RiskActivity" />
+        <activity android:name=".activity.ReportActivity" />
+        <activity android:name=".activity.InfromActivity" />
         <activity
-            android:name=".mvp.view.ForgetPwdActivity"
+            android:name=".activity.ForgetPwdActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
-
-
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
     </application>
-
 
 </manifest>

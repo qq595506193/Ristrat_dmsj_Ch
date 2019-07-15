@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
 
-    tools:context=".mvp.view.InfromActivity">
+    tools:context=".activity.InfromActivity">
 
     <include layout="@layout/particulars_title_layout" />
 

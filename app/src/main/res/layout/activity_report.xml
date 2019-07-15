@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#e3e8ef"
     android:orientation="vertical"
-    tools:context=".mvp.view.ReportActivity">
+    tools:context=".activity.ReportActivity">
 
     <include layout="@layout/gray_title_layout" />
 

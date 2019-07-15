@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 
 import com.example.lib_network.api.ApiService;
 import com.example.tidus.ristrat.bean.MessageBean;
+import com.example.tidus.ristrat.bean.MessageUpdateBean;
 import com.example.tidus.ristrat.callback.IRequestCallback;
 import com.example.tidus.ristrat.callback.IRetrofitService;
 import com.example.tidus.ristrat.contract.IMessageContract;
@@ -28,6 +29,30 @@ public class MessageModel implements IMessageContract.IMessageModel {
                     public void accept(MessageBean messageBean) throws Exception {
                         if (iRequestCallback != null) {
                             iRequestCallback.onSuccess(messageBean);
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        if (iRequestCallback != null) {
+                            iRequestCallback.onFailed(throwable);
+                        }
+                    }
+                });
+    }
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void getUpdateMessageType(HashMap<String, Object> params, final IRequestCallback iRequestCallback) {
+        RetrofitUtils.getInstance().createService(IRetrofitService.class)
+                .doMessageTypeUpdateGet(ApiService.MESSAGE_TYPE, params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<MessageUpdateBean>() {
+                    @Override
+                    public void accept(MessageUpdateBean messageUpdateBean) throws Exception {
+                        if (iRequestCallback != null) {
+                            iRequestCallback.onSuccess(messageUpdateBean);
                         }
                     }
                 }, new Consumer<Throwable>() {

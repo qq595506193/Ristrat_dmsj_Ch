@@ -376,8 +376,26 @@ public class RiskAssessmentBean implements Serializable {
                         private int SCORE_SHOW_TYPE;
                         private int MUTEX_GROUP;
                         private String isslect;
+                        private boolean checked;
+                        private int pos;
                         private String ANALYSIS_SOURCE_STR;
                         private List<OptionListBean> optionList;
+
+                        public int getPos() {
+                            return pos;
+                        }
+
+                        public void setPos(int pos) {
+                            this.pos = pos;
+                        }
+
+                        public boolean isChecked() {
+                            return checked;
+                        }
+
+                        public void setChecked(boolean checked) {
+                            this.checked = checked;
+                        }
 
                         public int getFACTOR_GROUP_ID() {
                             return FACTOR_GROUP_ID;

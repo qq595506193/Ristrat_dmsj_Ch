@@ -15,6 +15,12 @@ public class ApiService {
     // 消息列表
     public static final String MESSAGE_LIST = "XiaoYiRobotSer/RobotappBG.do";
 
+    // 查询未读消息
+    public static final String MESSAGE_NUM = "XiaoYiRobotSer/RobotappBG.do";
+
+    // 消息状态修改
+    public static final String MESSAGE_TYPE = "XiaoYiRobotSer/RobotappBG.do";
+
     // 风险评估答题表查询
     public static final String RISK_TABLE_LIST = "XiaoYiRobotSer/RobotBackground.do";
 
@@ -35,6 +41,15 @@ public class ApiService {
 
     // 加勾选
     public static final String CHECK_RISK = "XiaoYiRobotSer/RobotBackground.do";
+
+    // 终止评估
+    public static final String ASSESS_CANCEL = "XiaoYiRobotSer/RobotBackground.do";
+
+    // 立即表查询
+    public static final String NOW_SELECT_TABLES = "XiaoYiRobotSer/RobotBackground.do";
+
+    // 业务表查询
+    public static final String SELECT_TABLES = "XiaoYiRobotSer/RobotBackground.do";
 
 
 }

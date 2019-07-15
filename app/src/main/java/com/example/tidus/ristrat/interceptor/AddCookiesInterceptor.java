@@ -24,7 +24,7 @@ public class AddCookiesInterceptor implements Interceptor {
         if (preferences != null) {
             for (Object cookie : preferences) {
                 builder.addHeader("Cookie", (String) cookie);
-                LogUtils.e("cookie===="+cookie); // This is done so I know which headers are being added; this interceptor is used after the normal logging of OkHttp
+                //LogUtils.e("cookie===="+cookie); // This is done so I know which headers are being added; this interceptor is used after the normal logging of OkHttp
             }
         }
         return chain.proceed(builder.build());

@@ -12,6 +12,11 @@ android {
     }
     buildTypes {
         release {
+            //在这里添加：
+            lintOptions {
+                checkReleaseBuilds false
+                abortOnError false
+            }
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -66,5 +71,11 @@ dependencies {
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.31'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.1'
     implementation 'com.jaydenxiao:ExpandableTextView:1.0.0'
+    //    内存存泄漏检测
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    // Dialog
+    implementation 'com.superluo:dialog:1.0.1'
     implementation project(path: ':lib_core')
 }

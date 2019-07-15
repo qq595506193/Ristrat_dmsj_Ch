@@ -12,6 +12,8 @@ public interface IMessageContract {
     abstract class MessagePresenter extends BasePresenter<IMessageModel, IMessageView> {
         public abstract void getMessage(HashMap<String, Object> params);
 
+        public abstract void getUpdateMessageType(HashMap<String, Object> params);
+
         @Override
         public IMessageModel getModel() {
             return new MessageModel();
@@ -20,11 +22,14 @@ public interface IMessageContract {
 
     interface IMessageModel extends IBaseModel {
         void getMessage(HashMap<String, Object> params, IRequestCallback iRequestCallback);
+
+        void getUpdateMessageType(HashMap<String, Object> params, IRequestCallback iRequestCallback);
     }
 
     interface IMessageView extends IBaseView {
         void onMessageSuccess(Object result);
 
-        void onFailed(Object error);
+        void onUpdateMessageTypeSuccess(Object result);
+
     }
 }

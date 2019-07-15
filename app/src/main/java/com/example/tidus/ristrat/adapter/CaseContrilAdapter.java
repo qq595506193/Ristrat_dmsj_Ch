@@ -14,27 +14,30 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.tidus.ristrat.R;
+import com.example.tidus.ristrat.activity.CaseControlActivity;
 import com.example.tidus.ristrat.application.App;
 import com.example.tidus.ristrat.bean.CaseControlBean;
 import com.example.tidus.ristrat.bean.QueryHMBean;
-import com.example.tidus.ristrat.mvp.view.CaseControlActivity;
+import com.example.tidus.ristrat.utils.CommonPopupWindow;
 import com.example.tidus.ristrat.utils.LogUtils;
-import com.example.tidus.ristrat.utils.PopWindowUtil;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CaseContrilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class CaseContrilAdapter extends XRecyclerView.Adapter<XRecyclerView.ViewHolder> {
     private Context context;
     private List<CaseControlBean.ServerParamsBean> serverParamsBeans;
     private CaseControlActivity caseControlActivity;
     private View view_pop;
-    private PopWindowUtil popWindowUtil = new PopWindowUtil();
     private QueryHMBean.ServerParamsBean queryHMBean;
     private final int YOU = 0;
     private final int WU = 1;
+    private View view_select;
+    private List<Integer> checkIds = new ArrayList<>();
+    private CommonPopupWindow commonPopupWindow;
 
     public CaseContrilAdapter(Context context, CaseControlActivity caseControlActivity) {
         this.context = context;
@@ -60,6 +63,7 @@ public class CaseContrilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             }
         }
         notifyDataSetChanged();
+
     }
 
     public void setCaseControlBean(List<CaseControlBean.ServerParamsBean> serverParamsBeans) {
@@ -71,10 +75,11 @@ public class CaseContrilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public XRecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
 
         if (viewType == YOU) {
+            // 布局
             view = LayoutInflater.from(context).inflate(R.layout.item_patient_list, parent, false);
             return new ViewHolder(view);
         } else {
@@ -86,9 +91,9 @@ public class CaseContrilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        View view_pop = (View) LayoutInflater.from(context).inflate(R.layout.pop_child, null);
-        CaseControlBean.ServerParamsBean serverParamsBean = serverParamsBeans.get(position);
+    public void onBindViewHolder(@NonNull XRecyclerView.ViewHolder holder, int position) {
+        //View view_pop = (View) LayoutInflater.from(context).inflate(R.layout.pop_child, null);
+        final CaseControlBean.ServerParamsBean serverParamsBean = serverParamsBeans.get(position);
         if (getItemViewType(position) == YOU) {
 
             ViewHolder viewHolder = (ViewHolder) holder;
@@ -128,12 +133,13 @@ public class CaseContrilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             }
 
 
+            // 性别图片
             if (serverParamsBean.getPATIENT_SEX() != null) {
                 String patient_sex = serverParamsBean.getPATIENT_SEX();
                 if (patient_sex.equals("M")) {
-                    viewHolder.iv_icon.setImageResource(R.mipmap.m_01);
+                    viewHolder.iv_icon.setImageResource(R.mipmap.xx1);
                 } else {
-                    viewHolder.iv_icon.setImageResource(R.mipmap.w_02);
+                    viewHolder.iv_icon.setImageResource(R.mipmap.xx2);
                 }
             }
 
@@ -149,18 +155,27 @@ public class CaseContrilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             ((ViewHolder) holder).rv_icon.setLayoutManager(new LinearLayoutManager(App.getContext(), LinearLayoutManager.HORIZONTAL, false));
             ((ViewHolder) holder).rv_icon.setAdapter(iconAdapter);
 
-
-
+            if (serverParamsBean.getRemindelist().size() != 0) {
+                ((ViewHolder) holder).tv_ping.setVisibility(View.VISIBLE);
+                // 点击评字
+                ((ViewHolder) holder).tv_ping.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        setPingTiaoZhuan.onPingTiaoZhuan(serverParamsBean);
+                    }
+                });
+            } else {
+                ((ViewHolder) holder).tv_ping.setVisibility(View.GONE);
+            }
 
             initListener(viewHolder, view_pop, serverParamsBean, position);// 事件监听
+
         } else if (getItemViewType(position) == WU) {
             WuViewHolder viewHolder = (WuViewHolder) holder;
             viewHolder.tv_wu_bed_id.setText(serverParamsBean.getBED_NUMBER() + "床");
 
 
         }
-
-
     }
 
     private void initListener(ViewHolder holder, final View view_pop, final CaseControlBean.ServerParamsBean serverParamsBean, final int position) {
@@ -170,50 +185,84 @@ public class CaseContrilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                ////////////popupWindow
-                popWindowUtil.setSetOnIntentActivityHistoryPop(new PopWindowUtil.SetOnIntentActivityHistoryPop() {
-                    @Override
-                    public void onIntentActivityPop() {
-                        setOnIntentActivityHistory.onStratActivity(serverParamsBeans, queryHMBean, position);// 接口回调
-                    }
-                });
-
-                popWindowUtil.setSetOnIntentActivityPop(new PopWindowUtil.SetOnIntentActivityPop() {
-                    @Override
-                    public void onIntentActivityPop(View view, int position) {
-                        setOnIntentActivity.onStartActivity(serverParamsBeans, queryHMBean, view, position);// 接口回调
-                    }
-                });
-
-                popWindowUtil.setSetOnIntentActivityCancelPop(new PopWindowUtil.SetOnIntentActivityCancelPop() {
-                    @Override
-                    public void onIntentActivityPop() {
-                        setOnIntentActivityCancel.onStartActivity(queryHMBean, position);// 接口回调
-                    }
-                });
-
-                popWindowUtil.setSetOnTanChuang(new PopWindowUtil.SetOnTanChuang() {
-                    @Override
-                    public void OnTanChuang() {
-                        setOnTanChuangDiaLog.OnTanChuangDiaLog(serverParamsBean, queryHMBean, position);
-                    }
-                });
-
                 ////////////////////
                 LogUtils.e("坐标===================" + position);
-                if (queryHMBean != null) {
-                    for (QueryHMBean.ServerParamsBean.LISTBean listBean : queryHMBean.getLIST()) {
-                        if (listBean.getVISIT_SQ_NO().equals(serverParamsBean.getVISIT_SQ_NO())) {
-                            popWindowUtil.showAssessPopupWindow(context, queryHMBean, serverParamsBean, v, position, view_pop, 180, -260, R.style.PopupWindow);
-                            return;
-                        }
-                    }
-                }
-
-
+//                if (queryHMBean != null) {
+//                    for (QueryHMBean.ServerParamsBean.LISTBean listBean : queryHMBean.getLIST()) {
+//                        if (listBean.getVISIT_SQ_NO().equals(serverParamsBean.getVISIT_SQ_NO())) {
+//                            commonPopupWindow = new CommonPopupWindow.Builder(context)
+//                                    //设置PopupWindow布局
+//                                    .setView(R.layout.pop_child)
+//                                    //设置宽高
+//                                    .setWidthAndHeight(ViewGroup.LayoutParams.WRAP_CONTENT,
+//                                            ViewGroup.LayoutParams.WRAP_CONTENT)
+//                                    //设置动画
+//                                    //.setAnimationStyle(R.style.PopupWindow)
+//                                    //设置背景颜色，取值范围0.0f-1.0f 值越小越暗 1.0f为透明
+//                                    //.setBackGroundLevel(0.5f)
+//                                    //设置PopupWindow里的子View及点击事件
+//                                    .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
+//                                        @Override
+//                                        public void getChildView(View view, int layoutResId) {
+//                                            TextView tv_now_assess = view.findViewById(R.id.tv_now_assess);// 立即评估
+//                                            TextView tv_next_assess = view.findViewById(R.id.tv_next_assess);// 下次评估
+//                                            TextView tv_no_assess = view.findViewById(R.id.tv_no_assess);// 不再评估
+//                                            TextView tv_history_assess = view.findViewById(R.id.tv_history_assess);// 查看详情
+//                                            // 透明度
+//                                            tv_now_assess.getBackground().setAlpha(200);
+//                                            tv_next_assess.getBackground().setAlpha(200);
+//                                            tv_no_assess.getBackground().setAlpha(200);
+//                                            tv_history_assess.getBackground().setAlpha(200);
+//                                            //
+//                                            tv_now_assess.setVisibility(View.VISIBLE);
+//                                            tv_next_assess.setVisibility(View.VISIBLE);
+//                                            tv_next_assess.setVisibility(View.VISIBLE);
+//                                            tv_next_assess.setVisibility(View.VISIBLE);
+//
+//                                            // 立即评估
+//                                            tv_now_assess.setOnClickListener(new View.OnClickListener() {
+//                                                @Override
+//                                                public void onClick(View v) {
+//                                                    setOnIntentActivity.onStartActivity(serverParamsBeans, queryHMBean, position);// 接口回调
+//                                                    commonPopupWindow.dismiss();
+//                                                }
+//                                            });
+//                                            // 下次评估
+//                                            tv_next_assess.setOnClickListener(new View.OnClickListener() {
+//                                                @Override
+//                                                public void onClick(View v) {
+//                                                    setOnIntentActivityCancel.onStartActivity(queryHMBean, position);// 接口回调
+//                                                    commonPopupWindow.dismiss();
+//                                                }
+//                                            });
+//                                            // 不再评估
+//                                            tv_no_assess.setOnClickListener(new View.OnClickListener() {
+//                                                @Override
+//                                                public void onClick(View v) {
+//                                                    setOnTanChuangDiaLog.OnTanChuangDiaLog(serverParamsBean, queryHMBean, position);
+//                                                    commonPopupWindow.dismiss();
+//                                                }
+//                                            });
+//                                            // 查看详情
+//                                            tv_history_assess.setOnClickListener(new View.OnClickListener() {
+//                                                @Override
+//                                                public void onClick(View v) {
+//                                                    setOnIntentActivityHistory.onStratActivity(serverParamsBeans, queryHMBean, position);// 接口回调
+//                                                    commonPopupWindow.dismiss();
+//                                                }
+//                                            });
+//                                        }
+//                                    })//设置外部是否可点击 默认是true
+//                                    .setOutsideTouchable(true)
+//                                    //开始构建
+//                                    .create();
+//                            commonPopupWindow.showAsDropDown(v, 180, -260);
+//                            //popWindowUtil.showAssessPopupWindow(view_select, position, view_pop, 180, -260, R.style.PopupWindow);
+//                            return;
+//                        }
+//                    }
+//                }
                 setOnIntentStartActivity.onStartActivity(serverParamsBeans, queryHMBean, position);
-
-
             }
         });
 
@@ -238,7 +287,7 @@ public class CaseContrilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         return serverParamsBeans.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends XRecyclerView.ViewHolder {
         private final ImageView iv_icon;
         private final TextView tv_icon_name;
         private final TextView tv_age;
@@ -250,6 +299,7 @@ public class CaseContrilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         private final CardView card_view;
         private TextView tv_danyuan;
         private final RecyclerView rv_icon;
+        private final TextView tv_ping;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -264,11 +314,12 @@ public class CaseContrilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             card_view = itemView.findViewById(R.id.card_view);
             tv_danyuan = itemView.findViewById(R.id.tv_danyuan);
             rv_icon = itemView.findViewById(R.id.rv_icon);
+            tv_ping = itemView.findViewById(R.id.tv_ping);
 
         }
     }
 
-    public static class WuViewHolder extends RecyclerView.ViewHolder {
+    public static class WuViewHolder extends XRecyclerView.ViewHolder {
 
         private ImageView iv_wu_bed;
         private TextView tv_wu_bed_id;
@@ -287,7 +338,7 @@ public class CaseContrilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private SetOnIntentActivity setOnIntentActivity;
 
     public interface SetOnIntentActivity {
-        void onStartActivity(List<CaseControlBean.ServerParamsBean> serverParamsBeans, QueryHMBean.ServerParamsBean queryHMBean, View view, int position);
+        void onStartActivity(List<CaseControlBean.ServerParamsBean> serverParamsBeans, QueryHMBean.ServerParamsBean queryHMBean, int position);
     }
 
     public void setSetOnIntentActivity(SetOnIntentActivity setOnIntentActivity) {
@@ -332,5 +383,16 @@ public class CaseContrilAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     public void setSetOnTanChuangDiaLog(SetOnTanChuangDiaLog setOnTanChuangDiaLog) {
         this.setOnTanChuangDiaLog = setOnTanChuangDiaLog;
+    }
+
+    private SetPingTiaoZhuan setPingTiaoZhuan;
+
+    // 评跳转回调
+    public interface SetPingTiaoZhuan {
+        void onPingTiaoZhuan(CaseControlBean.ServerParamsBean serverParamsBean);
+    }
+
+    public void setSetPingTiaoZhuan(SetPingTiaoZhuan setPingTiaoZhuan) {
+        this.setPingTiaoZhuan = setPingTiaoZhuan;
     }
 }

@@ -4,17 +4,18 @@ import java.util.List;
 
 public class MessageBean {
 
+
     /**
      * code : 0
      * message : 成功
-     * server_params : {"count":49,"list":[{"USER_ID":202,"MESSAGE_ID":57,"MESSAGE_TITLE":"系统消息","MESSAGE_CONTENT":"患者 王小红（A1678259） 已达到VTE风险评估标准，已延迟30分钟未处理，请及时安排患者进行评估。","SEND_TIME":"20190620095545","MESSAGE_TYPE":20,"MESSAGE_STATUS":1,"OBJECT_PARA":null,"READ_TIME":null,"DELETE_TIME":null,"RN":1},{"USER_ID":202,"MESSAGE_ID":56,"MESSAGE_TITLE":"系统消息","MESSAGE_CONTENT":"患者 王小红（A1678259） 已达到VTE风险评估标准，请及时安排患者进行评估。","SEND_TIME":"20190620095440","MESSAGE_TYPE":20,"MESSAGE_STATUS":1,"OBJECT_PARA":null,"READ_TIME":null,"DELETE_TIME":null,"RN":2},{"USER_ID":202,"MESSAGE_ID":55,"MESSAGE_TITLE":"系统消息","MESSAGE_CONTENT":"患者 柴有惠（1616086） 已达到VTE风险评估标准，已延迟30分钟未处理，请及时安排患者进行评估。","SEND_TIME":"20190620091907","MESSAGE_TYPE":20,"MESSAGE_STATUS":0,"OBJECT_PARA":null,"READ_TIME":null,"DELETE_TIME":null,"RN":3},{"USER_ID":202,"MESSAGE_ID":54,"MESSAGE_TITLE":"系统消息","MESSAGE_CONTENT":"患者 屠过江（1616087） 已达到VTE风险评估标准，已延迟30分钟未处理，请及时安排患者进行评估。","SEND_TIME":"20190619152733","MESSAGE_TYPE":20,"MESSAGE_STATUS":0,"OBJECT_PARA":null,"READ_TIME":null,"DELETE_TIME":null,"RN":4},{"USER_ID":202,"MESSAGE_ID":53,"MESSAGE_TITLE":"系统消息","MESSAGE_CONTENT":"患者 柴有惠（1616086） 已达到VTE风险评估标准，已延迟30分钟未处理，请及时安排患者进行评估。","SEND_TIME":"20190619152732","MESSAGE_TYPE":20,"MESSAGE_STATUS":0,"OBJECT_PARA":null,"READ_TIME":null,"DELETE_TIME":null,"RN":5}]}
      * server_code :
+     * server_params : {"count":9,"list":[{"USER_ID":222,"MESSAGE_ID":2242,"MESSAGE_TITLE":"系统消息","MESSAGE_CONTENT":"[{\"cont\":\"患者 9.30（TMP101） 已达到VTE风险评估标准，已延迟30分钟未处理，请及时安排患者进行\",\"type\":0},{\"cont\":\"评估\",\"type\":2,\"patient_id\":\"TMP101\",\"visit_sq_no\":\"122222222223wqew\"},{\"cont\":\"。\",\"type\":0}]","SEND_TIME":"20190709093739","MESSAGE_TYPE":20,"MESSAGE_STATUS":0,"OBJECT_PARA":null,"READ_TIME":null,"DELETE_TIME":null,"RN":1},{"USER_ID":222,"MESSAGE_ID":2240,"MESSAGE_TITLE":"系统消息","MESSAGE_CONTENT":"[{\"cont\":\"患者 9.30（TMP101） 目前处于VTE风险（\"极高危\"）情况，请及时安排患者进行\",\"type\":0},{\"cont\":\"评估\",\"type\":2,\"patient_id\":\"TMP101\",\"visit_sq_no\":\"122222222223wqew\"},{\"cont\":\"。\",\"type\":0}]","SEND_TIME":"20190709093634","MESSAGE_TYPE":20,"MESSAGE_STATUS":0,"OBJECT_PARA":null,"READ_TIME":null,"DELETE_TIME":null,"RN":2},{"USER_ID":222,"MESSAGE_ID":2238,"MESSAGE_TITLE":"系统消息","MESSAGE_CONTENT":"医生 系统管理员 已确认患者 9.30 评估。","SEND_TIME":"20190709093128","MESSAGE_TYPE":20,"MESSAGE_STATUS":0,"OBJECT_PARA":null,"READ_TIME":null,"DELETE_TIME":null,"RN":3},{"USER_ID":222,"MESSAGE_ID":2236,"MESSAGE_TITLE":"系统消息","MESSAGE_CONTENT":"[{\"cont\":\"患者 9.30（TMP101） 已达到VTE风险评估标准，已延迟30分钟未处理，请及时安排患者进行\",\"type\":0},{\"cont\":\"评估\",\"type\":2,\"patient_id\":\"TMP101\",\"visit_sq_no\":\"122222222223wqew\"},{\"cont\":\"。\",\"type\":0}]","SEND_TIME":"20190709093008","MESSAGE_TYPE":20,"MESSAGE_STATUS":0,"OBJECT_PARA":null,"READ_TIME":null,"DELETE_TIME":null,"RN":4},{"USER_ID":222,"MESSAGE_ID":2234,"MESSAGE_TITLE":"系统消息","MESSAGE_CONTENT":"[{\"cont\":\"患者 9.30（TMP101） 已达到VTE风险评估标准，请及时安排患者进行\",\"type\":0},{\"cont\":\"评估\",\"type\":2,\"patient_id\":\"TMP101\",\"visit_sq_no\":\"122222222223wqew\"},{\"cont\":\"。\",\"type\":0}]","SEND_TIME":"20190709092903","MESSAGE_TYPE":20,"MESSAGE_STATUS":0,"OBJECT_PARA":null,"READ_TIME":null,"DELETE_TIME":null,"RN":5},{"USER_ID":222,"MESSAGE_ID":2232,"MESSAGE_TITLE":"系统消息","MESSAGE_CONTENT":"医生 系统管理员 已确认患者 1232 评估。","SEND_TIME":"20190709092549","MESSAGE_TYPE":20,"MESSAGE_STATUS":0,"OBJECT_PARA":null,"READ_TIME":null,"DELETE_TIME":null,"RN":6},{"USER_ID":222,"MESSAGE_ID":2229,"MESSAGE_TITLE":"系统消息","MESSAGE_CONTENT":"医生 系统管理员 已确认患者 1232 评估。","SEND_TIME":"20190708180719","MESSAGE_TYPE":20,"MESSAGE_STATUS":0,"OBJECT_PARA":null,"READ_TIME":null,"DELETE_TIME":null,"RN":7},{"USER_ID":222,"MESSAGE_ID":2227,"MESSAGE_TITLE":"系统消息","MESSAGE_CONTENT":"[{\"cont\":\"患者 1232（TMP100） 已达到VTE风险评估标准，已延迟30分钟未处理，请及时安排患者进行\",\"type\":0},{\"cont\":\"评估\",\"type\":2,\"patient_id\":\"TMP100\",\"visit_sq_no\":\"2111111321321\"},{\"cont\":\"。\",\"type\":0}]","SEND_TIME":"20190708175948","MESSAGE_TYPE":20,"MESSAGE_STATUS":0,"OBJECT_PARA":null,"READ_TIME":null,"DELETE_TIME":null,"RN":8},{"USER_ID":222,"MESSAGE_ID":2225,"MESSAGE_TITLE":"系统消息","MESSAGE_CONTENT":"[{\"cont\":\"患者 1232（TMP100） 已达到VTE风险评估标准，请及时安排患者进行\",\"type\":0},{\"cont\":\"评估\",\"type\":2,\"patient_id\":\"TMP100\",\"visit_sq_no\":\"2111111321321\"},{\"cont\":\"。\",\"type\":0}]","SEND_TIME":"20190708175843","MESSAGE_TYPE":20,"MESSAGE_STATUS":0,"OBJECT_PARA":null,"READ_TIME":null,"DELETE_TIME":null,"RN":9}]}
      */
 
     private String code;
     private String message;
-    private ServerParamsBean server_params;
     private String server_code;
+    private ServerParamsBean server_params;
 
     public String getCode() {
         return code;
@@ -32,14 +33,6 @@ public class MessageBean {
         this.message = message;
     }
 
-    public ServerParamsBean getServer_params() {
-        return server_params;
-    }
-
-    public void setServer_params(ServerParamsBean server_params) {
-        this.server_params = server_params;
-    }
-
     public String getServer_code() {
         return server_code;
     }
@@ -48,10 +41,18 @@ public class MessageBean {
         this.server_code = server_code;
     }
 
+    public ServerParamsBean getServer_params() {
+        return server_params;
+    }
+
+    public void setServer_params(ServerParamsBean server_params) {
+        this.server_params = server_params;
+    }
+
     public static class ServerParamsBean {
         /**
-         * count : 49
-         * list : [{"USER_ID":202,"MESSAGE_ID":57,"MESSAGE_TITLE":"系统消息","MESSAGE_CONTENT":"患者 王小红（A1678259） 已达到VTE风险评估标准，已延迟30分钟未处理，请及时安排患者进行评估。","SEND_TIME":"20190620095545","MESSAGE_TYPE":20,"MESSAGE_STATUS":1,"OBJECT_PARA":null,"READ_TIME":null,"DELETE_TIME":null,"RN":1},{"USER_ID":202,"MESSAGE_ID":56,"MESSAGE_TITLE":"系统消息","MESSAGE_CONTENT":"患者 王小红（A1678259） 已达到VTE风险评估标准，请及时安排患者进行评估。","SEND_TIME":"20190620095440","MESSAGE_TYPE":20,"MESSAGE_STATUS":1,"OBJECT_PARA":null,"READ_TIME":null,"DELETE_TIME":null,"RN":2},{"USER_ID":202,"MESSAGE_ID":55,"MESSAGE_TITLE":"系统消息","MESSAGE_CONTENT":"患者 柴有惠（1616086） 已达到VTE风险评估标准，已延迟30分钟未处理，请及时安排患者进行评估。","SEND_TIME":"20190620091907","MESSAGE_TYPE":20,"MESSAGE_STATUS":0,"OBJECT_PARA":null,"READ_TIME":null,"DELETE_TIME":null,"RN":3},{"USER_ID":202,"MESSAGE_ID":54,"MESSAGE_TITLE":"系统消息","MESSAGE_CONTENT":"患者 屠过江（1616087） 已达到VTE风险评估标准，已延迟30分钟未处理，请及时安排患者进行评估。","SEND_TIME":"20190619152733","MESSAGE_TYPE":20,"MESSAGE_STATUS":0,"OBJECT_PARA":null,"READ_TIME":null,"DELETE_TIME":null,"RN":4},{"USER_ID":202,"MESSAGE_ID":53,"MESSAGE_TITLE":"系统消息","MESSAGE_CONTENT":"患者 柴有惠（1616086） 已达到VTE风险评估标准，已延迟30分钟未处理，请及时安排患者进行评估。","SEND_TIME":"20190619152732","MESSAGE_TYPE":20,"MESSAGE_STATUS":0,"OBJECT_PARA":null,"READ_TIME":null,"DELETE_TIME":null,"RN":5}]
+         * count : 9
+         * list : [{"USER_ID":222,"MESSAGE_ID":2242,"MESSAGE_TITLE":"系统消息","MESSAGE_CONTENT":"[{\"cont\":\"患者 9.30（TMP101） 已达到VTE风险评估标准，已延迟30分钟未处理，请及时安排患者进行\",\"type\":0},{\"cont\":\"评估\",\"type\":2,\"patient_id\":\"TMP101\",\"visit_sq_no\":\"122222222223wqew\"},{\"cont\":\"。\",\"type\":0}]","SEND_TIME":"20190709093739","MESSAGE_TYPE":20,"MESSAGE_STATUS":0,"OBJECT_PARA":null,"READ_TIME":null,"DELETE_TIME":null,"RN":1},{"USER_ID":222,"MESSAGE_ID":2240,"MESSAGE_TITLE":"系统消息","MESSAGE_CONTENT":"[{\"cont\":\"患者 9.30（TMP101） 目前处于VTE风险（\"极高危\"）情况，请及时安排患者进行\",\"type\":0},{\"cont\":\"评估\",\"type\":2,\"patient_id\":\"TMP101\",\"visit_sq_no\":\"122222222223wqew\"},{\"cont\":\"。\",\"type\":0}]","SEND_TIME":"20190709093634","MESSAGE_TYPE":20,"MESSAGE_STATUS":0,"OBJECT_PARA":null,"READ_TIME":null,"DELETE_TIME":null,"RN":2},{"USER_ID":222,"MESSAGE_ID":2238,"MESSAGE_TITLE":"系统消息","MESSAGE_CONTENT":"医生 系统管理员 已确认患者 9.30 评估。","SEND_TIME":"20190709093128","MESSAGE_TYPE":20,"MESSAGE_STATUS":0,"OBJECT_PARA":null,"READ_TIME":null,"DELETE_TIME":null,"RN":3},{"USER_ID":222,"MESSAGE_ID":2236,"MESSAGE_TITLE":"系统消息","MESSAGE_CONTENT":"[{\"cont\":\"患者 9.30（TMP101） 已达到VTE风险评估标准，已延迟30分钟未处理，请及时安排患者进行\",\"type\":0},{\"cont\":\"评估\",\"type\":2,\"patient_id\":\"TMP101\",\"visit_sq_no\":\"122222222223wqew\"},{\"cont\":\"。\",\"type\":0}]","SEND_TIME":"20190709093008","MESSAGE_TYPE":20,"MESSAGE_STATUS":0,"OBJECT_PARA":null,"READ_TIME":null,"DELETE_TIME":null,"RN":4},{"USER_ID":222,"MESSAGE_ID":2234,"MESSAGE_TITLE":"系统消息","MESSAGE_CONTENT":"[{\"cont\":\"患者 9.30（TMP101） 已达到VTE风险评估标准，请及时安排患者进行\",\"type\":0},{\"cont\":\"评估\",\"type\":2,\"patient_id\":\"TMP101\",\"visit_sq_no\":\"122222222223wqew\"},{\"cont\":\"。\",\"type\":0}]","SEND_TIME":"20190709092903","MESSAGE_TYPE":20,"MESSAGE_STATUS":0,"OBJECT_PARA":null,"READ_TIME":null,"DELETE_TIME":null,"RN":5},{"USER_ID":222,"MESSAGE_ID":2232,"MESSAGE_TITLE":"系统消息","MESSAGE_CONTENT":"医生 系统管理员 已确认患者 1232 评估。","SEND_TIME":"20190709092549","MESSAGE_TYPE":20,"MESSAGE_STATUS":0,"OBJECT_PARA":null,"READ_TIME":null,"DELETE_TIME":null,"RN":6},{"USER_ID":222,"MESSAGE_ID":2229,"MESSAGE_TITLE":"系统消息","MESSAGE_CONTENT":"医生 系统管理员 已确认患者 1232 评估。","SEND_TIME":"20190708180719","MESSAGE_TYPE":20,"MESSAGE_STATUS":0,"OBJECT_PARA":null,"READ_TIME":null,"DELETE_TIME":null,"RN":7},{"USER_ID":222,"MESSAGE_ID":2227,"MESSAGE_TITLE":"系统消息","MESSAGE_CONTENT":"[{\"cont\":\"患者 1232（TMP100） 已达到VTE风险评估标准，已延迟30分钟未处理，请及时安排患者进行\",\"type\":0},{\"cont\":\"评估\",\"type\":2,\"patient_id\":\"TMP100\",\"visit_sq_no\":\"2111111321321\"},{\"cont\":\"。\",\"type\":0}]","SEND_TIME":"20190708175948","MESSAGE_TYPE":20,"MESSAGE_STATUS":0,"OBJECT_PARA":null,"READ_TIME":null,"DELETE_TIME":null,"RN":8},{"USER_ID":222,"MESSAGE_ID":2225,"MESSAGE_TITLE":"系统消息","MESSAGE_CONTENT":"[{\"cont\":\"患者 1232（TMP100） 已达到VTE风险评估标准，请及时安排患者进行\",\"type\":0},{\"cont\":\"评估\",\"type\":2,\"patient_id\":\"TMP100\",\"visit_sq_no\":\"2111111321321\"},{\"cont\":\"。\",\"type\":0}]","SEND_TIME":"20190708175843","MESSAGE_TYPE":20,"MESSAGE_STATUS":0,"OBJECT_PARA":null,"READ_TIME":null,"DELETE_TIME":null,"RN":9}]
          */
 
         private int count;
@@ -75,13 +76,13 @@ public class MessageBean {
 
         public static class ListBean {
             /**
-             * USER_ID : 202
-             * MESSAGE_ID : 57
+             * USER_ID : 222
+             * MESSAGE_ID : 2242
              * MESSAGE_TITLE : 系统消息
-             * MESSAGE_CONTENT : 患者 王小红（A1678259） 已达到VTE风险评估标准，已延迟30分钟未处理，请及时安排患者进行评估。
-             * SEND_TIME : 20190620095545
+             * MESSAGE_CONTENT : [{"cont":"患者 9.30（TMP101） 已达到VTE风险评估标准，已延迟30分钟未处理，请及时安排患者进行","type":0},{"cont":"评估","type":2,"patient_id":"TMP101","visit_sq_no":"122222222223wqew"},{"cont":"。","type":0}]
+             * SEND_TIME : 20190709093739
              * MESSAGE_TYPE : 20
-             * MESSAGE_STATUS : 1
+             * MESSAGE_STATUS : 0
              * OBJECT_PARA : null
              * READ_TIME : null
              * DELETE_TIME : null
@@ -157,10 +158,7 @@ public class MessageBean {
             }
 
             public Object getOBJECT_PARA() {
-                if (OBJECT_PARA != null) {
-                    return OBJECT_PARA;
-                }
-                return "";
+                return OBJECT_PARA;
             }
 
             public void setOBJECT_PARA(Object OBJECT_PARA) {
@@ -168,10 +166,7 @@ public class MessageBean {
             }
 
             public Object getREAD_TIME() {
-                if (READ_TIME != null) {
-                    return READ_TIME;
-                }
-                return "";
+                return READ_TIME;
             }
 
             public void setREAD_TIME(Object READ_TIME) {
@@ -179,10 +174,7 @@ public class MessageBean {
             }
 
             public Object getDELETE_TIME() {
-                if (DELETE_TIME != null) {
-                    return DELETE_TIME;
-                }
-                return "";
+                return DELETE_TIME;
             }
 
             public void setDELETE_TIME(Object DELETE_TIME) {

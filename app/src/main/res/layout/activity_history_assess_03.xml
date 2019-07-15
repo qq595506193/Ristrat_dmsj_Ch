@@ -17,6 +17,7 @@
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/dp_20"
         android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -51,14 +52,14 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:text="姓名:"
-                        android:textSize="@dimen/sp_6" />
+                        android:textSize="@dimen/sp_8" />
 
                     <TextView
                         android:id="@+id/tv_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:textSize="@dimen/sp_6" />
+                        android:textSize="@dimen/sp_8" />
 
                 </LinearLayout>
 
@@ -74,14 +75,14 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:text="性别:" />
-                    android:textSize="@dimen/sp_6"
+                    android:textSize="@dimen/sp_8"
 
                     <TextView
                         android:id="@+id/tv_sex"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:textSize="@dimen/sp_6" />
+                        android:textSize="@dimen/sp_8" />
 
                 </LinearLayout>
 
@@ -97,14 +98,14 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:text="科室:"
-                        android:textSize="@dimen/sp_6" />
+                        android:textSize="@dimen/sp_8" />
 
                     <TextView
                         android:id="@+id/tv_office"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:textSize="@dimen/sp_6" />
+                        android:textSize="@dimen/sp_8" />
 
                 </LinearLayout>
 
@@ -120,14 +121,14 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:text="住院号:"
-                        android:textSize="@dimen/sp_6" />
+                        android:textSize="@dimen/sp_8" />
 
                     <TextView
                         android:id="@+id/tv_mark"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:textSize="@dimen/sp_6" />
+                        android:textSize="@dimen/sp_8" />
 
                 </LinearLayout>
 
@@ -147,7 +148,7 @@
                     android:layout_marginLeft="@dimen/dp_40"
                     android:gravity="center"
                     android:text="诊断情况："
-                    android:textSize="@dimen/sp_6"
+                    android:textSize="@dimen/sp_8"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -158,7 +159,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dp_5"
                     android:layout_marginRight="@dimen/dp_50"
-                    android:textSize="@dimen/sp_6"
+                    android:textSize="@dimen/sp_8"
                     app:layout_constraintLeft_toRightOf="@id/tv_zhenduan"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="@id/tv_zhenduan" />
@@ -332,7 +333,7 @@
 
                     <com.github.mikephil.charting.charts.LineChart
                         android:id="@+id/chartview"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_150"
                         android:layout_marginStart="@dimen/dp_40"
                         android:layout_marginLeft="@dimen/dp_40"
@@ -340,8 +341,6 @@
                         android:layout_marginEnd="@dimen/dp_40"
                         android:layout_marginRight="@dimen/dp_40"
                         android:background="@color/white"
-                        android:paddingEnd="@dimen/dp_10"
-                        android:paddingRight="@dimen/dp_10"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -360,7 +359,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:text="报告编码："
-                            android:textSize="@dimen/sp_8"
+                            android:textSize="@dimen/sp_10"
                             app:layout_constraintBottom_toTopOf="@id/t_time"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -369,7 +368,7 @@
                             android:id="@+id/txt_coding"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:textSize="@dimen/sp_6"
+                            android:textSize="@dimen/sp_8"
                             app:layout_constraintBottom_toBottomOf="@id/t_coding"
                             app:layout_constraintLeft_toRightOf="@id/t_coding"
                             app:layout_constraintRight_toLeftOf="@id/iv_yuan"
@@ -381,7 +380,7 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@id/t_coding"
                             android:text="评估时间："
-                            android:textSize="@dimen/sp_8"
+                            android:textSize="@dimen/sp_10"
                             app:layout_constraintBottom_toTopOf="@id/t_total"
                             app:layout_constraintLeft_toLeftOf="@id/t_coding"
                             app:layout_constraintTop_toBottomOf="@id/t_coding" />
@@ -390,7 +389,7 @@
                             android:id="@+id/txt_time"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:textSize="@dimen/sp_6"
+                            android:textSize="@dimen/sp_8"
                             app:layout_constraintBottom_toBottomOf="@id/t_time"
                             app:layout_constraintLeft_toRightOf="@id/t_time"
                             app:layout_constraintRight_toLeftOf="@id/iv_yuan"
@@ -401,7 +400,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:text="评估总分："
-                            android:textSize="@dimen/sp_8"
+                            android:textSize="@dimen/sp_10"
                             app:layout_constraintBottom_toTopOf="@id/t_grade"
                             app:layout_constraintLeft_toLeftOf="@id/t_coding"
                             app:layout_constraintTop_toBottomOf="@id/t_time" />
@@ -410,7 +409,7 @@
                             android:id="@+id/txt_total"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:textSize="@dimen/sp_6"
+                            android:textSize="@dimen/sp_8"
                             app:layout_constraintBottom_toBottomOf="@id/t_total"
                             app:layout_constraintLeft_toRightOf="@id/t_total"
                             app:layout_constraintRight_toLeftOf="@id/iv_yuan"
@@ -421,7 +420,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:text="风险等级："
-                            android:textSize="@dimen/sp_8"
+                            android:textSize="@dimen/sp_10"
                             app:layout_constraintBottom_toTopOf="@id/t_show"
                             app:layout_constraintLeft_toLeftOf="@id/t_coding"
                             app:layout_constraintTop_toBottomOf="@id/t_total" />
@@ -441,7 +440,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:text="评估说明："
-                            android:textSize="@dimen/sp_8"
+                            android:textSize="@dimen/sp_10"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintLeft_toLeftOf="@id/t_coding"
                             app:layout_constraintTop_toBottomOf="@id/t_grade" />
@@ -450,7 +449,7 @@
                             android:id="@+id/txt_show"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:textSize="@dimen/sp_6"
+                            android:textSize="@dimen/sp_8"
                             app:layout_constraintBottom_toBottomOf="@id/t_show"
                             app:layout_constraintLeft_toRightOf="@id/t_show"
                             app:layout_constraintRight_toLeftOf="@id/iv_yuan"
@@ -504,7 +503,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="风险因素："
-                                android:textSize="@dimen/sp_8"
+                                android:textSize="@dimen/sp_10"
                                 android:textStyle="bold" />
                         </LinearLayout>
 
@@ -515,7 +514,7 @@
                             android:layout_marginLeft="@dimen/dp_15"
                             android:layout_marginRight="@dimen/dp_15"
                             android:layout_marginBottom="@dimen/dp_5"
-                            android:textSize="@dimen/sp_6" />
+                            android:textSize="@dimen/sp_8" />
                     </LinearLayout>
 
                     <!--<View-->
@@ -556,7 +555,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="预防处理建议："
-                                android:textSize="@dimen/sp_8"
+                                android:textSize="@dimen/sp_10"
                                 android:textStyle="bold" />
                         </LinearLayout>
 
@@ -567,7 +566,7 @@
                             android:layout_marginLeft="@dimen/dp_15"
                             android:layout_marginRight="@dimen/dp_15"
                             android:layout_marginBottom="@dimen/dp_5"
-                            android:textSize="@dimen/sp_6" />
+                            android:textSize="@dimen/sp_8" />
                     </LinearLayout>
 
                     <!--<View-->
@@ -607,7 +606,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="护理处置建议："
-                                android:textSize="@dimen/sp_8"
+                                android:textSize="@dimen/sp_10"
                                 android:textStyle="bold" />
                         </LinearLayout>
 
@@ -618,7 +617,7 @@
                             android:layout_marginLeft="@dimen/dp_15"
                             android:layout_marginRight="@dimen/dp_15"
                             android:layout_marginBottom="@dimen/dp_5"
-                            android:textSize="@dimen/sp_6" />
+                            android:textSize="@dimen/sp_8" />
                     </LinearLayout>
 
                     <!--<View-->
@@ -660,7 +659,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="患者温馨提示："
-                                android:textSize="@dimen/sp_8"
+                                android:textSize="@dimen/sp_10"
                                 android:textStyle="bold" />
                         </LinearLayout>
 
@@ -671,7 +670,7 @@
                             android:layout_marginLeft="@dimen/dp_15"
                             android:layout_marginRight="@dimen/dp_15"
                             android:layout_marginBottom="10dp"
-                            android:textSize="@dimen/sp_6"
+                            android:textSize="@dimen/sp_8"
                             app:layout_constraintTop_toBottomOf="@id/lly_07" />
 
                     </LinearLayout>
@@ -704,7 +703,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="其他："
-                                android:textSize="@dimen/sp_8"
+                                android:textSize="@dimen/sp_10"
                                 android:textStyle="bold" />
                         </LinearLayout>
 
@@ -715,7 +714,7 @@
                             android:layout_marginLeft="@dimen/dp_15"
                             android:layout_marginRight="@dimen/dp_15"
                             android:layout_marginBottom="10dp"
-                            android:textSize="@dimen/sp_6"
+                            android:textSize="@dimen/sp_8"
                             app:layout_constraintTop_toBottomOf="@id/lly_07" />
 
                     </LinearLayout>

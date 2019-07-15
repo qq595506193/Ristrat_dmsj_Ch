@@ -16,10 +16,29 @@ import java.util.List;
 public class IconAdapter extends RecyclerView.Adapter<IconAdapter.ViewHolder> {
     private Context context;
     private CaseControlBean.ServerParamsBean serverParamsBean;
+    private List<CaseControlBean.ServerParamsBean.LevlistBean> levlist;
 
     public IconAdapter(Context context, CaseControlBean.ServerParamsBean serverParamsBean) {
         this.context = context;
         this.serverParamsBean = serverParamsBean;
+        levlist = serverParamsBean.getLevlist();
+        for (CaseControlBean.ServerParamsBean.LevlistBean levlistBean : levlist) {
+            if (levlistBean.getCURRENT_RISK_LEVEL().equals("5")) {
+                levlistBean.setLevelColor(R.mipmap.d);
+            } else if (levlistBean.getCURRENT_RISK_LEVEL().equals("6")) {
+                levlistBean.setLevelColor(R.mipmap.z);
+            } else if (levlistBean.getCURRENT_RISK_LEVEL().equals("7")) {
+                levlistBean.setLevelColor(R.mipmap.g);
+            } else if (levlistBean.getCURRENT_RISK_LEVEL().equals("8")) {
+                levlistBean.setLevelColor(R.mipmap.j);
+            } else if (levlistBean.getCURRENT_RISK_LEVEL().equals("9")) {
+                levlistBean.setLevelColor(R.mipmap.q);
+            } else if (levlistBean.getCURRENT_RISK_LEVEL().equals("21")) {
+                levlistBean.setLevelColor(R.mipmap.cd);
+            } else if (levlistBean.getCURRENT_RISK_LEVEL().equals("22")) {
+                levlistBean.setLevelColor(R.mipmap.cq);
+            }
+        }
     }
 
     @NonNull
@@ -31,36 +50,36 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull IconAdapter.ViewHolder holder, int position) {
-        List<CaseControlBean.ServerParamsBean.LevlistBean> levlist = serverParamsBean.getLevlist();
-        for (int i = 0; i < levlist.size(); i++) {
-            CaseControlBean.ServerParamsBean.LevlistBean levlistBean = levlist.get(i);
-            if (serverParamsBean.getLevlist().size() != 0 && serverParamsBean.getCURRENT_RISK_LEVEL() != null) {
-                if (levlistBean.getCURRENT_RISK_LEVEL().equals("5")) {
-                    holder.iv_icon.setImageResource(R.mipmap.vet_green);
-                } else if (levlistBean.getCURRENT_RISK_LEVEL().equals("6")) {
-                    holder.iv_icon.setImageResource(R.mipmap.vet_blue);
-                } else if (levlistBean.getCURRENT_RISK_LEVEL().equals("7")) {
-                    holder.iv_icon.setImageResource(R.mipmap.vet_yellow);
-                } else if (levlistBean.getCURRENT_RISK_LEVEL().equals("8")) {
-                    holder.iv_icon.setImageResource(R.mipmap.vet_orange);
-                } else if (levlistBean.getCURRENT_RISK_LEVEL().equals("9")) {
-                    holder.iv_icon.setImageResource(R.mipmap.vet_red);
-                } else if (levlistBean.getCURRENT_RISK_LEVEL().equals("21")) {
-                    holder.iv_icon.setImageResource(R.mipmap.chuxuedi);
-                } else if (levlistBean.getCURRENT_RISK_LEVEL().equals("22")) {
-                    holder.iv_icon.setImageResource(R.mipmap.chuxuegao);
-                }
 
-            } else {
-                holder.iv_icon.setVisibility(View.GONE);
-            }
-        }
+        CaseControlBean.ServerParamsBean.LevlistBean levlistBean = levlist.get(position);
+        holder.iv_icon.setImageResource(levlistBean.getLevelColor());
+//        for (int i = 0; i < levlist.size(); i++) {
+//            CaseControlBean.ServerParamsBean.LevlistBean levlistBean = levlist.get(i);
+//            if (serverParamsBean.getLevlist().size() != 0 && serverParamsBean.getCURRENT_RISK_LEVEL() != null) {
+//        if (levlistBean.getCURRENT_RISK_LEVEL().equals("5")) {
+//            levlistBean.setLevelColor(R.mipmap.vet_green);
+//        } else if (levlistBean.getCURRENT_RISK_LEVEL().equals("6")) {
+//            levlistBean.setLevelColor(R.mipmap.vet_blue);
+//        } else if (levlistBean.getCURRENT_RISK_LEVEL().equals("7")) {
+//            levlistBean.setLevelColor(R.mipmap.vet_yellow);
+//        } else if (levlistBean.getCURRENT_RISK_LEVEL().equals("8")) {
+//            levlistBean.setLevelColor(R.mipmap.vet_orange);
+//        } else if (levlistBean.getCURRENT_RISK_LEVEL().equals("9")) {
+//            levlistBean.setLevelColor(R.mipmap.vet_red);
+//        } else if (levlistBean.getCURRENT_RISK_LEVEL().equals("21")) {
+//            levlistBean.setLevelColor(R.mipmap.chuxuedi);
+//        } else if (levlistBean.getCURRENT_RISK_LEVEL().equals("22")) {
+//            levlistBean.setLevelColor(R.mipmap.chuxuegao);
+//        } else {
+//            holder.iv_icon.setVisibility(View.GONE);
+//        }
+
 
     }
 
     @Override
     public int getItemCount() {
-        return serverParamsBean.getLevlist() == null ? 0 : serverParamsBean.getLevlist().size();
+        return levlist.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

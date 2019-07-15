@@ -12,6 +12,7 @@
         android:id="@+id/iv_back"
         android:layout_width="@dimen/dp_10"
         android:layout_height="@dimen/dp_10"
+        android:layout_marginLeft="@dimen/dp_3"
         android:src="@drawable/icon_back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -20,7 +21,8 @@
     <TextView
         android:id="@+id/tv_back"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/dp_3"
         android:gravity="center"
         android:text="上一页"
         android:textColor="@color/white"
@@ -50,11 +52,25 @@
         app:layout_constraintTop_toTopOf="@id/tv_text" />
 
     <TextView
+        android:id="@+id/tv_message_num"
+        android:layout_width="@dimen/dp_10"
+        android:layout_height="@dimen/dp_10"
+        android:background="@drawable/text_view"
+        android:gravity="center"
+        android:text="99"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_6"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/iv_message"
+        app:layout_constraintLeft_toRightOf="@id/iv_message" />
+
+    <TextView
         android:id="@+id/tv_login_name"
         android:layout_width="0dp"
         android:layout_height="@dimen/dp_10"
         android:layout_marginRight="@dimen/dp_10"
         android:gravity="center"
+        android:text="王医生"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@id/tv_text"
         app:layout_constraintRight_toLeftOf="@id/iv_message"
@@ -76,9 +92,8 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="消息列表"
-        android:layout_marginTop="@dimen/dp_10"
         android:textColor="@color/colorWhite"
-        android:textSize="@dimen/sp_15"
+        android:textSize="@dimen/sp_12"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
