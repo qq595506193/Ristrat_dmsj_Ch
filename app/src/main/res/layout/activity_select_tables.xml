@@ -2,7 +2,8 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <include
         android:id="@+id/include_risk"
@@ -16,7 +17,7 @@
     <LinearLayout
         android:id="@+id/lly_01"
         android:layout_width="@dimen/dp_0"
-        android:layout_height="@dimen/dp_25"
+        android:layout_height="@dimen/dp_20"
         android:layout_marginLeft="@dimen/dp_5"
         android:layout_marginRight="@dimen/dp_5"
         android:orientation="horizontal"
@@ -114,31 +115,103 @@
 
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_select_business"
+    <View
+        android:id="@+id/view_line"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="0.5dp"
+        android:background="#eeeeee"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lly_01" />
+
+    <LinearLayout
+        android:id="@+id/lly_table_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_5"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view_line">
+
+        <TextView
+            android:id="@+id/tv_pingguyewu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:background="@drawable/edit_bg_title"
+            android:gravity="center"
+            android:padding="@dimen/dp_10"
+            android:text="评估业务"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_yewuleixing"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:background="@drawable/edit_bg_title"
+            android:gravity="center"
+            android:padding="@dimen/dp_10"
+            android:text="业务类型"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_shixian"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:background="@drawable/edit_bg_title"
+            android:gravity="center"
+            android:padding="@dimen/dp_10"
+            android:text="时限"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_caozuo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:background="@drawable/edit_bg_title"
+            android:gravity="center"
+            android:padding="@dimen/dp_10"
+            android:text="操作"
+            android:textColor="@color/black" />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_select_business"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_110"
+        android:background="@color/white"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lly_table_title" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_1"
+        android:background="#eeeeee"
+        app:layout_constraintBottom_toTopOf="@id/lly_select_type"
         app:layout_constraintLeft_toLeftOf="@id/lly_01"
         app:layout_constraintRight_toRightOf="@id/lly_01"
-        app:layout_constraintTop_toBottomOf="@id/lly_01" />
+        app:layout_constraintTop_toBottomOf="@id/rv_select_business" />
 
     <LinearLayout
         android:id="@+id/lly_select_type"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/dp_5"
         android:layout_marginBottom="@dimen/dp_10"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="@id/lly_01"
-        app:layout_constraintRight_toRightOf="@id/lly_01"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rv_select_business">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="9.0"
+            android:layout_weight="5.0"
             android:orientation="horizontal">
 
             <android.support.v7.widget.RecyclerView
@@ -146,7 +219,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1.0"
-                android:background="#f4f4f4"
+                android:background="#eceff3"
                 android:scrollbars="none" />
 
             <View
@@ -157,6 +230,7 @@
             <FrameLayout
                 android:id="@+id/fragment_container"
                 android:layout_width="0dp"
+                android:background="@mipmap/xuanyewu"
                 android:layout_height="match_parent"
                 android:layout_weight="6.0" />
 
@@ -172,7 +246,6 @@
             android:layout_width="@dimen/dp_100"
             android:layout_height="0dp"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/dp_5"
             android:layout_weight="1.0"
             android:background="@drawable/btn_sure"
             android:text="开始评估"

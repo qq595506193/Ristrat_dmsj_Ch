@@ -51,5 +51,8 @@ public class ApiService {
     // 业务表查询
     public static final String SELECT_TABLES = "XiaoYiRobotSer/RobotBackground.do";
 
+    // 稍后提醒
+    public static final String LATER_ON = "XiaoYiRobotSer/RobotBackground.do";
+
 
 }

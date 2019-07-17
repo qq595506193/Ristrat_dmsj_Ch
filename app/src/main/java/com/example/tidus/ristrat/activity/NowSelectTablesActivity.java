@@ -17,20 +17,31 @@ import com.example.tidus.ristrat.R;
 import com.example.tidus.ristrat.adapter.SelectTablesAdapter;
 import com.example.tidus.ristrat.application.App;
 import com.example.tidus.ristrat.bean.CaseControlBean;
+import com.example.tidus.ristrat.bean.CheckRiskBean;
+import com.example.tidus.ristrat.bean.EvaluatingBean;
 import com.example.tidus.ristrat.bean.LoginBean;
 import com.example.tidus.ristrat.bean.NowSelectTablesBean;
+import com.example.tidus.ristrat.bean.QueryHMBean;
+import com.example.tidus.ristrat.bean.SelectQuestionListBean;
+import com.example.tidus.ristrat.contract.ICheckRiskContract;
+import com.example.tidus.ristrat.contract.IEvaluatingContract;
 import com.example.tidus.ristrat.contract.INowSelectTablesContract;
 import com.example.tidus.ristrat.fragment.SelectTablesFragment;
+import com.example.tidus.ristrat.mvp.presenter.CancelAssessPresenter;
+import com.example.tidus.ristrat.mvp.presenter.CheckRiskPresenter;
+import com.example.tidus.ristrat.mvp.presenter.EvaluatingPresenter;
 import com.example.tidus.ristrat.mvp.presenter.NowSelectTablesPresenter;
 import com.example.tidus.ristrat.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import butterknife.BindView;
 
-public class NowSelectTablesActivity extends BaseMvpActivity<INowSelectTablesContract.INowSelectTablesModel, NowSelectTablesPresenter> implements INowSelectTablesContract.INowSelectTablesView {
+public class NowSelectTablesActivity extends BaseMvpActivity<INowSelectTablesContract.INowSelectTablesModel, NowSelectTablesPresenter> implements INowSelectTablesContract.INowSelectTablesView, IEvaluatingContract.IEvaluatingView, ICheckRiskContract.ICheckRiskView {
 
     // 患者名字
     @BindView(R.id.tv_name)
@@ -58,7 +69,15 @@ public class NowSelectTablesActivity extends BaseMvpActivity<INowSelectTablesCon
     private SelectTablesFragment selectTablesFragment;
     private LoginBean loginBean;
     private CaseControlBean.ServerParamsBean serverParamsBean;
-    private List<Integer> list_form_id = new ArrayList<>();
+    private Set<String> list_form_id = new HashSet<>();
+    private CancelAssessPresenter cancelAssessPresenter;
+    private EvaluatingPresenter evaluatingPresenter;
+    private CheckRiskPresenter checkRiskPresenter;
+    private QueryHMBean.ServerParamsBean queryHMBean;
+    private List<List<Integer>> departmentList = new ArrayList<>();
+    private List<Integer> keshi_id = new ArrayList<>();
+    private SelectQuestionListBean selectQuestionListBean;
+    private SelectTablesAdapter selectTablesAdapter;
 
     @Override
     protected void init() {
@@ -67,8 +86,14 @@ public class NowSelectTablesActivity extends BaseMvpActivity<INowSelectTablesCon
 
     @Override
     protected void initView(Intent intent) {
+        // 评估中监控P层
+        evaluatingPresenter = new EvaluatingPresenter(this);
+        // 判断是否有人在评估P层
+        checkRiskPresenter = new CheckRiskPresenter(this);
         // 接取用户信息
         loginBean = (LoginBean) intent.getSerializableExtra("loginBean");
+        // 接取提醒信息
+        queryHMBean = (QueryHMBean.ServerParamsBean) intent.getSerializableExtra("queryHMBean");
         // 接取患者信息
         serverParamsBean = (CaseControlBean.ServerParamsBean) intent.getSerializableExtra("serverParamsBean");
 
@@ -77,6 +102,9 @@ public class NowSelectTablesActivity extends BaseMvpActivity<INowSelectTablesCon
         // 患者信息赋值
         initPatientValue();
 
+        keshi_id.add(loginBean.getServer_params().getDEPARTMENT());
+        departmentList.add(keshi_id);
+
     }
 
     @Override
@@ -84,6 +112,9 @@ public class NowSelectTablesActivity extends BaseMvpActivity<INowSelectTablesCon
         super.initData();
         // 网络请求入参
         initPresenterData();
+        // 加勾选请求
+        initCheckData();
+
     }
 
     private void initPresenterData() {
@@ -93,8 +124,9 @@ public class NowSelectTablesActivity extends BaseMvpActivity<INowSelectTablesCon
         presenter.getNowSelectTables(params);
     }
 
-    private void initViewPagerFragment(List<NowSelectTablesBean.ServerParamsBean.BusinesslistBean> businesslist) {
-        SelectTablesAdapter selectTablesAdapter = new SelectTablesAdapter(App.getContext(), businesslist);
+    private void initViewPagerFragment(final List<NowSelectTablesBean.ServerParamsBean.BusinesslistBean> businesslist) {
+        selectQuestionListBean = new SelectQuestionListBean();
+        selectTablesAdapter = new SelectTablesAdapter(App.getContext(), businesslist);
         rv_select_tables.setLayoutManager(new LinearLayoutManager(App.getContext()));
         rv_select_tables.setAdapter(selectTablesAdapter);
         selectTablesAdapter.notifyDataSetChanged();
@@ -107,9 +139,10 @@ public class NowSelectTablesActivity extends BaseMvpActivity<INowSelectTablesCon
 //        bundle.putSerializable(SelectTablesFragment.TAG, businesslist.get(0));
 //        selectTablesFragment.setArguments(bundle);
 //        fragmentTransaction.commit();
+        
         selectTablesAdapter.setSetSelectTables(new SelectTablesAdapter.SetSelectTables() {
             @Override
-            public void onSelectTables(int position, NowSelectTablesBean.ServerParamsBean.BusinesslistBean businesslistBean) {
+            public void onSelectTables(int position, NowSelectTablesBean.ServerParamsBean.BusinesslistBean businesslistBean, CheckRiskBean checkRiskBean) {
                 // fragment
                 selectTablesFragment = new SelectTablesFragment();
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -117,6 +150,9 @@ public class NowSelectTablesActivity extends BaseMvpActivity<INowSelectTablesCon
                 // 通过bundle传值给MyFragment
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(SelectTablesFragment.TAG, businesslistBean);
+                if (checkRiskBean != null) {
+                    bundle.putSerializable("checkRiskBean", checkRiskBean);
+                }
                 selectTablesFragment.setArguments(bundle);
                 fragmentTransaction.commit();
 
@@ -126,12 +162,14 @@ public class NowSelectTablesActivity extends BaseMvpActivity<INowSelectTablesCon
 
                         LogUtils.e("form_id===" + form_id);
                         if (checked) {
-                            list_form_id.add(form_id);
+                            list_form_id.add(form_id + "");
+                            selectQuestionListBean.setIndexTable(list_form_id);
                         } else {
-                            list_form_id.remove(form_id);
+                            list_form_id.remove(form_id + "");
+                            selectQuestionListBean.setIndexTable(list_form_id);
                         }
-                        LogUtils.e("选了==="+list.size()+"个表");
-                        initButAssess(list_form_id);// 选了几个表
+                        LogUtils.e("选了===" + selectQuestionListBean.getIndexTable().toString());
+                        initButAssess(selectQuestionListBean, businesslist);// 选了几个表
                     }
                 });
             }
@@ -140,15 +178,42 @@ public class NowSelectTablesActivity extends BaseMvpActivity<INowSelectTablesCon
 
     }
 
-    private void initButAssess(List<Integer> list) {
+    private void initButAssess(final SelectQuestionListBean selectQuestionListBean, final List<NowSelectTablesBean.ServerParamsBean.BusinesslistBean> businesslist) {
         btn_start_assess.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(App.getContext(), RiskAssessment_02Activity.class);
+                intent.putExtra("selectQuestionListBean", selectQuestionListBean);
+                intent.putExtra("loginBean", loginBean);
+                intent.putExtra("serverParamsBean", serverParamsBean);
+                for (NowSelectTablesBean.ServerParamsBean.BusinesslistBean businesslistBean : businesslist) {
+                    intent.putExtra("businesslistBean_now", businesslistBean);
+                }
                 startActivity(intent);
+                // 监控
+                initPresenterEvalutingData();/// 开始监控评估中
+                finish();
             }
         });
 
+    }
+
+    private void initCheckData() {
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("Type", "queryBusinessForms");
+        params.put("PATIENT_ID", serverParamsBean.getPATIENT_ID());
+        LogUtils.e("加勾选请求接口" + params.toString());
+        checkRiskPresenter.getCheckRisk(params);
+    }
+
+    private void initPresenterEvalutingData() {
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("Type", "isAssess");
+        params.put("FORM_IDS", selectQuestionListBean.getIndexTable());
+        params.put("VISIT_SQ_NO", serverParamsBean.getVISIT_SQ_NO());
+        params.put("PATIENT_ID", serverParamsBean.getPATIENT_ID());
+        params.put("BED_NUMBER", serverParamsBean.getBED_NUMBER());
+        evaluatingPresenter.getEvaluating(params);
     }
 
     private void initPatientValue() {
@@ -178,13 +243,7 @@ public class NowSelectTablesActivity extends BaseMvpActivity<INowSelectTablesCon
                 finish();
             }
         });
-        // 用户名字
-        TextView tv_login_name = findViewById(R.id.tv_login_name);
-        tv_login_name.setText(loginBean.getServer_params().getUSER_NAME());
-        // 消息数量
-        TextView tv_message_num = findViewById(R.id.tv_message_num);
-        // 消息按钮
-        ImageView iv_message = findViewById(R.id.iv_message);
+
     }
 
     /**
@@ -228,5 +287,42 @@ public class NowSelectTablesActivity extends BaseMvpActivity<INowSelectTablesCon
                 }
             }
         }
+    }
+
+    @Override
+    public void onEvaluatingSuccess(Object result) {
+        if (result != null) {
+            if (result instanceof EvaluatingBean) {
+                if (((EvaluatingBean) result).getCode().equals("0")) {
+                    LogUtils.e("监控" + ((EvaluatingBean) result).getMessage());
+                } else {
+                    LogUtils.e("监控" + ((EvaluatingBean) result).getMessage());
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onFailed(Object error) {
+
+    }
+
+    // 判断是否有人正在评估成功回调
+    @Override
+    public void onCheckRiskSuccess(Object result) {
+        if (result != null) {
+            if (result instanceof CheckRiskBean) {
+                if (((CheckRiskBean) result).getCode().equals("0")) {
+                    if (((CheckRiskBean) result).getServer_params() != null) {
+                        selectTablesAdapter.setServerParamsBeans(((CheckRiskBean) result));
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onCheckRiskFailed(Object error) {
+
     }
 }

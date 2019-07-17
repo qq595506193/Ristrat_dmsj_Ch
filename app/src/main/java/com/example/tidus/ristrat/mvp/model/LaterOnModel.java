@@ -3,9 +3,10 @@ package com.example.tidus.ristrat.mvp.model;
 import android.annotation.SuppressLint;
 
 import com.example.lib_network.api.ApiService;
+import com.example.tidus.ristrat.bean.LaterOnBean;
 import com.example.tidus.ristrat.callback.IRequestCallback;
 import com.example.tidus.ristrat.callback.IRetrofitService;
-import com.example.tidus.ristrat.contract.IMessageTypeContract;
+import com.example.tidus.ristrat.contract.ILaterOnContract;
 import com.example.tidus.ristrat.utils.RetrofitUtils;
 
 import java.util.HashMap;
@@ -13,21 +14,24 @@ import java.util.HashMap;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.ResponseBody;
 
-public class MessageTypeModel implements IMessageTypeContract.IMessageTypeModel {
+/**
+ * Created by TriumphalSun
+ * on 2019/7/16 0016
+ */
+public class LaterOnModel implements ILaterOnContract.ILaterOnModel {
     @SuppressLint("CheckResult")
     @Override
-    public void getMessageType(HashMap<String, Object> params, final IRequestCallback iRequestCallback) {
+    public void getLaterOn(HashMap<String, Object> params, final IRequestCallback iRequestCallback) {
         RetrofitUtils.getInstance().createService(IRetrofitService.class)
-                .doMessageNumGet(ApiService.MESSAGE_NUM, params)
+                .doLaterOnGet(ApiService.LATER_ON, params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<ResponseBody>() {
+                .subscribe(new Consumer<LaterOnBean>() {
                     @Override
-                    public void accept(ResponseBody responseBody) throws Exception {
+                    public void accept(LaterOnBean laterOnBean) throws Exception {
                         if (iRequestCallback != null) {
-                            iRequestCallback.onSuccess(responseBody);
+                            iRequestCallback.onSuccess(laterOnBean);
                         }
                     }
                 }, new Consumer<Throwable>() {
@@ -38,6 +42,5 @@ public class MessageTypeModel implements IMessageTypeContract.IMessageTypeModel 
                         }
                     }
                 });
-
     }
 }

@@ -1,14 +1,17 @@
 package com.example.tidus.ristrat.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.TextView;
 
 import com.example.tidus.ristrat.R;
+import com.example.tidus.ristrat.bean.CheckRiskBean;
 import com.example.tidus.ristrat.bean.NowSelectTablesBean;
 
 import java.util.List;
@@ -20,10 +23,12 @@ import java.util.List;
 public class TablesAdapter extends RecyclerView.Adapter<TablesAdapter.ViewHolder> {
     private Context context;
     private List<NowSelectTablesBean.ServerParamsBean.BusinesslistBean.ListformsBean> listforms;
+    private CheckRiskBean checkRiskBean;
 
-    public TablesAdapter(Context context, List<NowSelectTablesBean.ServerParamsBean.BusinesslistBean.ListformsBean> listforms) {
+    public TablesAdapter(Context context, List<NowSelectTablesBean.ServerParamsBean.BusinesslistBean.ListformsBean> listforms, CheckRiskBean checkRiskBean) {
         this.context = context;
         this.listforms = listforms;
+        this.checkRiskBean = checkRiskBean;
     }
 
     @NonNull
@@ -36,11 +41,33 @@ public class TablesAdapter extends RecyclerView.Adapter<TablesAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull final TablesAdapter.ViewHolder holder, int position) {
         final NowSelectTablesBean.ServerParamsBean.BusinesslistBean.ListformsBean listformsBean = listforms.get(position);
+        if (checkRiskBean != null) {
+            for (CheckRiskBean.ServerParamsBean.BusinesslistBean businesslistBean : checkRiskBean.getServer_params().getBusinesslist()) {
+//                for (CheckRiskBean.ServerParamsBean.BusinesslistBean.ListformsBean listform : businesslistBean.getListforms()) {
+//                    if (listform.getSublist().size() != 0) {
+//                        holder.tv_user_id_01.setVisibility(View.VISIBLE);
+//                        holder.ck_tables.setEnabled(false);
+//                        for (Object o : listform.getSublist()) {
+//                            holder.tv_user_id_01.setText(sublistBean.getUSER_NAME() + "正在评估");
+//                            holder.tv_user_id_01.setTextColor(Color.GRAY);
+//                            holder.ck_tables.setTextColor(Color.GRAY);
+//                        }
+//
+//                    } else {
+//                        holder.tv_user_id_01.setVisibility(View.GONE);
+//                        holder.ck_tables.setEnabled(true);
+//                        holder.ck_tables.setTextColor(Color.BLACK);
+//                    }
+//                }
+            }
+        }
+
+
         holder.ck_tables.setText(listformsBean.getFORM_NAME());
         holder.ck_tables.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setCheckboxFormId.onCheckboxFormId(holder.ck_tables.isChecked(),listformsBean.getFORM_ID());
+                setCheckboxFormId.onCheckboxFormId(holder.ck_tables.isChecked(), listformsBean.getFORM_ID());
             }
         });
     }
@@ -53,10 +80,12 @@ public class TablesAdapter extends RecyclerView.Adapter<TablesAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private final CheckBox ck_tables;
+        private final TextView tv_user_id_01;
 
         public ViewHolder(View itemView) {
             super(itemView);
             ck_tables = itemView.findViewById(R.id.ck_tables);
+            tv_user_id_01 = itemView.findViewById(R.id.tv_user_id_01);
         }
     }
 

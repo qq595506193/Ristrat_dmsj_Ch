@@ -57,8 +57,8 @@ public class SelectQuestionActivity extends AppCompatActivity implements IEvalua
     private QueryHMBean.ServerParamsBean.LISTBean listBean;
     private SelectQuestionListBean selectQuestionListBean;
     private EvaluatingPresenter evaluatingPresenter;
-    private List<List<Integer>> departmentList;
-    List<Integer> keshi_id = new ArrayList<>();
+    private List<List<Integer>> departmentList = new ArrayList<>();
+    private List<Integer> keshi_id = new ArrayList<>();
     private CheckRiskPresenter checkRiskPresenter;
 
     @Override
@@ -68,7 +68,6 @@ public class SelectQuestionActivity extends AppCompatActivity implements IEvalua
         selectQuestionListBean = new SelectQuestionListBean();
         evaluatingPresenter = new EvaluatingPresenter(this);
         checkRiskPresenter = new CheckRiskPresenter(this);
-        departmentList = new ArrayList<>();
 
         initView();
         initData();
@@ -113,11 +112,11 @@ public class SelectQuestionActivity extends AppCompatActivity implements IEvalua
                 }
                 if (ck_question_01.isChecked()) {
                     selectQuestionList.add("1");
-                    selectQuestionListBean.setIndexTable(selectQuestionList);
+                    //selectQuestionListBean.setIndexTable(selectQuestionList);
                 }
                 if (ck_question_02.isChecked()) {
                     selectQuestionList.add("2");
-                    selectQuestionListBean.setIndexTable(selectQuestionList);
+                    //selectQuestionListBean.setIndexTable(selectQuestionList);
                 }
                 Intent intent = new Intent(SelectQuestionActivity.this, RiskAssessment_02Activity.class);
 
@@ -200,36 +199,36 @@ public class SelectQuestionActivity extends AppCompatActivity implements IEvalua
                 if (((CheckRiskBean) result).getCode().equals("0")) {
                     LogUtils.e(((CheckRiskBean) result).getMessage());
                     // 检测加勾选成功
-                    for (CheckRiskBean.ServerParamsBean server_param : ((CheckRiskBean) result).getServer_params()) {
-                        if (server_param.getFORM_ID() == 1) {
-                            if (server_param.getSublist().size() != 0) {
-                                ck_question_01.setEnabled(false);
-                                ck_question_01.setTextColor(Color.GRAY);
-                                tv_user_id_01.setVisibility(View.VISIBLE);
-                                for (CheckRiskBean.ServerParamsBean.SublistBean sublistBean : server_param.getSublist()) {
-                                    tv_user_id_01.setText(sublistBean.getUSER_NAME() + "正在评估");
-                                }
-                            } else {
-                                tv_user_id_01.setVisibility(View.GONE);
-                                ck_question_01.setEnabled(true);
-                                ck_question_01.setTextColor(Color.BLACK);
-                            }
-                        } else if (server_param.getFORM_ID() == 2) {
-                            if (server_param.getSublist().size() != 0) {
-                                ck_question_02.setEnabled(false);
-                                ck_question_02.setTextColor(Color.GRAY);
-                                tv_user_id_02.setVisibility(View.VISIBLE);
-                                for (CheckRiskBean.ServerParamsBean.SublistBean sublistBean : server_param.getSublist()) {
-                                    tv_user_id_02.setText(sublistBean.getUSER_NAME() + "正在评估");
-                                }
-                            } else {
-                                tv_user_id_02.setVisibility(View.GONE);
-                                ck_question_02.setEnabled(true);
-                                ck_question_02.setTextColor(Color.BLACK);
-                            }
-                        }
-
-                    }
+//                    for (CheckRiskBean.ServerParamsBean server_param : ((CheckRiskBean) result).getServer_params()) {
+//                        if (server_param.getFORM_ID() == 1) {
+//                            if (server_param.getSublist().size() != 0) {
+//                                ck_question_01.setEnabled(false);
+//                                ck_question_01.setTextColor(Color.GRAY);
+//                                tv_user_id_01.setVisibility(View.VISIBLE);
+//                                for (CheckRiskBean.ServerParamsBean.SublistBean sublistBean : server_param.getSublist()) {
+//                                    tv_user_id_01.setText(sublistBean.getUSER_NAME() + "正在评估");
+//                                }
+//                            } else {
+//                                tv_user_id_01.setVisibility(View.GONE);
+//                                ck_question_01.setEnabled(true);
+//                                ck_question_01.setTextColor(Color.BLACK);
+//                            }
+//                        } else if (server_param.getFORM_ID() == 2) {
+//                            if (server_param.getSublist().size() != 0) {
+//                                ck_question_02.setEnabled(false);
+//                                ck_question_02.setTextColor(Color.GRAY);
+//                                tv_user_id_02.setVisibility(View.VISIBLE);
+//                                for (CheckRiskBean.ServerParamsBean.SublistBean sublistBean : server_param.getSublist()) {
+//                                    tv_user_id_02.setText(sublistBean.getUSER_NAME() + "正在评估");
+//                                }
+//                            } else {
+//                                tv_user_id_02.setVisibility(View.GONE);
+//                                ck_question_02.setEnabled(true);
+//                                ck_question_02.setTextColor(Color.BLACK);
+//                            }
+//                        }
+//
+//                    }
 
                 } else {
 

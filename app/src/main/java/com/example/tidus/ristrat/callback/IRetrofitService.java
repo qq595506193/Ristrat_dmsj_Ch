@@ -7,6 +7,7 @@ import com.example.tidus.ristrat.bean.CheckRiskBean;
 import com.example.tidus.ristrat.bean.CommitBean;
 import com.example.tidus.ristrat.bean.EvaluatingBean;
 import com.example.tidus.ristrat.bean.HistoryAssessBean;
+import com.example.tidus.ristrat.bean.LaterOnBean;
 import com.example.tidus.ristrat.bean.MessageBean;
 import com.example.tidus.ristrat.bean.MessageNumBean;
 import com.example.tidus.ristrat.bean.MessageUpdateBean;
@@ -18,6 +19,7 @@ import com.example.tidus.ristrat.bean.SelectedTablesBean;
 import java.util.HashMap;
 
 import io.reactivex.Observable;
+import okhttp3.ResponseBody;
 import retrofit2.http.GET;
 import retrofit2.http.QueryMap;
 import retrofit2.http.Url;
@@ -38,7 +40,7 @@ public interface IRetrofitService {
 
     // 查询未读消息条数
     @GET
-    Observable<MessageNumBean> doMessageNumGet(@Url String apiUrl, @QueryMap HashMap<String, Object> params);
+    Observable<ResponseBody> doMessageNumGet(@Url String apiUrl, @QueryMap HashMap<String, Object> params);
 
 
     // 查询题目表格列表
@@ -80,4 +82,8 @@ public interface IRetrofitService {
     // 业务问卷查询
     @GET
     Observable<SelectedTablesBean> doSelectedTablesGet(@Url String apiUrl, @QueryMap HashMap<String, Object> params);
+
+    // 稍后提醒
+    @GET
+    Observable<LaterOnBean> doLaterOnGet(@Url String apiUrl, @QueryMap HashMap<String, Object> params);
 }

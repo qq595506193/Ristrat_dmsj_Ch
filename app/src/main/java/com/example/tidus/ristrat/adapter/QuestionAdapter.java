@@ -21,8 +21,12 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
 
     private List<RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean> wenjuanBeans;
 
+    private RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean wenjuannameBean;
+
 
     private boolean isCommit = false;
+
+    private int form_id;
 
 
     public QuestionAdapter(Context context) {
@@ -30,8 +34,16 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
         this.context = context;
     }
 
-    public void setCommit(boolean commit) {
-        isCommit = commit;
+    public void setCommit(boolean commit, int form_id) {
+        this.isCommit = commit;
+        this.form_id = form_id;
+        notifyDataSetChanged();
+    }
+
+    public void setWenjuannameBean(RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean wenjuannameBean) {
+        if (wenjuannameBean != null) {
+            this.wenjuannameBean = wenjuannameBean;
+        }
         notifyDataSetChanged();
     }
 
@@ -55,18 +67,28 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
         final RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean wenjuanBean = wenjuanBeans.get(position);
         for (RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean : wenjuanBean.getSublist()) {
             holder.tv_xiaobiao_name.setText(sublistBean.getFACTOR_GROUP_NAME());
-            final TopicAdapter topicAdapter = new TopicAdapter(context, wenjuanBeans.get(position).getSublist(), wenjuanBeans, this, wenjuanBeans.get(position));
+            final TopicAdapter topicAdapter = new TopicAdapter(context, wenjuanBeans.get(position).getSublist(), wenjuanBeans, this, position);
             holder.rv_question_check.setLayoutManager(new GridLayoutManager(context, 4));
             holder.rv_question_check.setAdapter(topicAdapter);
-            /*// 算分回调
+            topicAdapter.setWenjuannameBean(wenjuannameBean);
+            // 算分回调
             topicAdapter.setSetCheckItem(new TopicAdapter.SetCheckItem() {
                 @Override
                 public void onSetCheckItem(boolean checked, int position, RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean) {
                     setItemGroupCheckListener.setItemGroupCheck(checked, position, sublistBean);
                 }
             });
+            // 输入框的值
+            topicAdapter.setSetShuRuText(new TopicAdapter.SetShuRuText() {
+                @Override
+                public void onShuRuText(String shuruValue) {
+                    setShuruTextStr.onShuruTextStr(shuruValue);
+                }
+            });
             // 提交后置为不可选
-            topicAdapter.setCommit(isCommit);
+            topicAdapter.setCommit(isCommit, form_id);
+
+            /*
             // 互斥回调
             topicAdapter.setSetCheckedItem(new TopicAdapter.SetCheckedItem() {
                 @Override
@@ -97,7 +119,8 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
         }
     }
 
-    /*private SetItemGroupCheckListener setItemGroupCheckListener;
+    // 算分回调
+    private SetItemGroupCheckListener setItemGroupCheckListener;
 
     public interface SetItemGroupCheckListener {
         void setItemGroupCheck(boolean isChecked, int position, RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean);
@@ -106,6 +129,19 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
     public void setSetItemGroupCheckListener(SetItemGroupCheckListener setItemGroupCheckListener) {
         this.setItemGroupCheckListener = setItemGroupCheckListener;
     }
+
+    // 输入框的值
+    private SetShuruTextStr setShuruTextStr;
+
+    public interface SetShuruTextStr {
+        void onShuruTextStr(String shuruStr);
+    }
+
+    public void setSetShuruTextStr(SetShuruTextStr setShuruTextStr) {
+        this.setShuruTextStr = setShuruTextStr;
+    }
+
+    /*
 
     private SetItemChecked setItemChecked;
 

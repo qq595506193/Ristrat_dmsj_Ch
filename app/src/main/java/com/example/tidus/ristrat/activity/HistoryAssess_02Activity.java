@@ -23,6 +23,7 @@ import com.example.tidus.ristrat.bean.QueryHMBean;
 import com.example.tidus.ristrat.contract.IHistoryAssessContract;
 import com.example.tidus.ristrat.mvp.presenter.HistoryAssessPresenter;
 import com.example.tidus.ristrat.utils.LogUtils;
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
@@ -191,8 +192,8 @@ public class HistoryAssess_02Activity extends BaseMvpActivity<IHistoryAssessCont
                 Intent intent = new Intent(App.getContext(), NowSelectTablesActivity.class);
                 intent.putExtra("loginBean", loginBean);
                 intent.putExtra("serverParamsBean", serverParamsBean);
-
                 startActivity(intent);
+                finish();
             }
         });
         rv_table_list.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -305,12 +306,8 @@ public class HistoryAssess_02Activity extends BaseMvpActivity<IHistoryAssessCont
                         String minute = diagnosis_date.substring(10, 12);// 分
                         String second = diagnosis_date.substring(12, 14);// 秒
                         zhenduan += "(" + year + "年" + month + "月" + day + "日" + time + "时" + minute + "分" + second + "秒" + ")" + replace + "\n";
-
-
                     }
                     tv_zhenduan_content.setText(zhenduan);
-
-
                     tv_name.setText(((HistoryAssessBean) result).getServer_params().getPATIENT_NAME());
                     if (((HistoryAssessBean) result).getServer_params().getPATIENT_SEX().equals("M")) {
                         tv_sex.setText("男");
@@ -338,7 +335,7 @@ public class HistoryAssess_02Activity extends BaseMvpActivity<IHistoryAssessCont
                                         initInfo(wenjuanBean);
                                     }
                                 } else {
-                                    cly_02.setVisibility(View.GONE);
+                                    //cly_02.setVisibility(View.GONE);
                                     cly_visib.setVisibility(View.GONE);
                                     cly_visib_02.setVisibility(View.VISIBLE);
                                 }
@@ -348,7 +345,7 @@ public class HistoryAssess_02Activity extends BaseMvpActivity<IHistoryAssessCont
 
                         }
                     } else {
-                        cly_02.setVisibility(View.GONE);
+                        //cly_02.setVisibility(View.GONE);
                         cly_visib.setVisibility(View.GONE);
                         cly_visib_02.setVisibility(View.VISIBLE);
                     }
@@ -367,132 +364,6 @@ public class HistoryAssess_02Activity extends BaseMvpActivity<IHistoryAssessCont
 
     }
 
-    private void initViewChart() {
-        if (form_id == 1) {
-            //准备好每个点对应的y轴数值
-            listY = new ArrayList<>();
-            listY.clear();
-            listY.add("");
-            listY.add("低危");
-            listY.add("中危");
-            listY.add("高危");
-            listY.add("极高危");
-            listY.add("确诊");
-        } else if (form_id == 2) {
-            listY = new ArrayList<>();
-            listY.clear();
-            listY.add("");
-            listY.add("底出血");
-            listY.add("");
-            listY.add("高出血");
-            listY.add("");
-            listY.add("");
-        }
-        //折线图
-        //是否缩放X轴
-        chartview.setScaleXEnabled(false);
-        //是否缩放Y轴
-        chartview.setScaleYEnabled(false);
-        //设置支持触控手势
-        chartview.setTouchEnabled(true);
-        //设置推动
-        chartview.setScaleEnabled(true);
-        chartview.setDragDecelerationFrictionCoef(0.9f);
-        //设置是否可以拖拽
-        chartview.setDragEnabled(true);
-        //无数据时显示的文字
-        chartview.setNoDataText("暂无数据");
-        //准备好每个点对应的x轴数
-        //LogUtils.e("问卷长度===" + wenjuan.size());
-        listX = new ArrayList<>();
-        for (HistoryAssessBean.ServerParamsBean.ReportListBean.WENJUANBean wenjuanBean : wenjuan) {
-            String send_time = wenjuanBean.getREPORT_TIME();
-            String year = send_time.substring(0, 4);// 年
-            String month = send_time.substring(4, 6);// 月
-            String day = send_time.substring(6, 8);// 日
-            String time = send_time.substring(8, 10);// 时
-            String minute = send_time.substring(10, 12);// 分
-            String second = send_time.substring(12, 14);// 秒
-            listX.add(year + "年" + month + "月" + day + "日");
-        }
-        //LogUtils.e("X轴的长度===" + listX.size());
-        //设置样式
-        YAxis rightAxis = chartview.getAxisRight();
-        //设置图表右边的y轴禁用
-        rightAxis.setEnabled(false);
-        YAxis leftAxis = chartview.getAxisLeft();
-        leftAxis.setValueFormatter(new IndexAxisValueFormatter(listY));
-        //设置Y极值，我这里没设置最大值，因为项目需要没有设置最大值
-        leftAxis.setAxisMinimum(0f);
-        leftAxis.setAxisMaximum((float) listY.size());
-        leftAxis.setDrawGridLines(false);
-        //1.设置x轴和y轴的点
-
-        for (int i = 0; i < wenjuan.size(); i++) {
-            HistoryAssessBean.ServerParamsBean.ReportListBean.WENJUANBean wenjuanBean = wenjuan.get(i);
-            List<HistoryAssessBean.ServerParamsBean.ReportListBean.WENJUANBean.SublistBean> sublist = wenjuanBean.getSublist();
-            for (HistoryAssessBean.ServerParamsBean.ReportListBean.WENJUANBean.SublistBean sublistBean : sublist) {
-                LogUtils.e("subList长度==" + sublist.size() + "");
-                String current_risk_level = sublistBean.getCURRENT_RISK_LEVEL();
-
-                final int s = Integer.parseInt(current_risk_level);
-                if (5 == s) {
-                    entries.add(new Entry(i + 1, 1));
-                    colors.add(Color.parseColor("#05a558"));
-                } else if (6 == s) {
-                    entries.add(new Entry(i + 1, 2));
-                    colors.add(Color.parseColor("#6cbdfe"));
-                } else if (7 == s) {
-                    entries.add(new Entry(i + 1, 3));
-                    colors.add(Color.parseColor("#fed700"));
-                } else if (8 == s) {
-                    entries.add(new Entry(i + 1, 4));
-                    colors.add(Color.parseColor("#ff7e00"));
-                } else if (9 == s) {
-                    entries.add(new Entry(i + 1, 5));
-                    colors.add(Color.parseColor("#ff4e6b"));
-                } else if (21 == s) {
-                    entries.add(new Entry(i + 1, 1));
-                    colors.add(Color.parseColor("#05a558"));
-                } else if (22 == s) {
-                    entries.add(new Entry(i + 1, 3));
-                    colors.add(Color.parseColor("#ff4e6b"));
-                }
-            }
-        }
-
-        // 点击事件
-        chartview.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
-            private float valEntry;
-            private int iEntry;
-
-            @Override
-            public void onValueSelected(Entry e, Highlight h) {
-                // 获取Entry
-                iEntry = (int) e.getX();
-                valEntry = e.getY();
-
-                LogUtils.e("e.getX() = " + iEntry + "     e.getY() = " + valEntry);
-                for (int i = 0; i < wenjuan.size(); i++) {
-                    HistoryAssessBean.ServerParamsBean.ReportListBean.WENJUANBean wenjuanBean = wenjuan.get(i);
-                    if (i + 1 == iEntry) {
-                        if (wenjuanBean.getFORM_ID() == form_id) {
-                            initInfo(wenjuanBean);
-                        }
-
-                    }
-                }
-            }
-
-            @Override
-            public void onNothingSelected() {
-
-            }
-        });
-
-        initX(wenjuan);
-
-    }
 
     private void initInfo(HistoryAssessBean.ServerParamsBean.ReportListBean.WENJUANBean wenjuanBean) {
         // 危险等级sub
@@ -639,6 +510,146 @@ public class HistoryAssess_02Activity extends BaseMvpActivity<IHistoryAssessCont
         }
     }
 
+    private void initViewChart() {
+        if (form_id == 1) {
+            //准备好每个点对应的y轴数值
+            listY = new ArrayList<>();
+            listY.clear();
+            listY.add("");
+            listY.add("低危");
+            listY.add("中危");
+            listY.add("高危");
+            listY.add("极高危");
+            listY.add("确诊");
+        } else if (form_id == 2) {
+            listY = new ArrayList<>();
+            listY.clear();
+            listY.add("");
+            listY.add("底出血");
+            listY.add("");
+            listY.add("高出血");
+            listY.add("");
+            listY.add("");
+        }
+        //折线图
+        //是否缩放X轴
+        chartview.setScaleXEnabled(false);
+        //是否缩放Y轴
+        chartview.setScaleYEnabled(false);
+        //设置支持触控手势
+        chartview.setTouchEnabled(true);
+        //设置推动
+        chartview.setScaleEnabled(false);
+        chartview.setDragDecelerationFrictionCoef(0.9f);
+        //设置是否可以拖拽
+        chartview.setDragEnabled(true);
+        //设置一页最大显示个数为6，超出部分就滑动
+        float ratio = (float) wenjuan.size() / (float) 6;
+        //显示的时候是按照多大的比率缩放显示,1f表示不放大缩小
+        chartview.zoom(ratio, 1f, 0, 0);
+        //无数据时显示的文字
+        chartview.setNoDataText("暂无数据");
+        //设置从X轴出来的动画时间
+        //mLineChart.animateX(1500);
+        //设置XY轴动画
+        chartview.animateXY(1500, 1500, Easing.EasingOption.EaseInSine, Easing.EasingOption.EaseInSine);
+        //准备好每个点对应的x轴数
+        //LogUtils.e("问卷长度===" + wenjuan.size());
+        listX = new ArrayList<>();
+        listX.add("");
+        for (int i = 0; i < wenjuan.size(); i++) {
+            HistoryAssessBean.ServerParamsBean.ReportListBean.WENJUANBean wenjuanBean = wenjuan.get(i);
+            String send_time = wenjuanBean.getREPORT_TIME();
+            String year = send_time.substring(0, 4);// 年
+            String month = send_time.substring(4, 6);// 月
+            String day = send_time.substring(6, 8);// 日
+            String time = send_time.substring(8, 10);// 时
+            String minute = send_time.substring(10, 12);// 分
+            String second = send_time.substring(12, 14);// 秒
+            listX.add(year + "年" + month + "月" + day + "日" + time + "时" + minute + "分" + second + "秒");
+        }
+        //LogUtils.e("X轴的长度===" + listX.size());
+        //设置样式
+        YAxis rightAxis = chartview.getAxisRight();
+        //设置图表右边的y轴禁用
+        rightAxis.setEnabled(false);
+        YAxis yAxis = chartview.getAxisLeft();
+        yAxis.setValueFormatter(new IndexAxisValueFormatter(listY));
+        //设置Y极值，我这里没设置最大值，因为项目需要没有设置最大值
+        yAxis.setXOffset(0);
+        yAxis.setYOffset(0);
+        yAxis.setAxisMinimum(0f);
+        yAxis.setAxisMaximum((float) listY.size());
+        yAxis.setDrawGridLines(false);
+        //1.设置x轴和y轴的点
+        for (int i = 0; i < wenjuan.size(); i++) {
+            HistoryAssessBean.ServerParamsBean.ReportListBean.WENJUANBean wenjuanBean = wenjuan.get(i);
+            List<HistoryAssessBean.ServerParamsBean.ReportListBean.WENJUANBean.SublistBean> sublist = wenjuanBean.getSublist();
+            for (HistoryAssessBean.ServerParamsBean.ReportListBean.WENJUANBean.SublistBean sublistBean : sublist) {
+                LogUtils.e("subList长度==" + sublist.size() + "");
+                String current_risk_level = sublistBean.getCURRENT_RISK_LEVEL();
+
+                final int s = Integer.parseInt(current_risk_level);
+                if (5 == s) {
+                    entries.add(new Entry(i + 1, 1));
+                    colors.add(Color.parseColor("#05a558"));
+                } else if (6 == s) {
+                    entries.add(new Entry(i + 1, 2));
+                    colors.add(Color.parseColor("#6cbdfe"));
+                } else if (7 == s) {
+                    entries.add(new Entry(i + 1, 3));
+                    colors.add(Color.parseColor("#fed700"));
+                } else if (8 == s) {
+                    entries.add(new Entry(i + 1, 4));
+                    colors.add(Color.parseColor("#ff7e00"));
+                } else if (9 == s) {
+                    entries.add(new Entry(i + 1, 5));
+                    colors.add(Color.parseColor("#ff4e6b"));
+                } else if (21 == s) {
+                    entries.add(new Entry(i + 1, 1));
+                    colors.add(Color.parseColor("#05a558"));
+                } else if (22 == s) {
+                    entries.add(new Entry(i + 1, 3));
+                    colors.add(Color.parseColor("#ff4e6b"));
+                }
+            }
+        }
+
+
+        // 点击事件
+        chartview.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+            private float valEntry;
+            private int iEntry;
+
+
+            @Override
+            public void onValueSelected(Entry e, Highlight h) {
+                // 获取Entry
+                iEntry = (int) e.getX();
+                valEntry = e.getY();
+
+                LogUtils.e("e.getX() = " + iEntry + "     e.getY() = " + valEntry);
+                for (int i = 0; i < wenjuan.size(); i++) {
+                    HistoryAssessBean.ServerParamsBean.ReportListBean.WENJUANBean wenjuanBean = wenjuan.get(i);
+                    if (i + 1 == iEntry) {
+                        if (wenjuanBean.getFORM_ID() == form_id) {
+                            initInfo(wenjuanBean);
+                        }
+                    }
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected() {
+
+            }
+        });
+
+        initX(wenjuan);
+
+    }
+
     private void initX(List<HistoryAssessBean.ServerParamsBean.ReportListBean.WENJUANBean> wenjuan) {
         //隐藏描述
         Description description = new Description();
@@ -646,30 +657,21 @@ public class HistoryAssess_02Activity extends BaseMvpActivity<IHistoryAssessCont
         chartview.setDescription(description);
         //X轴
         XAxis xAxis = chartview.getXAxis();
-        xAxis.setGranularity(1);     //这个很重要
-
-
         xAxis.setValueFormatter(new IndexAxisValueFormatter(listX));
-//        xAxis.setValueFormatter(new IAxisValueFormatter() {
-//            @Override
-//            public String getFormattedValue(float value, AxisBase axis) {
-//                int IValue = (int) value;
-//                CharSequence format = DateFormat.format("yyyy-MM-dd",
-//                        System.currentTimeMillis() - (long) (listX.size() - IValue) * 24 * 60 * 60 * 1000);
-//                return format.toString();
-//            }
-//        });
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);//设置x轴的显示位置
-      /*  //设置X轴高度
-        xAxis.setAxisLineWidth(1);*/
+        //设置X轴高度
+        xAxis.setAxisLineWidth(1);
         xAxis.setGranularity(1f);
         //设置X轴的刻度数量，第二个参数为true,将会画出明确数量（带有小数点），但是可能值导致不均匀，默认（6，false）
-        xAxis.setLabelCount(listX.size(), true);
+        xAxis.setLabelCount(listX.size(), false);
         // 设置x轴数据偏移量
-        xAxis.setXOffset(12);
+        xAxis.setXOffset(0);
         //设置X轴的值（最小值、最大值、然后会根据设置的刻度数量自动分配刻度显示）
         xAxis.setAxisMinimum(0f);
         xAxis.setAxisMaximum((float) listX.size() + 1);
+        //设置字体大小10sp
+        xAxis.setTextSize(8f);
+        // 设置垂直线
         xAxis.setDrawGridLines(false);
         setDiscounting(entries);
     }
@@ -680,15 +682,19 @@ public class HistoryAssess_02Activity extends BaseMvpActivity<IHistoryAssessCont
         // 设置数据内容的样式
         dataSet.setColor(Color.WHITE);                     // 设置数据中线的颜色
         dataSet.setDrawValues(false);                     // 设置是否显示数据点的值
-        dataSet.setDrawCircleHole(false);                 // 设置数据点是空心还是实心，默认空心
-        dataSet.setCircleColors(colors);              // 设置数据点的颜色
-        dataSet.setCircleSize(10);                         // 设置数据点的大小
+        dataSet.setDrawCircleHole(false);                // 设置数据点是空心还是实心，默认空心
+        dataSet.setCircleColors(colors);                // 设置数据点的颜色
+        dataSet.setCircleSize(13);                     // 设置数据点大小
+        dataSet.setHighlightEnabled(true);            //设置显示十字线，必须显示十字线，否则MarkerView不生效
+        // 设置数据点的大小
         dataSet.setHighLightColor(Color.WHITE);
 
         //chart设置数据
         LineData lineData = new LineData(dataSet);
         //是否绘制线条上的文字
         lineData.setDrawValues(false);
+        // x轴执行动画
+        //chartview.animateX(2000);
         chartview.setData(lineData);
         chartview.invalidate(); // refresh
 

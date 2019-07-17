@@ -25,7 +25,7 @@
         android:layout_height="@dimen/dp_10"
         android:layout_marginLeft="@dimen/dp_3"
         android:layout_weight="1"
-        android:src="@mipmap/wenhao_01"
+        android:src="@mipmap/wenhao_02"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/cb_checked"
         app:layout_constraintLeft_toRightOf="@id/cb_checked"
@@ -36,8 +36,8 @@
         android:layout_width="@dimen/dp_40"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dp_5"
-        android:visibility="gone"
         android:background="@drawable/edit_bg"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/cb_checked"
         app:layout_constraintLeft_toRightOf="@id/cb_checked"
         app:layout_constraintTop_toTopOf="@id/cb_checked" />

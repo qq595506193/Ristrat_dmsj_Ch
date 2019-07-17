@@ -98,7 +98,15 @@ public class QueryHMBean implements Serializable {
             private String PATIENT_NAME;
             private String USER_NAME;
             private String FORM_NAME;
+            private boolean isCheckBox;
 
+            public boolean isCheckBox() {
+                return isCheckBox;
+            }
+
+            public void setCheckBox(boolean checkBox) {
+                isCheckBox = checkBox;
+            }
 
             public int getMERCHANT_ID() {
                 return MERCHANT_ID;

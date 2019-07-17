@@ -20,28 +20,16 @@
 
     <ImageView
 
-        android:padding="@dimen/dp_1"
         android:id="@+id/iv_message"
         android:layout_width="@dimen/dp_10"
         android:layout_height="match_parent"
         android:layout_marginRight="@dimen/dp_12"
+        android:padding="@dimen/dp_1"
         android:src="@mipmap/xiaoxi2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toLeftOf="@id/iv_close"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_message_num"
-        android:layout_width="@dimen/dp_10"
-        android:layout_height="@dimen/dp_10"
-        android:background="@drawable/text_view"
-        android:gravity="center"
-        android:text="99"
-        android:textColor="@color/white"
-        android:textSize="@dimen/sp_6"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/iv_message"
-        app:layout_constraintLeft_toRightOf="@id/iv_message" />
 
     <TextView
         android:id="@+id/tv_login_name"

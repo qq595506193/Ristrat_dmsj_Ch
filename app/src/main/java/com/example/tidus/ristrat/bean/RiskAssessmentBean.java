@@ -50,7 +50,7 @@ public class RiskAssessmentBean implements Serializable {
         this.code = code;
     }
 
-    public static class ServerParamsBean  implements Serializable {
+    public static class ServerParamsBean implements Serializable {
         /**
          * PATIENT_ID : TMP82
          * DOCTOR_NAME : null
@@ -175,7 +175,7 @@ public class RiskAssessmentBean implements Serializable {
             this.WENJUANNAME = WENJUANNAME;
         }
 
-        public static class WENJUANNAMEBean implements Serializable  {
+        public static class WENJUANNAMEBean implements Serializable {
             /**
              * MERCHANT_ID : 1400
              * SITE_ID : 1400
@@ -272,7 +272,7 @@ public class RiskAssessmentBean implements Serializable {
                 this.XUANXIANG = XUANXIANG;
             }
 
-            public static class XUANXIANGBean implements Serializable  {
+            public static class XUANXIANGBean implements Serializable {
                 /**
                  * GROUP_TAB : 按计分
                  * GROUP_TAB_ID : 1
@@ -307,7 +307,7 @@ public class RiskAssessmentBean implements Serializable {
                     this.WENJUAN = WENJUAN;
                 }
 
-                public static class WENJUANBean implements Serializable  {
+                public static class WENJUANBean implements Serializable {
                     /**
                      * FACTOR_GROUP_SEQ : 1
                      * FACTOR_GROUP_ID : 1
@@ -352,7 +352,7 @@ public class RiskAssessmentBean implements Serializable {
                         this.sublist = sublist;
                     }
 
-                    public static class SublistBean implements Serializable  {
+                    public static class SublistBean implements Serializable {
                         /**
                          * FACTOR_GROUP_ID : 1
                          * FACTOR_GROUP_NAME : 1 分组
@@ -485,7 +485,7 @@ public class RiskAssessmentBean implements Serializable {
                             this.optionList = optionList;
                         }
 
-                        public static class OptionListBean  implements Serializable {
+                        public static class OptionListBean implements Serializable {
                             /**
                              * RISK_FACTOR_ID : 1001
                              * FACTOR_OPTION_ID : 2
@@ -523,6 +523,15 @@ public class RiskAssessmentBean implements Serializable {
                             private Object BAD_HABITS;
                             private Object BAD_HABITS_DESC;
                             private Object BAD_HABITS_IMPROVE;
+                            private boolean itemChecked;
+
+                            public boolean isItemChecked() {
+                                return itemChecked;
+                            }
+
+                            public void setItemChecked(boolean itemChecked) {
+                                this.itemChecked = itemChecked;
+                            }
 
                             public int getRISK_FACTOR_ID() {
                                 return RISK_FACTOR_ID;

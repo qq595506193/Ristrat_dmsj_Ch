@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.tidus.ristrat.R;
+import com.example.tidus.ristrat.bean.CheckRiskBean;
 import com.example.tidus.ristrat.bean.NowSelectTablesBean;
 
 import java.util.List;
@@ -21,10 +22,18 @@ import java.util.List;
 public class SelectTablesAdapter extends RecyclerView.Adapter<SelectTablesAdapter.ViewHolder> {
     private Context context;
     private List<NowSelectTablesBean.ServerParamsBean.BusinesslistBean> businesslistBeans;
+    private CheckRiskBean checkRiskBean;
 
     public SelectTablesAdapter(Context context, List<NowSelectTablesBean.ServerParamsBean.BusinesslistBean> businesslistBeans) {
         this.context = context;
         this.businesslistBeans = businesslistBeans;
+    }
+
+    public void setServerParamsBeans(CheckRiskBean checkRiskBean) {
+        if (checkRiskBean != null) {
+            this.checkRiskBean = checkRiskBean;
+        }
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -39,6 +48,16 @@ public class SelectTablesAdapter extends RecyclerView.Adapter<SelectTablesAdapte
     public void onBindViewHolder(@NonNull SelectTablesAdapter.ViewHolder holder, final int position) {
         final NowSelectTablesBean.ServerParamsBean.BusinesslistBean businesslistBean = businesslistBeans.get(position);
         holder.tv_table_name.setText(businesslistBean.getASSESS_BUSINESS());// 评估项名字
+
+
+        if (businesslistBean.isChe_color()) {
+            holder.tv_table_name.setBackgroundColor(Color.WHITE);
+            holder.tv_table_name.setTextColor(Color.parseColor("#abd7b4"));
+        } else {
+            holder.tv_table_name.setBackgroundColor(Color.parseColor("#eceff3"));
+            holder.tv_table_name.setTextColor(Color.BLACK);
+        }
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,17 +69,12 @@ public class SelectTablesAdapter extends RecyclerView.Adapter<SelectTablesAdapte
                         businesslistBean.setChe_color(false);
                     }
                 }
-                setSelectTables.onSelectTables(position, businesslistBean);
+                notifyDataSetChanged();
+                setSelectTables.onSelectTables(position, businesslistBean,checkRiskBean);
             }
         });
 
-        if (businesslistBean.isChe_color()) {
-            holder.tv_table_name.setBackgroundColor(Color.parseColor("#28c48f"));
-            holder.tv_table_name.setTextColor(Color.WHITE);
-        } else {
-            holder.tv_table_name.setBackgroundColor(Color.GRAY);
-            holder.tv_table_name.setTextColor(Color.BLACK);
-        }
+
     }
 
     @Override
@@ -82,10 +96,21 @@ public class SelectTablesAdapter extends RecyclerView.Adapter<SelectTablesAdapte
     private SetSelectTables setSelectTables;
 
     public interface SetSelectTables {
-        void onSelectTables(int position, NowSelectTablesBean.ServerParamsBean.BusinesslistBean businesslistBean);
+        void onSelectTables(int position, NowSelectTablesBean.ServerParamsBean.BusinesslistBean businesslistBean, CheckRiskBean checkRiskBean);
     }
 
     public void setSetSelectTables(SetSelectTables setSelectTables) {
         this.setSelectTables = setSelectTables;
     }
+
+    // 判断是否有人正在评估回调
+//    private SetChecking setChecking;
+//
+//    public interface SetChecking {
+//        void onChecking(CheckRiskBean checkRiskBean);
+//    }
+//
+//    public void setSetChecking(SetChecking setChecking) {
+//        this.setChecking = setChecking;
+//    }
 }

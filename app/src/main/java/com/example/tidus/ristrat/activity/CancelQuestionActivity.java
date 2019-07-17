@@ -30,7 +30,7 @@ public class CancelQuestionActivity extends AppCompatActivity implements ICancel
     Button btn_sure;
     private CancelAssessPresenter cancelAssessPresenter;
     private String trim;
-    private QueryHMBean.ServerParamsBean queryHMBean;
+    private QueryHMBean.ServerParamsBean.LISTBean listBean;
 
 
     @Override
@@ -51,18 +51,14 @@ public class CancelQuestionActivity extends AppCompatActivity implements ICancel
                     ToastUtils.show("请输入取消原因");
                     return;
                 }
-                if (queryHMBean.getTixingLIST().size() != 0) {
-                    for (QueryHMBean.ServerParamsBean.LISTBean listBean : queryHMBean.getLIST()) {
-                        HashMap<String, Object> params = new HashMap<>();
-                        params.put("Type", "saveHM_Patient_Assess_Cancel");
-                        params.put("VISIT_SQ_NO", listBean.getVISIT_SQ_NO());// 流水号
-                        params.put("REMINDE_ID", listBean.getREMINDE_ID());// 提醒ID
-                        params.put("PATIENT", listBean.getPATIENT_ID());// 患者ID
-                        params.put("CANCEL_RESON", trim);// 取消原因
-                        params.put("OPERATE_RESULT", listBean.getOPERATE_RESULT());// 当前状态
-                        cancelAssessPresenter.getCancelAssess(params);
-                    }
-                }
+                HashMap<String, Object> params = new HashMap<>();
+                params.put("Type", "saveHM_Patient_Assess_Cancel");
+                params.put("VISIT_SQ_NO", listBean.getVISIT_SQ_NO());// 流水号
+                params.put("REMINDE_ID", listBean.getREMINDE_ID());// 提醒ID
+                params.put("PATIENT", listBean.getPATIENT_ID());// 患者ID
+                params.put("CANCEL_RESON", trim);// 取消原因
+                params.put("OPERATE_RESULT", listBean.getOPERATE_RESULT());// 当前状态
+                cancelAssessPresenter.getCancelAssess(params);
 
 
             }
@@ -77,7 +73,7 @@ public class CancelQuestionActivity extends AppCompatActivity implements ICancel
 
     private void initView() {
         ButterKnife.bind(this);
-        queryHMBean = (QueryHMBean.ServerParamsBean) getIntent().getSerializableExtra("queryHMBean");
+        listBean = (QueryHMBean.ServerParamsBean.LISTBean) getIntent().getSerializableExtra("listBean");
         cancelAssessPresenter = new CancelAssessPresenter(this);
         iv_close.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -207,7 +207,7 @@
 
             </RadioGroup>
 
-            <Button
+            <!--<Button
                 android:id="@+id/btn_log"
                 android:layout_width="@dimen/dp_50"
                 android:layout_height="@dimen/dp_15"
@@ -217,7 +217,7 @@
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent" />-->
 
         </android.support.constraint.ConstraintLayout>
 
@@ -248,7 +248,7 @@
         <android.support.constraint.ConstraintLayout
             android:id="@+id/tv_bottom_bar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_25"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/dp_20"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -256,16 +256,28 @@
 
 
             <Button
+                android:id="@+id/btn_save"
+                android:layout_width="@dimen/dp_70"
+                android:layout_height="@dimen/dp_18"
+                android:background="@drawable/btn_sure"
+                android:text="暂时保存"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/btn_sign_list"
+                app:layout_constraintTop_toBottomOf="@id/lly_02" />
+
+            <Button
                 android:id="@+id/btn_sign_list"
                 android:layout_width="@dimen/dp_70"
                 android:layout_height="@dimen/dp_18"
-                android:layout_marginBottom="@dimen/dp_5"
                 android:background="@drawable/btn_sure"
                 android:text="提交"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent" />
+                app:layout_constraintLeft_toRightOf="@id/btn_save"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lly_02" />
 
             <LinearLayout
                 android:id="@+id/lly_02"

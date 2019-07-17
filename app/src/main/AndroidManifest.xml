@@ -36,7 +36,6 @@
         <activity
             android:name=".activity.CancelQuestionActivity"
             android:theme="@style/TransparentTheme" />
-        <activity android:name=".activity.RiskAssessmentActivity" />
         <activity
             android:name=".activity.SelectQuestionActivity"
             android:theme="@style/TransparentTheme" />

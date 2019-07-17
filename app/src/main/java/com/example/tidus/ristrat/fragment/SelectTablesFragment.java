@@ -8,6 +8,7 @@ import com.example.lib_core.base.mvp.BasePresenter;
 import com.example.tidus.ristrat.R;
 import com.example.tidus.ristrat.adapter.TablesAdapter;
 import com.example.tidus.ristrat.application.App;
+import com.example.tidus.ristrat.bean.CheckRiskBean;
 import com.example.tidus.ristrat.bean.NowSelectTablesBean;
 
 import butterknife.BindView;
@@ -24,6 +25,7 @@ public class SelectTablesFragment extends BaseMvpFragment {
     public static final String TAG = "SelectTablesFragment";
     private NowSelectTablesBean.ServerParamsBean.BusinesslistBean businesslistBean;
     private TablesAdapter tablesAdapter;
+    private CheckRiskBean checkRiskBean;
 
     @Override
     protected void init() {
@@ -33,14 +35,15 @@ public class SelectTablesFragment extends BaseMvpFragment {
     @Override
     protected void initView() {
         businesslistBean = (NowSelectTablesBean.ServerParamsBean.BusinesslistBean) getArguments().getSerializable(TAG);
-        tablesAdapter = new TablesAdapter(App.getContext(), businesslistBean.getListforms());
+        checkRiskBean = (CheckRiskBean) getArguments().getSerializable("checkRiskBean");// 加勾选
+        tablesAdapter = new TablesAdapter(App.getContext(), businesslistBean.getListforms(), checkRiskBean);
         rv_checkbox.setLayoutManager(new GridLayoutManager(App.getContext(), 4));
         rv_checkbox.setAdapter(tablesAdapter);
         tablesAdapter.notifyDataSetChanged();
         tablesAdapter.setSetCheckboxFormId(new TablesAdapter.SetCheckboxFormId() {
             @Override
             public void onCheckboxFormId(boolean checked, int form_id) {
-                setFormId.onFormId(checked,form_id);
+                setFormId.onFormId(checked, form_id);
             }
         });
     }

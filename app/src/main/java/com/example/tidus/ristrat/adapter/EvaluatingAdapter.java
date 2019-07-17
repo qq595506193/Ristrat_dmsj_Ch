@@ -8,8 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Spinner;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.example.tidus.ristrat.R;
@@ -22,6 +21,7 @@ public class EvaluatingAdapter extends RecyclerView.Adapter<EvaluatingAdapter.Vi
     private Context context;
     private List<QueryHMBean.ServerParamsBean.TixingListBean> tixingListBeans;
     private AlertDialog.Builder builder;
+    private boolean isChecked = false;
 
     public EvaluatingAdapter(Context context) {
         tixingListBeans = new ArrayList<>();
@@ -32,6 +32,11 @@ public class EvaluatingAdapter extends RecyclerView.Adapter<EvaluatingAdapter.Vi
         if (tixingListBeans != null) {
             this.tixingListBeans = tixingListBeans;
         }
+        notifyDataSetChanged();
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
         notifyDataSetChanged();
     }
 
@@ -55,12 +60,26 @@ public class EvaluatingAdapter extends RecyclerView.Adapter<EvaluatingAdapter.Vi
             holder.btn_anew_assess.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // 继续评估
-                    setAssessAnewListener.onAssessAnew(tixingListBean);
+                    builder = new AlertDialog.Builder(context).setIcon(R.mipmap.tixing).setTitle("提醒")
+                            .setMessage("确认要继续评估吗？").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    // 继续评估
+                                    setAssessAnewListener.onAssessAnew(tixingListBean);
+                                }
+                            }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            });
+                    builder.create().show();
+
                 }
             });
-
-
+            // 全选
+            tixingListBean.setCheckBox(isChecked);
+            holder.ck_selected.setChecked(tixingListBean.isCheckBox());
             // 终止评估
             holder.btn_termination_assess.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -69,15 +88,12 @@ public class EvaluatingAdapter extends RecyclerView.Adapter<EvaluatingAdapter.Vi
                             .setMessage("确认要终止评估吗？").setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    //ToDo: 你想做的事情
-
-
+                                    // 终止评估
                                     setAssessCancelListener.onAssessCancel(tixingListBean, tixingListBeans, position);
                                 }
                             }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    //ToDo: 你想做的事情
                                     dialogInterface.dismiss();
                                 }
                             });
@@ -103,6 +119,7 @@ public class EvaluatingAdapter extends RecyclerView.Adapter<EvaluatingAdapter.Vi
         private final TextView btn_termination_assess;
         private final TextView btn_anew_assess;
         private final TextView tv_questionnaire;
+        private final CheckBox ck_selected;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -112,6 +129,7 @@ public class EvaluatingAdapter extends RecyclerView.Adapter<EvaluatingAdapter.Vi
             btn_termination_assess = itemView.findViewById(R.id.btn_termination_assess);
             btn_anew_assess = itemView.findViewById(R.id.btn_anew_assess);
             tv_questionnaire = itemView.findViewById(R.id.tv_questionnaire);
+            ck_selected = itemView.findViewById(R.id.ck_selected);
         }
     }
 

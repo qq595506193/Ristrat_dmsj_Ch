@@ -7,8 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.tidus.ristrat.R;
 import com.example.tidus.ristrat.bean.RiskAssessmentBean;
@@ -22,21 +24,31 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder> 
     private List<RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean> sublistBeans;
     private boolean isCommit = false;
     private View customView;
-    private List<RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean> wenjuanBeans;
+    private List<RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean> wenjuanBeans;// 所有组
     private QuestionAdapter questionAdapter;
-    private RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean wenjuanBean;
+    private int groupPosition;// 当前组
     private CommonPopupWindow commonPopupWindow;
+    private int form_id;
+    private RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean wenjuannameBean;
 
-    public TopicAdapter(Context context, List<RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean> sublistBeans, List<RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean> wenjuanBeans, QuestionAdapter questionAdapter, RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean wenjuanBean) {
+    public TopicAdapter(Context context, List<RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean> sublistBeans, List<RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean> wenjuanBeans, QuestionAdapter questionAdapter, int groupPosition) {
         this.context = context;
         this.sublistBeans = sublistBeans;
         this.wenjuanBeans = wenjuanBeans;
         this.questionAdapter = questionAdapter;
-        this.wenjuanBean = wenjuanBean;
+        this.groupPosition = groupPosition;
     }
 
-    public void setCommit(boolean commit) {
-        isCommit = commit;
+    public void setWenjuannameBean(RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean wenjuannameBean) {
+        if (wenjuannameBean != null) {
+            this.wenjuannameBean = wenjuannameBean;
+        }
+        notifyDataSetChanged();
+    }
+
+    public void setCommit(boolean commit, int form_id) {
+        this.isCommit = commit;
+        this.form_id = form_id;
         notifyDataSetChanged();
     }
 
@@ -51,13 +63,14 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull final TopicAdapter.ViewHolder holder, final int position) {
-        RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean = sublistBeans.get(position);
+        final RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean = sublistBeans.get(position);
         holder.cb_checked.setText(sublistBean.getRISK_FACTOR_NAME());
-        /*final RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean = sublistBeans.get(position);
         if (sublistBean.getIsslect().equals("1")) {
+            sublistBean.getOptionList().get(0).setItemChecked(true);
             holder.cb_checked.setChecked(true);
             holder.iv_wenhao.setVisibility(View.VISIBLE);
         } else {
+            sublistBean.getOptionList().get(0).setItemChecked(false);
             holder.cb_checked.setChecked(false);
             holder.iv_wenhao.setVisibility(View.GONE);
         }
@@ -66,38 +79,64 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder> 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    setCheckItem.onSetCheckItem(isChecked, position, sublistBean);
+                    //setCheckItem.onSetCheckItem(isChecked, position, sublistBean);
                     if (sublistBean.getSCORE_SHOW_TYPE() == 30) {
                         holder.et_shuru.setVisibility(View.VISIBLE);
+                        String trim = holder.et_shuru.getText().toString().trim();
+                        setShuRuText.onShuRuText(trim);
                     }
                 } else {
-                    setCheckItem.onSetCheckItem(isChecked, position, sublistBean);
+                    //setCheckItem.onSetCheckItem(isChecked, position, sublistBean);
                     if (sublistBean.getSCORE_SHOW_TYPE() == 30) {
                         holder.et_shuru.setVisibility(View.GONE);
                     }
                 }
             }
         });
+        // 互斥
+        if (sublistBean.getMUTEX_GROUP() == 1) {
+            holder.cb_checked.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        for (int i = 0; i < wenjuanBeans.size(); i++) {
+                            if (i != groupPosition) {
+                                holder.cb_checked.setChecked(false);
+                            } else {
+                                holder.cb_checked.setChecked(true);
+                            }
+                        }
+                    }
+                }
+            });
+        }
 
-        holder.cb_checked.setText(sublistBean.getRISK_FACTOR_NAME());
-
+        // 判断提交后置位不能选择
+        if (form_id == wenjuannameBean.getFORM_ID()) {
+            if (isCommit) {
+                holder.cb_checked.setEnabled(false);
+            }
+        } else {
+            if (isCommit) {
+                holder.cb_checked.setEnabled(true);
+            }
+        }
         // 计算分数
         holder.cb_checked.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setCheckedItem.onSetCheckedItem(position);
-                //setCheckItem.onSetCheckItem(holder.cb_checked.isChecked(), position, sublistBean);
+                //setCheckedItem.onSetCheckedItem(position);
+                setCheckItem.onSetCheckItem(holder.cb_checked.isChecked(), position, sublistBean);
             }
         });
 
-        // 判断提交后置位不能选择
-        if (isCommit) {
-            holder.cb_checked.setEnabled(false);
-        }
+
+/*
 
 
         final View view_pop = (View) LayoutInflater.from(context).inflate(R.layout.item_wenhao_pop, null);
 
+        */
         // 问号pop弹窗
         holder.iv_wenhao.setOnClickListener(new View.OnClickListener() {
 
@@ -121,7 +160,7 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder> 
                             @Override
                             public void getChildView(View view, int layoutResId) {
                                 TextView tv_wenhao_content = view.findViewById(R.id.tv_wenhao_content);
-                                tv_wenhao_content.setText("来源于：" + sublistBean.getRISK_FACTOR_NAME());
+                                tv_wenhao_content.setText(sublistBean.getANALYSIS_SOURCE_STR());
                             }
                         })//设置外部是否可点击 默认是true
                         .setOutsideTouchable(true)
@@ -132,7 +171,7 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder> 
 
 
             }
-        });*/
+        });
 
 
     }
@@ -158,7 +197,7 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder> 
         }
     }
 
-    /*// 计算分数接口
+    // 计算分数接口
     private SetCheckItem setCheckItem;
 
     public interface SetCheckItem {
@@ -169,7 +208,18 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder> 
         this.setCheckItem = setCheckItem;
     }
 
-    private SetCheckedItem setCheckedItem;
+    // 其他输入框内容回调接口
+    private SetShuRuText setShuRuText;
+
+    public interface SetShuRuText {
+        void onShuRuText(String shuruValue);
+    }
+
+    public void setSetShuRuText(SetShuRuText setShuRuText) {
+        this.setShuRuText = setShuRuText;
+    }
+
+    /*private SetCheckedItem setCheckedItem;
 
     public interface SetCheckedItem {
         void onSetCheckedItem(int position);

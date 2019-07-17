@@ -1,15 +1,17 @@
 package com.example.tidus.ristrat.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.TextView;
 
 import com.example.tidus.ristrat.R;
-import com.example.tidus.ristrat.bean.NowSelectTablesBean;
+import com.example.tidus.ristrat.bean.CheckRiskBean;
 import com.example.tidus.ristrat.bean.SelectedTablesBean;
 
 import java.util.List;
@@ -21,10 +23,20 @@ import java.util.List;
 public class PingTablesAdapter extends RecyclerView.Adapter<PingTablesAdapter.ViewHolder> {
     private Context context;
     private List<SelectedTablesBean.ServerParamsBean.BusinesslistBean.ListformsBean> listforms;
+    private List<CheckRiskBean.ServerParamsBean> serverParamsBeans;
+    private CheckRiskBean checkRiskBean;
 
-    public PingTablesAdapter(Context context, List<SelectedTablesBean.ServerParamsBean.BusinesslistBean.ListformsBean> listforms) {
+    public PingTablesAdapter(Context context, List<SelectedTablesBean.ServerParamsBean.BusinesslistBean.ListformsBean> listforms, CheckRiskBean checkRiskBean) {
         this.context = context;
         this.listforms = listforms;
+        this.checkRiskBean = checkRiskBean;
+    }
+
+    public void setServerParamsBeans(List<CheckRiskBean.ServerParamsBean> serverParamsBeans) {
+        if (serverParamsBeans != null) {
+            this.serverParamsBeans = serverParamsBeans;
+        }
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -38,10 +50,28 @@ public class PingTablesAdapter extends RecyclerView.Adapter<PingTablesAdapter.Vi
     public void onBindViewHolder(@NonNull final PingTablesAdapter.ViewHolder holder, int position) {
         final SelectedTablesBean.ServerParamsBean.BusinesslistBean.ListformsBean listformsBean = listforms.get(position);
         holder.ck_tables.setText(listformsBean.getFORM_NAME());
+        if (checkRiskBean != null) {
+//            for (CheckRiskBean.ServerParamsBean server_param : checkRiskBean.getServer_params()) {
+//                if (server_param.getSublist().size() != 0) {
+//                    holder.tv_user_id_01.setVisibility(View.VISIBLE);
+//                    holder.ck_tables.setEnabled(false);
+//                    for (CheckRiskBean.ServerParamsBean.SublistBean sublistBean : server_param.getSublist()) {
+//                        holder.tv_user_id_01.setText(sublistBean.getUSER_NAME() + "正在评估");
+//                        holder.tv_user_id_01.setTextColor(Color.GRAY);
+//                        holder.ck_tables.setTextColor(Color.GRAY);
+//                    }
+//
+//                } else {
+//                    holder.tv_user_id_01.setVisibility(View.GONE);
+//                    holder.ck_tables.setEnabled(true);
+//                    holder.ck_tables.setTextColor(Color.BLACK);
+//                }
+//            }
+        }
         holder.ck_tables.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setCheckboxFormId.onCheckboxFormId(holder.ck_tables.isChecked(),listformsBean.getFORM_ID());
+                setCheckboxFormId.onCheckboxFormId(holder.ck_tables.isChecked(), listformsBean.getFORM_ID());
             }
         });
     }
@@ -54,10 +84,12 @@ public class PingTablesAdapter extends RecyclerView.Adapter<PingTablesAdapter.Vi
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private final CheckBox ck_tables;
+        private final TextView tv_user_id_01;
 
         public ViewHolder(View itemView) {
             super(itemView);
             ck_tables = itemView.findViewById(R.id.ck_tables);
+            tv_user_id_01 = itemView.findViewById(R.id.tv_user_id_01);
         }
     }
 

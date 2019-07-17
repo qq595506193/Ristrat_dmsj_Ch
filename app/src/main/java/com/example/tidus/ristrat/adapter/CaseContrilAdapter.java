@@ -38,6 +38,7 @@ public class CaseContrilAdapter extends XRecyclerView.Adapter<XRecyclerView.View
     private View view_select;
     private List<Integer> checkIds = new ArrayList<>();
     private CommonPopupWindow commonPopupWindow;
+    private String liushui;
 
     public CaseContrilAdapter(Context context, CaseControlActivity caseControlActivity) {
         this.context = context;
@@ -97,8 +98,6 @@ public class CaseContrilAdapter extends XRecyclerView.Adapter<XRecyclerView.View
         if (getItemViewType(position) == YOU) {
 
             ViewHolder viewHolder = (ViewHolder) holder;
-
-
             if (serverParamsBean.getPATIENT_NAME() != null) {
                 viewHolder.tv_icon_name.setText(serverParamsBean.getPATIENT_NAME());
             }
@@ -123,8 +122,10 @@ public class CaseContrilAdapter extends XRecyclerView.Adapter<XRecyclerView.View
 
             // 判断提示框颜色
             if (serverParamsBean.isType()) {
-                viewHolder.card_view.setBackgroundColor(Color.parseColor(serverParamsBean.getColor()));
+                viewHolder.card_view.setBackgroundColor(Color.RED);
+                ((ViewHolder) holder).iv_ping.setVisibility(View.VISIBLE);
             } else {
+                ((ViewHolder) holder).iv_ping.setVisibility(View.GONE);
                 viewHolder.card_view.setBackgroundColor(Color.WHITE);
             }
 
@@ -156,16 +157,18 @@ public class CaseContrilAdapter extends XRecyclerView.Adapter<XRecyclerView.View
             ((ViewHolder) holder).rv_icon.setAdapter(iconAdapter);
 
             if (serverParamsBean.getRemindelist().size() != 0) {
-                ((ViewHolder) holder).tv_ping.setVisibility(View.VISIBLE);
+                ((ViewHolder) holder).iv_ping.setVisibility(View.VISIBLE);
+                viewHolder.card_view.setBackgroundColor(Color.RED);
                 // 点击评字
-                ((ViewHolder) holder).tv_ping.setOnClickListener(new View.OnClickListener() {
+                ((ViewHolder) holder).iv_ping.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        setPingTiaoZhuan.onPingTiaoZhuan(serverParamsBean);
+                        setPingTiaoZhuan.onPingTiaoZhuan(serverParamsBean, queryHMBean);
                     }
                 });
             } else {
-                ((ViewHolder) holder).tv_ping.setVisibility(View.GONE);
+                ((ViewHolder) holder).iv_ping.setVisibility(View.GONE);
+                viewHolder.card_view.setBackgroundColor(Color.WHITE);
             }
 
             initListener(viewHolder, view_pop, serverParamsBean, position);// 事件监听
@@ -299,7 +302,7 @@ public class CaseContrilAdapter extends XRecyclerView.Adapter<XRecyclerView.View
         private final CardView card_view;
         private TextView tv_danyuan;
         private final RecyclerView rv_icon;
-        private final TextView tv_ping;
+        private final ImageView iv_ping;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -314,7 +317,7 @@ public class CaseContrilAdapter extends XRecyclerView.Adapter<XRecyclerView.View
             card_view = itemView.findViewById(R.id.card_view);
             tv_danyuan = itemView.findViewById(R.id.tv_danyuan);
             rv_icon = itemView.findViewById(R.id.rv_icon);
-            tv_ping = itemView.findViewById(R.id.tv_ping);
+            iv_ping = itemView.findViewById(R.id.iv_ping);
 
         }
     }
@@ -389,7 +392,7 @@ public class CaseContrilAdapter extends XRecyclerView.Adapter<XRecyclerView.View
 
     // 评跳转回调
     public interface SetPingTiaoZhuan {
-        void onPingTiaoZhuan(CaseControlBean.ServerParamsBean serverParamsBean);
+        void onPingTiaoZhuan(CaseControlBean.ServerParamsBean serverParamsBean, QueryHMBean.ServerParamsBean queryHMBean);
     }
 
     public void setSetPingTiaoZhuan(SetPingTiaoZhuan setPingTiaoZhuan) {

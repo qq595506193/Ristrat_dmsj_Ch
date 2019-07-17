@@ -204,6 +204,15 @@ public class SelectedTablesBean implements Serializable {
             private int USED_FLAG;
             private int BUSINESS_SEQ;
             private List<ListformsBean> listforms;
+            private boolean che_color;
+
+            public boolean isChe_color() {
+                return che_color;
+            }
+
+            public void setChe_color(boolean che_color) {
+                this.che_color = che_color;
+            }
 
             public String getBUSINESS_ID() {
                 return BUSINESS_ID;

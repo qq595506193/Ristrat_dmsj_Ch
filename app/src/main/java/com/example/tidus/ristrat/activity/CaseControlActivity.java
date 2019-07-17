@@ -1,9 +1,11 @@
 package com.example.tidus.ristrat.activity;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +14,7 @@ import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -27,6 +30,7 @@ import com.example.tidus.ristrat.adapter.EvaluatingAdapter;
 import com.example.tidus.ristrat.application.App;
 import com.example.tidus.ristrat.bean.CancelAssessBean;
 import com.example.tidus.ristrat.bean.CaseControlBean;
+import com.example.tidus.ristrat.bean.LaterOnBean;
 import com.example.tidus.ristrat.bean.LoginBean;
 import com.example.tidus.ristrat.bean.MessageNumBean;
 import com.example.tidus.ristrat.bean.OfficeBean;
@@ -34,10 +38,11 @@ import com.example.tidus.ristrat.bean.QueryHMBean;
 import com.example.tidus.ristrat.contract.IAssessCancelContract;
 import com.example.tidus.ristrat.contract.ICancelAssessContract;
 import com.example.tidus.ristrat.contract.ICaseControlContract;
+import com.example.tidus.ristrat.contract.ILaterOnContract;
 import com.example.tidus.ristrat.contract.IMessageTypeContract;
 import com.example.tidus.ristrat.mvp.presenter.AssessCancelPresenter;
-import com.example.tidus.ristrat.mvp.presenter.CancelAssessPresenter;
 import com.example.tidus.ristrat.mvp.presenter.CaseControlPresenter;
+import com.example.tidus.ristrat.mvp.presenter.LaterOnPresenter;
 import com.example.tidus.ristrat.mvp.presenter.MessageTypePresenter;
 import com.example.tidus.ristrat.utils.CommonPopupWindow;
 import com.example.tidus.ristrat.utils.LogUtils;
@@ -56,7 +61,7 @@ import java.util.TimerTask;
 
 import butterknife.BindView;
 
-public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.ICaseControlModel, ICaseControlContract.CaseControlPresenter> implements ICaseControlContract.ICaseControlView, ICancelAssessContract.ICancelAssessView, IMessageTypeContract.IMessageTypeView, IAssessCancelContract.IAssessCanceTixinglView {
+public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.ICaseControlModel, ICaseControlContract.CaseControlPresenter> implements ICaseControlContract.ICaseControlView, ICancelAssessContract.ICancelAssessView, IMessageTypeContract.IMessageTypeView, IAssessCancelContract.IAssessCanceTixinglView, ILaterOnContract.ILaterOnView {
 
 
     @BindView(R.id.et_hospital_id)
@@ -118,13 +123,14 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
         }
     };
     private OfficeBean officeBean;
-    private CancelAssessPresenter cancelAssessPresenter;
-    private TextView tv_message_num;
     private MessageTypePresenter messageTypePresenter;
     private AssessCancelPresenter assessCancelPresenter;
     private CommonPopupWindow popipWindow;
     private EvaluatingAdapter evaluatingAdapter;
     private List<QueryHMBean.ServerParamsBean.TixingListBean> tixingLIST;
+    private QueryHMBean.ServerParamsBean queryHMServerBean;
+    private LaterOnPresenter laterOnPresenter;
+    private AlertDialog.Builder builder;
 
 
     @Override
@@ -144,13 +150,12 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
         officeBean = new OfficeBean();
 
         messageTypePresenter = new MessageTypePresenter(this);
-        cancelAssessPresenter = new CancelAssessPresenter(this);
         assessCancelPresenter = new AssessCancelPresenter(this);
+        laterOnPresenter = new LaterOnPresenter(this);
         loginBean = (LoginBean) intent.getSerializableExtra("loginBean");
         tv_login_name = findViewById(R.id.tv_login_name);
         tv_login_name.setText(loginBean.getServer_params().getUSER_NAME());
         iv_close = findViewById(R.id.iv_close);
-        tv_message_num = findViewById(R.id.tv_message_num);
         iv_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -217,9 +222,15 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
         // 点击评字跳转
         caseContrilAdapter.setSetPingTiaoZhuan(new CaseContrilAdapter.SetPingTiaoZhuan() {
             @Override
-            public void onPingTiaoZhuan(CaseControlBean.ServerParamsBean serverParamsBean) {
+            public void onPingTiaoZhuan(CaseControlBean.ServerParamsBean serverParamsBean, QueryHMBean.ServerParamsBean queryHMBean) {
                 Intent intent = new Intent(App.getContext(), SelectedTablesActivity.class);
                 intent.putExtra("loginBean", loginBean);
+                for (QueryHMBean.ServerParamsBean.LISTBean listBean : queryHMBean.getLIST()) {
+                    if (listBean.getVISIT_SQ_NO().equals(serverParamsBean.getVISIT_SQ_NO())) {
+                        intent.putExtra("listBean", listBean);
+                    }
+                }
+                intent.putExtra("queryHMBean", queryHMBean);
                 intent.putExtra("serverParamsBean", serverParamsBean);
                 startActivity(intent);
             }
@@ -234,7 +245,7 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
                 message.what = 10000;
                 mHandlerQueryHM.sendMessage(message);
             }
-        }, 0, 10000);//每隔一秒使用handler发送一下消息,也就是每隔一秒执行一次,一直重复执行
+        }, 0, 5000);//每隔一秒使用handler发送一下消息,也就是每隔一秒执行一次,一直重复执行
 
 
 //        intent = new Intent();
@@ -282,9 +293,9 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
         et_danger_level.addTextChangedListener(new MyTextWatcher());
         et_sex.addTextChangedListener(new MyTextWatcher());
         et_wait_assess.addTextChangedListener(new MyTextWatcher());
-        initPresenterData();
-        initQueryHMPresenterData();
-        initMessageTypePresenterData();
+        initPresenterData();// 患者列表查询
+        initQueryHMPresenterData();// 提醒查询
+        initMessageTypePresenterData();// 未读消息查询
 
 
     }
@@ -483,17 +494,15 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
         if (result != null) {
             if (result instanceof QueryHMBean) {
                 if (((QueryHMBean) result).getCode().equals("0")) {
-                    QueryHMBean.ServerParamsBean server_params = ((QueryHMBean) result).getServer_params();
+                    queryHMServerBean = ((QueryHMBean) result).getServer_params();
                     LogUtils.e("提醒" + ((QueryHMBean) result).getMessage());
-                    caseContrilAdapter.setQueryHMBean(((QueryHMBean) result).getServer_params());
-
+                    caseContrilAdapter.setQueryHMBean(queryHMServerBean);
                     tixingLIST = ((QueryHMBean) result).getServer_params().getTixingLIST();
                     // 有未评估的人
                     final QueryHMBean.ServerParamsBean server_params1 = ((QueryHMBean) result).getServer_params();
                     if (server_params1 != null) {
                         //弹出PopupWindow
                         if (popipWindow == null) {
-
                             popipWindow = new CommonPopupWindow.Builder(CaseControlActivity.this)
                                     //设置PopupWindow布局
                                     .setView(R.layout.activity_evaluating)
@@ -512,6 +521,43 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
                                             RecyclerView rv_evaluating = view.findViewById(R.id.rv_evaluating);
                                             rv_evaluating.setLayoutManager(new LinearLayoutManager(App.getContext()));
                                             rv_evaluating.setAdapter(evaluatingAdapter);
+                                            TextView tv_shaohou = view.findViewById(R.id.tv_shaohou);
+                                            final CheckBox ck_all_selected = view.findViewById(R.id.ck_all_selected);
+                                            ck_all_selected.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    if (ck_all_selected.isChecked()) {
+                                                        evaluatingAdapter.setChecked(true);
+                                                    } else {
+                                                        evaluatingAdapter.setChecked(false);
+                                                    }
+                                                }
+                                            });
+                                            // 设置稍后提醒时间
+                                            tv_shaohou.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    builder = new AlertDialog.Builder(CaseControlActivity.this).setIcon(R.mipmap.tixing).setTitle("提醒")
+                                                            .setMessage("确认设置提醒时间吗？").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                                    // 设置提醒时间接口请求
+                                                                    HashMap<String, Object> params = new HashMap<>();
+                                                                    params.put("Type", "updateHM_Patient_In_Assess");
+                                                                    params.put("PATIENT_ID", "");
+
+                                                                    popipWindow.dismiss();
+                                                                }
+                                                            }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                                    dialogInterface.dismiss();
+                                                                }
+                                                            });
+                                                    builder.create().show();
+
+                                                }
+                                            });
                                             evaluatingAdapter.setTixingListBean(tixingLIST);
                                             // 终止评估
                                             evaluatingAdapter.setSetAssessCancelListener(new EvaluatingAdapter.SetAssessCancelListener() {
@@ -679,13 +725,10 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
                 if (((MessageNumBean) result).getCode().equals("0")) {
                     LogUtils.e(((MessageNumBean) result).getMessage());
                     if (((MessageNumBean) result).getServer_params() > 0) {
-                        int server_params = ((MessageNumBean) result).getServer_params();
-                        tv_message_num.setText(server_params + "");// 未读消息
-                        tv_message_num.setVisibility(View.VISIBLE);
+                        iv_message.setImageResource(R.mipmap.xiaoxi);
                         EventBus.getDefault().postSticky(server_params);
                     } else {
-                        tv_message_num.setText("0");
-                        tv_message_num.setVisibility(View.GONE);
+                        iv_message.setImageResource(R.mipmap.xiaoxi2);
                     }
 
                 } else {
@@ -707,6 +750,29 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
 
     @Override
     public void onAssessCancelFailed(Object error) {
+
+    }
+
+    /**
+     * 稍后提醒成功回调
+     *
+     * @param result
+     */
+    @Override
+    public void onLaterOnSuccess(Object result) {
+        if (result != null) {
+            if (result instanceof LaterOnBean) {
+                if (((LaterOnBean) result).getCode().equals("0")) {
+                    LogUtils.e(((LaterOnBean) result).getMessage());
+                } else {
+                    LogUtils.e(((LaterOnBean) result).getMessage());
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onLaterOnFailed(Object error) {
 
     }
 
@@ -739,19 +805,21 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
     @Override
     protected void onPause() {
         super.onPause();
-        mHandler.removeMessages(1);
-        mHandlerQueryHM.removeMessages(10000);
+        mHandler.removeCallbacksAndMessages(null);
+        mHandlerQueryHM.removeCallbacksAndMessages(null);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mHandler.removeMessages(1);
-        mHandlerQueryHM.removeMessages(10000);
+        mHandler.removeCallbacksAndMessages(null);
+        mHandlerQueryHM.removeCallbacksAndMessages(null);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mHandler.removeCallbacksAndMessages(null);
+        mHandlerQueryHM.removeCallbacksAndMessages(null);
     }
 }
