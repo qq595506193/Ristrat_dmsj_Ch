@@ -9,14 +9,14 @@ public class QueryHMBean implements Serializable {
     /**
      * code : 0
      * message : 成功
-     * server_params : {"tixingLIST":[],"LIST":[{"MERCHANT_ID":1400,"SITE_ID":1400,"VISIT_SQ_NO":"ZY000040000003","REMINDE_ID":49,"PATIENT_ID":"1616088","PATIENT_TYPE":"Patient","REMINDE_TIME":"20190626115114","OPERATE_RESULT":20,"USER_ID":null,"OPERATE_TIME":null,"REMINDE_TYPE":"VTE评估监控","REMINDE_LEVEL":"10","REMINDE_COLOR":"#05a558"},{"MERCHANT_ID":1400,"SITE_ID":1400,"VISIT_SQ_NO":"ZY000040000004","REMINDE_ID":50,"PATIENT_ID":"1616088","PATIENT_TYPE":"Patient","REMINDE_TIME":"20190627092206","OPERATE_RESULT":20,"USER_ID":null,"OPERATE_TIME":null,"REMINDE_TYPE":"VTE评估监控","REMINDE_LEVEL":"20","REMINDE_COLOR":"#ff4e6b"}]}
      * server_code :
+     * server_params : {"tixingLIST":[{"MERCHANT_ID":1400,"SITE_ID":1400,"VISIT_SQ_NO":"A5665566566","BED_NUMBER":"07","PATIENT_ID":"TMP120","FORM_ID":1,"USER_ID":222,"RECORD_TIME":"20190718114452","LATER_TIME":"20190718114452","REPORT_ID":null,"BUSINESS_ID":"2","PATIENT_NAME":"ping","USER_NAME":"李护士","FORM_NAME":"Caprini风险评估量表"}],"LIST":[{"MERCHANT_ID":1400,"SITE_ID":1400,"VISIT_SQ_NO":"345436456","REMINDE_ID":1132,"PATIENT_ID":"TMP135","PATIENT_TYPE":"Patient","REMINDE_TIME":"20190718095434","OPERATE_RESULT":10,"USER_ID":null,"OPERATE_TIME":null,"REMINDE_TYPE":"入院","REMINDE_LEVEL":"20","REMINDE_COLOR":"#ff4e6b","BUSINESS_ID":"1","POINT_ID":"1","FORM_ID":1,"TASK_BEGIN":"20190718095434","TASK_END":"20190718115434","TASK_END_DELAY":"20190718155434","ASSESS_BUSINESS":"VTE风险评估","ASSESS_POINT":null}]}
      */
 
     private String code;
     private String message;
-    private ServerParamsBean server_params;
     private String server_code;
+    private ServerParamsBean server_params;
 
     public String getCode() {
         return code;
@@ -34,14 +34,6 @@ public class QueryHMBean implements Serializable {
         this.message = message;
     }
 
-    public ServerParamsBean getServer_params() {
-        return server_params;
-    }
-
-    public void setServer_params(ServerParamsBean server_params) {
-        this.server_params = server_params;
-    }
-
     public String getServer_code() {
         return server_code;
     }
@@ -50,16 +42,23 @@ public class QueryHMBean implements Serializable {
         this.server_code = server_code;
     }
 
+    public ServerParamsBean getServer_params() {
+        return server_params;
+    }
+
+    public void setServer_params(ServerParamsBean server_params) {
+        this.server_params = server_params;
+    }
+
     public static class ServerParamsBean implements Serializable {
-        private List<TixingListBean> tixingLIST;
+        private List<TixingLISTBean> tixingLIST;
         private List<LISTBean> LIST;
 
-
-        public List<TixingListBean> getTixingLIST() {
+        public List<TixingLISTBean> getTixingLIST() {
             return tixingLIST;
         }
 
-        public void setTixingLIST(List<TixingListBean> tixingLIST) {
+        public void setTixingLIST(List<TixingLISTBean> tixingLIST) {
             this.tixingLIST = tixingLIST;
         }
 
@@ -71,19 +70,21 @@ public class QueryHMBean implements Serializable {
             this.LIST = LIST;
         }
 
-        public static class TixingListBean implements Serializable {
-
+        public static class TixingLISTBean implements Serializable {
             /**
              * MERCHANT_ID : 1400
              * SITE_ID : 1400
-             * VISIT_SQ_NO : ZY00001577856
+             * VISIT_SQ_NO : A5665566566
              * BED_NUMBER : 07
-             * PATIENT_ID : 1616097
+             * PATIENT_ID : TMP120
              * FORM_ID : 1
-             * USER_ID : 202
-             * RECORD_TIME : null
-             * PATIENT_NAME : 廖朝枢
-             * USER_NAME : 系统管理员
+             * USER_ID : 222
+             * RECORD_TIME : 20190718114452
+             * LATER_TIME : 20190718114452
+             * REPORT_ID : null
+             * BUSINESS_ID : 2
+             * PATIENT_NAME : ping
+             * USER_NAME : 李护士
              * FORM_NAME : Caprini风险评估量表
              */
 
@@ -94,18 +95,21 @@ public class QueryHMBean implements Serializable {
             private String PATIENT_ID;
             private int FORM_ID;
             private int USER_ID;
-            private Object RECORD_TIME;
+            private String RECORD_TIME;
+            private String LATER_TIME;
+            private Object REPORT_ID;
+            private String BUSINESS_ID;
             private String PATIENT_NAME;
             private String USER_NAME;
             private String FORM_NAME;
-            private boolean isCheckBox;
+            private boolean checkBox;
 
             public boolean isCheckBox() {
-                return isCheckBox;
+                return checkBox;
             }
 
             public void setCheckBox(boolean checkBox) {
-                isCheckBox = checkBox;
+                this.checkBox = checkBox;
             }
 
             public int getMERCHANT_ID() {
@@ -164,12 +168,36 @@ public class QueryHMBean implements Serializable {
                 this.USER_ID = USER_ID;
             }
 
-            public Object getRECORD_TIME() {
+            public String getRECORD_TIME() {
                 return RECORD_TIME;
             }
 
-            public void setRECORD_TIME(Object RECORD_TIME) {
+            public void setRECORD_TIME(String RECORD_TIME) {
                 this.RECORD_TIME = RECORD_TIME;
+            }
+
+            public String getLATER_TIME() {
+                return LATER_TIME;
+            }
+
+            public void setLATER_TIME(String LATER_TIME) {
+                this.LATER_TIME = LATER_TIME;
+            }
+
+            public Object getREPORT_ID() {
+                return REPORT_ID;
+            }
+
+            public void setREPORT_ID(Object REPORT_ID) {
+                this.REPORT_ID = REPORT_ID;
+            }
+
+            public String getBUSINESS_ID() {
+                return BUSINESS_ID;
+            }
+
+            public void setBUSINESS_ID(String BUSINESS_ID) {
+                this.BUSINESS_ID = BUSINESS_ID;
             }
 
             public String getPATIENT_NAME() {
@@ -201,17 +229,25 @@ public class QueryHMBean implements Serializable {
             /**
              * MERCHANT_ID : 1400
              * SITE_ID : 1400
-             * VISIT_SQ_NO : ZY000040000003
-             * REMINDE_ID : 49
-             * PATIENT_ID : 1616088
+             * VISIT_SQ_NO : 345436456
+             * REMINDE_ID : 1132
+             * PATIENT_ID : TMP135
              * PATIENT_TYPE : Patient
-             * REMINDE_TIME : 20190626115114
-             * OPERATE_RESULT : 20
+             * REMINDE_TIME : 20190718095434
+             * OPERATE_RESULT : 10
              * USER_ID : null
              * OPERATE_TIME : null
-             * REMINDE_TYPE : VTE评估监控
-             * REMINDE_LEVEL : 10
-             * REMINDE_COLOR : #05a558
+             * REMINDE_TYPE : 入院
+             * REMINDE_LEVEL : 20
+             * REMINDE_COLOR : #ff4e6b
+             * BUSINESS_ID : 1
+             * POINT_ID : 1
+             * FORM_ID : 1
+             * TASK_BEGIN : 20190718095434
+             * TASK_END : 20190718115434
+             * TASK_END_DELAY : 20190718155434
+             * ASSESS_BUSINESS : VTE风险评估
+             * ASSESS_POINT : null
              */
 
             private int MERCHANT_ID;
@@ -227,6 +263,14 @@ public class QueryHMBean implements Serializable {
             private String REMINDE_TYPE;
             private String REMINDE_LEVEL;
             private String REMINDE_COLOR;
+            private String BUSINESS_ID;
+            private String POINT_ID;
+            private int FORM_ID;
+            private String TASK_BEGIN;
+            private String TASK_END;
+            private String TASK_END_DELAY;
+            private String ASSESS_BUSINESS;
+            private Object ASSESS_POINT;
 
             public int getMERCHANT_ID() {
                 return MERCHANT_ID;
@@ -330,6 +374,70 @@ public class QueryHMBean implements Serializable {
 
             public void setREMINDE_COLOR(String REMINDE_COLOR) {
                 this.REMINDE_COLOR = REMINDE_COLOR;
+            }
+
+            public String getBUSINESS_ID() {
+                return BUSINESS_ID;
+            }
+
+            public void setBUSINESS_ID(String BUSINESS_ID) {
+                this.BUSINESS_ID = BUSINESS_ID;
+            }
+
+            public String getPOINT_ID() {
+                return POINT_ID;
+            }
+
+            public void setPOINT_ID(String POINT_ID) {
+                this.POINT_ID = POINT_ID;
+            }
+
+            public int getFORM_ID() {
+                return FORM_ID;
+            }
+
+            public void setFORM_ID(int FORM_ID) {
+                this.FORM_ID = FORM_ID;
+            }
+
+            public String getTASK_BEGIN() {
+                return TASK_BEGIN;
+            }
+
+            public void setTASK_BEGIN(String TASK_BEGIN) {
+                this.TASK_BEGIN = TASK_BEGIN;
+            }
+
+            public String getTASK_END() {
+                return TASK_END;
+            }
+
+            public void setTASK_END(String TASK_END) {
+                this.TASK_END = TASK_END;
+            }
+
+            public String getTASK_END_DELAY() {
+                return TASK_END_DELAY;
+            }
+
+            public void setTASK_END_DELAY(String TASK_END_DELAY) {
+                this.TASK_END_DELAY = TASK_END_DELAY;
+            }
+
+            public String getASSESS_BUSINESS() {
+                return ASSESS_BUSINESS;
+            }
+
+            public void setASSESS_BUSINESS(String ASSESS_BUSINESS) {
+                this.ASSESS_BUSINESS = ASSESS_BUSINESS;
+            }
+
+            public Object getASSESS_POINT() {
+                return ASSESS_POINT;
+            }
+
+            public void setASSESS_POINT(Object ASSESS_POINT) {
+                this.ASSESS_POINT = ASSESS_POINT;
             }
         }
     }

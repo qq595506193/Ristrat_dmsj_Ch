@@ -35,9 +35,7 @@ import com.example.tidus.ristrat.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import butterknife.BindView;
 
@@ -69,7 +67,7 @@ public class NowSelectTablesActivity extends BaseMvpActivity<INowSelectTablesCon
     private SelectTablesFragment selectTablesFragment;
     private LoginBean loginBean;
     private CaseControlBean.ServerParamsBean serverParamsBean;
-    private Set<String> list_form_id = new HashSet<>();
+    private List<String> list_form_id = new ArrayList<>();
     private CancelAssessPresenter cancelAssessPresenter;
     private EvaluatingPresenter evaluatingPresenter;
     private CheckRiskPresenter checkRiskPresenter;
@@ -139,7 +137,7 @@ public class NowSelectTablesActivity extends BaseMvpActivity<INowSelectTablesCon
 //        bundle.putSerializable(SelectTablesFragment.TAG, businesslist.get(0));
 //        selectTablesFragment.setArguments(bundle);
 //        fragmentTransaction.commit();
-        
+
         selectTablesAdapter.setSetSelectTables(new SelectTablesAdapter.SetSelectTables() {
             @Override
             public void onSelectTables(int position, NowSelectTablesBean.ServerParamsBean.BusinesslistBean businesslistBean, CheckRiskBean checkRiskBean) {
@@ -182,10 +180,11 @@ public class NowSelectTablesActivity extends BaseMvpActivity<INowSelectTablesCon
         btn_start_assess.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(App.getContext(), RiskAssessment_02Activity.class);
+                Intent intent = new Intent(App.getContext(), RiskAssessmentActivity.class);
                 intent.putExtra("selectQuestionListBean", selectQuestionListBean);
                 intent.putExtra("loginBean", loginBean);
                 intent.putExtra("serverParamsBean", serverParamsBean);
+                intent.putExtra("selectQuestionListBean", selectQuestionListBean);
                 for (NowSelectTablesBean.ServerParamsBean.BusinesslistBean businesslistBean : businesslist) {
                     intent.putExtra("businesslistBean_now", businesslistBean);
                 }
@@ -200,9 +199,9 @@ public class NowSelectTablesActivity extends BaseMvpActivity<INowSelectTablesCon
 
     private void initCheckData() {
         HashMap<String, Object> params = new HashMap<>();
-        params.put("Type", "queryBusinessForms");
+        params.put("Type", "queryWENJUANNames");
         params.put("PATIENT_ID", serverParamsBean.getPATIENT_ID());
-        LogUtils.e("加勾选请求接口" + params.toString());
+        LogUtils.e("加勾选请求接口" + params);
         checkRiskPresenter.getCheckRisk(params);
     }
 

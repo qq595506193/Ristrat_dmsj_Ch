@@ -18,7 +18,8 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:icon">
-        <activity android:name=".activity.NowSelectTablesActivity"></activity>
+        <activity android:name=".activity.RiskAssessmentActivity"></activity>
+        <activity android:name=".activity.NowSelectTablesActivity" />
         <activity android:name=".activity.SelectedTablesActivity" />
 
         <service android:name=".service.MessageService" />

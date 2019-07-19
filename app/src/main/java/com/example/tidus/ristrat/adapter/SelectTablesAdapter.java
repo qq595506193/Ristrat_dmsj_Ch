@@ -2,6 +2,7 @@ package com.example.tidus.ristrat.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -69,8 +70,8 @@ public class SelectTablesAdapter extends RecyclerView.Adapter<SelectTablesAdapte
                         businesslistBean.setChe_color(false);
                     }
                 }
+                setSelectTables.onSelectTables(position, businesslistBean, checkRiskBean);
                 notifyDataSetChanged();
-                setSelectTables.onSelectTables(position, businesslistBean,checkRiskBean);
             }
         });
 

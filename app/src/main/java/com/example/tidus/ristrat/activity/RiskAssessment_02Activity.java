@@ -117,7 +117,7 @@ public class RiskAssessment_02Activity extends BaseMvpActivity<IRiskAssessmentCo
     private int form_id = 1;
     private int zu_id = 1;
     private RiskAssessmentBean.ServerParamsBean serverParams;
-    private QueryHMBean.ServerParamsBean.TixingListBean tixingListBean;
+    private QueryHMBean.ServerParamsBean.TixingLISTBean tixingListBean;
     private CaseControlBean.ServerParamsBean serverParamsBean;
     private AlertDialog.Builder builder;
     private List<String> isNum = new ArrayList<>();
@@ -151,7 +151,7 @@ public class RiskAssessment_02Activity extends BaseMvpActivity<IRiskAssessmentCo
 
         // 业务对象
         businesslistBean = (SelectedTablesBean.ServerParamsBean.BusinesslistBean) intent.getSerializableExtra("businesslistBean");
-
+        // 业务对象_now
         businesslistBean_now = (NowSelectTablesBean.ServerParamsBean.BusinesslistBean) intent.getSerializableExtra("businesslistBean_now");
         // 选的表对象
         selectQuestionListBean = (SelectQuestionListBean) intent.getSerializableExtra("selectQuestionListBean");
@@ -164,19 +164,21 @@ public class RiskAssessment_02Activity extends BaseMvpActivity<IRiskAssessmentCo
         // 判断选择了几个表
         if (selectQuestionListBean != null) {
             for (String s : selectQuestionListBean.getIndexTable()) {
-                if (s.equals("1")) {
-                    form_id = 1;
-                    rg_select.setVisibility(View.VISIBLE);
-                    rg_select_02.setVisibility(View.GONE);
-                } else {
+                if (s.equals("2")) {
                     form_id = 2;
                     rg_select.setVisibility(View.GONE);
                     rg_select_02.setVisibility(View.VISIBLE);
+                } else {
+
+                    form_id = 1;
+                    rg_select.setVisibility(View.VISIBLE);
+                    rg_select_02.setVisibility(View.GONE);
+
 
                 }
             }
         } else {
-            tixingListBean = (QueryHMBean.ServerParamsBean.TixingListBean) intent.getSerializableExtra("tixingListBean");
+            tixingListBean = (QueryHMBean.ServerParamsBean.TixingLISTBean) intent.getSerializableExtra("tixingListBean");
             if (tixingListBean.getFORM_ID() == 1) {
                 form_id = 1;
                 rg_select.setVisibility(View.VISIBLE);
@@ -209,10 +211,7 @@ public class RiskAssessment_02Activity extends BaseMvpActivity<IRiskAssessmentCo
                 finish();
             }
         });
-
         ////////ViewPager
-
-
         //age = serverParamsBean.getBIRTHDAY();// 年龄
         // 展示表格适配器
         riskTableListAdapter = new RiskTableListAdapter(App.getContext());
@@ -367,7 +366,6 @@ public class RiskAssessment_02Activity extends BaseMvpActivity<IRiskAssessmentCo
      * @param form_id
      */
     private void initPresenterCommint(int form_id) {
-        CommitDataBean commitDataBean = new CommitDataBean();
         JSONStringer jsonStringer = new JSONStringer();
 
         HashMap<String, Object> params = new HashMap<>();
@@ -403,6 +401,12 @@ public class RiskAssessment_02Activity extends BaseMvpActivity<IRiskAssessmentCo
         if (businesslistBean_now != null) {
             if (form_id == businesslistBean_now.getBUSINESS_SEQ()) {
                 params.put("BUSINESS_ID", businesslistBean_now.getBUSINESS_ID());// 业务ID
+            }
+        }
+        if (tixingListBean != null) {
+            String s = form_id + "";
+            if (s.equals(tixingListBean.getBUSINESS_ID())) {
+                params.put("BUSINESS_ID", tixingListBean.getBUSINESS_ID());// 业务ID
             }
         }
         //params.put("REMINDE_ID", "");// 提醒ID
@@ -460,7 +464,7 @@ public class RiskAssessment_02Activity extends BaseMvpActivity<IRiskAssessmentCo
 
     @Override
     public BasePresenter initPresenter() {
-        return new RiskAssessmentPresenter(this);
+        return new RiskAssessmentPresenter();
     }
 
     @Override
@@ -949,6 +953,11 @@ public class RiskAssessment_02Activity extends BaseMvpActivity<IRiskAssessmentCo
             }
         }
 
+
+    }
+
+    @Override
+    public void onSaveSuccess(Object result) {
 
     }
 

@@ -41,9 +41,45 @@ public class RiskAssessmentModel implements IRiskAssessmentContart.IRiskAssessme
                 });
     }
 
+    /**
+     * 提交
+     *
+     * @param params
+     * @param iRequestCallback
+     */
     @SuppressLint("CheckResult")
     @Override
     public void getCommit(HashMap<String, Object> params, final IRequestCallback iRequestCallback) {
+        RetrofitUtils.getInstance().createService(IRetrofitService.class)
+                .doCommitGet(ApiService.COMMIT, params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<CommitBean>() {
+                    @Override
+                    public void accept(CommitBean commitBean) throws Exception {
+                        if (iRequestCallback != null) {
+                            iRequestCallback.onSuccess(commitBean);
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        if (iRequestCallback != null) {
+                            iRequestCallback.onFailed(throwable);
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 保存
+     *
+     * @param params
+     * @param iRequestCallback
+     */
+    @SuppressLint("CheckResult")
+    @Override
+    public void getSave(HashMap<String, Object> params, final IRequestCallback iRequestCallback) {
         RetrofitUtils.getInstance().createService(IRetrofitService.class)
                 .doCommitGet(ApiService.COMMIT, params)
                 .subscribeOn(Schedulers.io())

@@ -58,7 +58,7 @@ public class EvaluatingActivity extends AppCompatActivity implements IAssessCanc
 
         evaluatingAdapter.setSetAssessCancelListener(new EvaluatingAdapter.SetAssessCancelListener() {
             @Override
-            public void onAssessCancel(QueryHMBean.ServerParamsBean.TixingListBean tixingListBean, List<QueryHMBean.ServerParamsBean.TixingListBean> tixingListBeans, int position) {
+            public void onAssessCancel(QueryHMBean.ServerParamsBean.TixingLISTBean tixingListBean, List<QueryHMBean.ServerParamsBean.TixingLISTBean> tixingListBeans, int position) {
                 if (tixingListBeans.size() != 0) {
                     HashMap<String, Object> params = new HashMap<>();
                     params.put("Type", "saveHM_Patient_Assess_Cancel");

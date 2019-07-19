@@ -182,7 +182,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_select_business"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_110"
+        android:layout_height="@dimen/dp_85"
         android:background="@color/white"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -201,7 +201,6 @@
         android:id="@+id/lly_select_type"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/dp_10"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -211,7 +210,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="5.0"
+            android:layout_weight="6.0"
             android:orientation="horizontal">
 
             <android.support.v7.widget.RecyclerView
@@ -230,9 +229,17 @@
             <FrameLayout
                 android:id="@+id/fragment_container"
                 android:layout_width="0dp"
-                android:background="@mipmap/xuanyewu"
                 android:layout_height="match_parent"
-                android:layout_weight="6.0" />
+                android:layout_weight="6.0"
+                android:background="@color/white">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/xuanyewu_01" />
+
+            </FrameLayout>
 
         </LinearLayout>
 
@@ -245,9 +252,11 @@
             android:id="@+id/btn_start_assess"
             android:layout_width="@dimen/dp_100"
             android:layout_height="0dp"
+            android:layout_margin="@dimen/dp_5"
             android:layout_gravity="center"
             android:layout_weight="1.0"
             android:background="@drawable/btn_sure"
+            android:gravity="center"
             android:text="开始评估"
             android:textColor="@color/white"
             android:textSize="@dimen/sp_10" />

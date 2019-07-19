@@ -49,7 +49,7 @@ public class BusinessListAdalter extends RecyclerView.Adapter<RecyclerView.ViewH
         // 业务类型
         otherViewHolder.tv_yewuleixing_content.setText(remindlistBean.getREMINDE_TYPE());
         // 时限
-        otherViewHolder.tv_shixian_content.setText("--");
+        otherViewHolder.tv_shixian_content.setText(remindlistBean.getRETIMECONTENT());
         // 操作
         // 不再评估
         otherViewHolder.btn_over_assess.setOnClickListener(new View.OnClickListener() {

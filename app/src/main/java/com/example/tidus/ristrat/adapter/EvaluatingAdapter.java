@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.example.tidus.ristrat.R;
@@ -19,26 +20,21 @@ import java.util.List;
 
 public class EvaluatingAdapter extends RecyclerView.Adapter<EvaluatingAdapter.ViewHolder> {
     private Context context;
-    private List<QueryHMBean.ServerParamsBean.TixingListBean> tixingListBeans;
+    private List<QueryHMBean.ServerParamsBean.TixingLISTBean> tixingListBeans;
     private AlertDialog.Builder builder;
-    private boolean isChecked = false;
 
     public EvaluatingAdapter(Context context) {
         tixingListBeans = new ArrayList<>();
         this.context = context;
     }
 
-    public void setTixingListBean(List<QueryHMBean.ServerParamsBean.TixingListBean> tixingListBeans) {
+    public void setTixingListBean(List<QueryHMBean.ServerParamsBean.TixingLISTBean> tixingListBeans) {
         if (tixingListBeans != null) {
             this.tixingListBeans = tixingListBeans;
         }
         notifyDataSetChanged();
     }
 
-    public void setChecked(boolean checked) {
-        isChecked = checked;
-        notifyDataSetChanged();
-    }
 
     @NonNull
     @Override
@@ -50,7 +46,7 @@ public class EvaluatingAdapter extends RecyclerView.Adapter<EvaluatingAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull final EvaluatingAdapter.ViewHolder holder, final int position) {
         if (tixingListBeans.size() != 0) {
-            final QueryHMBean.ServerParamsBean.TixingListBean tixingListBean = tixingListBeans.get(position);
+            final QueryHMBean.ServerParamsBean.TixingLISTBean tixingListBean = tixingListBeans.get(position);
             holder.tv_serial.setText(tixingListBean.getBED_NUMBER());
             holder.tv_name.setText(tixingListBean.getPATIENT_NAME());
             holder.tv_questionnaire.setText(tixingListBean.getFORM_NAME());
@@ -77,9 +73,12 @@ public class EvaluatingAdapter extends RecyclerView.Adapter<EvaluatingAdapter.Vi
 
                 }
             });
-            // 全选
-            tixingListBean.setCheckBox(isChecked);
-            holder.ck_selected.setChecked(tixingListBean.isCheckBox());
+            holder.ck_selected.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    setTixingItemListener.onTixingItemListener(isChecked, tixingListBean.getPATIENT_ID(), tixingListBean.getFORM_ID());
+                }
+            });
             // 终止评估
             holder.btn_termination_assess.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -133,23 +132,36 @@ public class EvaluatingAdapter extends RecyclerView.Adapter<EvaluatingAdapter.Vi
         }
     }
 
+    // 取消接口回调
     private SetAssessCancelListener setAssessCancelListener;
 
     public interface SetAssessCancelListener {
-        void onAssessCancel(QueryHMBean.ServerParamsBean.TixingListBean tixingListBean, List<QueryHMBean.ServerParamsBean.TixingListBean> tixingListBeans, int position);
+        void onAssessCancel(QueryHMBean.ServerParamsBean.TixingLISTBean tixingListBean, List<QueryHMBean.ServerParamsBean.TixingLISTBean> tixingListBeans, int position);
     }
 
     public void setSetAssessCancelListener(SetAssessCancelListener setAssessCancelListener) {
         this.setAssessCancelListener = setAssessCancelListener;
     }
 
+    // 继续评估回调
     private SetAssessAnewListener setAssessAnewListener;
 
     public interface SetAssessAnewListener {
-        void onAssessAnew(QueryHMBean.ServerParamsBean.TixingListBean tixingListBean);
+        void onAssessAnew(QueryHMBean.ServerParamsBean.TixingLISTBean tixingListBean);
     }
 
     public void setSetAssessAnewListener(SetAssessAnewListener setAssessAnewListener) {
         this.setAssessAnewListener = setAssessAnewListener;
+    }
+
+    // 选中了提醒的人回调
+    private SetTixingItemListener setTixingItemListener;
+
+    public interface SetTixingItemListener {
+        void onTixingItemListener(boolean isChecked, String patient_id, int form_id);
+    }
+
+    public void setSetTixingItemListener(SetTixingItemListener setTixingItemListener) {
+        this.setTixingItemListener = setTixingItemListener;
     }
 }

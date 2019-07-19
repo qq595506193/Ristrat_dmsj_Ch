@@ -11,50 +11,41 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.tidus.ristrat.R;
-import com.example.tidus.ristrat.bean.HistoryAssessBean;
+import com.example.tidus.ristrat.bean.RiskAssessmentBean;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class HistoryTableListAdapter extends RecyclerView.Adapter<HistoryTableListAdapter.ViewHolder> {
+/**
+ * Created by TriumphalSun
+ * on 2019/7/17 0017
+ */
+public class RiskTitleTableListAdapter extends RecyclerView.Adapter<RiskTitleTableListAdapter.ViewHolder> {
     private Context context;
-    private List<HistoryAssessBean.ServerParamsBean.ReportListBean> wenjuannameBeans;
+    private List<RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean> wenjuannameBeans;
 
-    public HistoryTableListAdapter(Context context) {
-        wenjuannameBeans = new ArrayList<>();
+    public RiskTitleTableListAdapter(Context context) {
         this.context = context;
     }
 
-    public void setWenjuannameBeans(List<HistoryAssessBean.ServerParamsBean.ReportListBean> wenjuannameBeans) {
+    public void setWenjuannameBeans(List<RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean> wenjuannameBeans) {
         if (wenjuannameBeans != null) {
             this.wenjuannameBeans = wenjuannameBeans;
-            if (wenjuannameBeans.size() == 1) {
-                setTableItem.setOnClickTableItem(wenjuannameBeans.get(0).getFORM_ID(), wenjuannameBeans.get(0));
-            }
         }
-//        notifyDataSetChanged();
+        notifyDataSetChanged();
     }
 
     @NonNull
     @Override
-    public HistoryTableListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RiskTitleTableListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_risk_table, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
-        return viewHolder;
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final HistoryTableListAdapter.ViewHolder holder, final int position) {
-        final HistoryAssessBean.ServerParamsBean.ReportListBean reportListBean = wenjuannameBeans.get(position);
-        holder.tv_risk_table.setText(reportListBean.getFORM_NAME());
-
-        if (reportListBean.getFORM_ID() == 2) {
-            reportListBean.form_id = 2;
-        } else if (reportListBean.getFORM_ID() == 1) {
-            reportListBean.form_id = 1;
-        }
-
-        if (reportListBean.che_color) {
+    public void onBindViewHolder(@NonNull RiskTitleTableListAdapter.ViewHolder holder, final int position) {
+        final RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean wenjuannameBean = wenjuannameBeans.get(position);
+        holder.tv_risk_table.setText(wenjuannameBean.getFORM_NAME());
+        if (wenjuannameBean.che_color) {
             holder.cly.setBackgroundColor(Color.parseColor("#28c48f"));
             holder.tv_risk_table.setTextColor(Color.WHITE);
 
@@ -62,16 +53,12 @@ public class HistoryTableListAdapter extends RecyclerView.Adapter<HistoryTableLi
             holder.cly.setBackgroundColor(Color.WHITE);
             holder.tv_risk_table.setTextColor(Color.parseColor("#d2d0d0"));
         }
-
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setTableItem.setOnClickTableItem(reportListBean.form_id, reportListBean);
-
-
+                setOnItemClickListener.onItemClickListener(wenjuannameBean.getFORM_ID());
                 for (int i = 0; i < wenjuannameBeans.size(); i++) {
-                    HistoryAssessBean.ServerParamsBean.ReportListBean bean = wenjuannameBeans.get(i);
+                    RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean bean = wenjuannameBeans.get(i);
                     if (i == position) {
                         bean.che_color = true;
                     } else {
@@ -85,7 +72,7 @@ public class HistoryTableListAdapter extends RecyclerView.Adapter<HistoryTableLi
 
     @Override
     public int getItemCount() {
-        return wenjuannameBeans.size();
+        return wenjuannameBeans == null ? 0 : wenjuannameBeans.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -100,13 +87,14 @@ public class HistoryTableListAdapter extends RecyclerView.Adapter<HistoryTableLi
         }
     }
 
-    private SetTableItem setTableItem;
+    // 条目点击事件
+    private SetOnItemClickListener setOnItemClickListener;
 
-    public interface SetTableItem {
-        void setOnClickTableItem(int form_id, HistoryAssessBean.ServerParamsBean.ReportListBean reportListBean);
+    public interface SetOnItemClickListener {
+        void onItemClickListener(int form_id);
     }
 
-    public void setSetTableItem(SetTableItem setTableItem) {
-        this.setTableItem = setTableItem;
+    public void setSetOnItemClickListener(SetOnItemClickListener setOnItemClickListener) {
+        this.setOnItemClickListener = setOnItemClickListener;
     }
 }

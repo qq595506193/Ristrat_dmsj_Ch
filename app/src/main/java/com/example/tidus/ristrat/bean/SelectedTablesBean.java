@@ -405,6 +405,15 @@ public class SelectedTablesBean implements Serializable {
             private String TASK_END_DELAY;
             private String ASSESS_BUSINESS;
             private Object ASSESS_POINT;
+            private String RETIMECONTENT;
+
+            public String getRETIMECONTENT() {
+                return RETIMECONTENT;
+            }
+
+            public void setRETIMECONTENT(String RETIMECONTENT) {
+                this.RETIMECONTENT = RETIMECONTENT;
+            }
 
             public int getMERCHANT_ID() {
                 return MERCHANT_ID;

@@ -37,7 +37,7 @@ public class SelectTablesFragment extends BaseMvpFragment {
         businesslistBean = (NowSelectTablesBean.ServerParamsBean.BusinesslistBean) getArguments().getSerializable(TAG);
         checkRiskBean = (CheckRiskBean) getArguments().getSerializable("checkRiskBean");// 加勾选
         tablesAdapter = new TablesAdapter(App.getContext(), businesslistBean.getListforms(), checkRiskBean);
-        rv_checkbox.setLayoutManager(new GridLayoutManager(App.getContext(), 4));
+        rv_checkbox.setLayoutManager(new GridLayoutManager(App.getContext(), 2));
         rv_checkbox.setAdapter(tablesAdapter);
         tablesAdapter.notifyDataSetChanged();
         tablesAdapter.setSetCheckboxFormId(new TablesAdapter.SetCheckboxFormId() {

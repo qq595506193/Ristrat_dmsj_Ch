@@ -23,7 +23,6 @@ import com.example.tidus.ristrat.bean.QueryHMBean;
 import com.example.tidus.ristrat.contract.IHistoryAssessContract;
 import com.example.tidus.ristrat.mvp.presenter.HistoryAssessPresenter;
 import com.example.tidus.ristrat.utils.LogUtils;
-import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
@@ -263,6 +262,11 @@ public class HistoryAssess_02Activity extends BaseMvpActivity<IHistoryAssessCont
 
     }
 
+    /**
+     * 布局
+     *
+     * @return
+     */
     @Override
     protected int bindLayoutId() {
         return R.layout.activity_history_assess_03;
@@ -525,9 +529,9 @@ public class HistoryAssess_02Activity extends BaseMvpActivity<IHistoryAssessCont
             listY = new ArrayList<>();
             listY.clear();
             listY.add("");
-            listY.add("底出血");
+            listY.add("低危");
             listY.add("");
-            listY.add("高出血");
+            listY.add("高危");
             listY.add("");
             listY.add("");
         }
@@ -552,9 +556,38 @@ public class HistoryAssess_02Activity extends BaseMvpActivity<IHistoryAssessCont
         //设置从X轴出来的动画时间
         //mLineChart.animateX(1500);
         //设置XY轴动画
-        chartview.animateXY(1500, 1500, Easing.EasingOption.EaseInSine, Easing.EasingOption.EaseInSine);
+        //chartview.animateXY(1500, 1500, Easing.EasingOption.EaseInSine, Easing.EasingOption.EaseInSine);
         //准备好每个点对应的x轴数
         //LogUtils.e("问卷长度===" + wenjuan.size());
+        // 点击事件
+        chartview.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+            private float valEntry;
+            private int iEntry;
+
+
+            @Override
+            public void onValueSelected(Entry e, Highlight h) {
+                // 获取Entry
+                iEntry = (int) e.getX();
+                valEntry = e.getY();
+
+                LogUtils.e("e.getX() = " + iEntry + "     e.getY() = " + valEntry);
+                for (int i = 0; i < wenjuan.size(); i++) {
+                    HistoryAssessBean.ServerParamsBean.ReportListBean.WENJUANBean wenjuanBean = wenjuan.get(i);
+                    if (i + 1 == iEntry) {
+                        if (wenjuanBean.getFORM_ID() == form_id) {
+                            initInfo(wenjuanBean);
+                        }
+                    }
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected() {
+
+            }
+        });
         listX = new ArrayList<>();
         listX.add("");
         for (int i = 0; i < wenjuan.size(); i++) {
@@ -614,40 +647,7 @@ public class HistoryAssess_02Activity extends BaseMvpActivity<IHistoryAssessCont
                 }
             }
         }
-
-
-        // 点击事件
-        chartview.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
-            private float valEntry;
-            private int iEntry;
-
-
-            @Override
-            public void onValueSelected(Entry e, Highlight h) {
-                // 获取Entry
-                iEntry = (int) e.getX();
-                valEntry = e.getY();
-
-                LogUtils.e("e.getX() = " + iEntry + "     e.getY() = " + valEntry);
-                for (int i = 0; i < wenjuan.size(); i++) {
-                    HistoryAssessBean.ServerParamsBean.ReportListBean.WENJUANBean wenjuanBean = wenjuan.get(i);
-                    if (i + 1 == iEntry) {
-                        if (wenjuanBean.getFORM_ID() == form_id) {
-                            initInfo(wenjuanBean);
-                        }
-                    }
-                }
-
-            }
-
-            @Override
-            public void onNothingSelected() {
-
-            }
-        });
-
         initX(wenjuan);
-
     }
 
     private void initX(List<HistoryAssessBean.ServerParamsBean.ReportListBean.WENJUANBean> wenjuan) {

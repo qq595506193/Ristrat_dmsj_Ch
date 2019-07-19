@@ -50,6 +50,8 @@ import com.example.tidus.ristrat.utils.ToastUtils;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -106,6 +108,7 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
     private String sp_sex_str = "";// 性别的值
     private String sp_danger_level_str = "";// 危险等级的值
     private String sp_wait_assess_str = "";// 待评估的值
+    private String sp_wait_time_str = "";// 提醒时间的值
     private LoginBean loginBean;
     private TextView tv_login_name;
     private Timer timer;
@@ -117,7 +120,7 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
         public void handleMessage(Message msg) {
             if (msg.what == 10000) {
                 LogUtils.e("提醒了");
-                //initPresenterData();
+                initPresenterData();
                 initQueryHMPresenterData();
             }
         }
@@ -127,10 +130,12 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
     private AssessCancelPresenter assessCancelPresenter;
     private CommonPopupWindow popipWindow;
     private EvaluatingAdapter evaluatingAdapter;
-    private List<QueryHMBean.ServerParamsBean.TixingListBean> tixingLIST;
+    private List<QueryHMBean.ServerParamsBean.TixingLISTBean> tixingLIST;
     private QueryHMBean.ServerParamsBean queryHMServerBean;
     private LaterOnPresenter laterOnPresenter;
     private AlertDialog.Builder builder;
+    private HashMap<String, Object> tixingParams = new HashMap<>();
+    private List<String> tixingParamsList = new ArrayList<String>();
 
 
     @Override
@@ -141,6 +146,7 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
     @Override
     protected void onResume() {
         super.onResume();
+        initPresenterData();
 
     }
 
@@ -519,20 +525,68 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
                                         public void getChildView(View view, int layoutResId) {
                                             evaluatingAdapter = new EvaluatingAdapter(CaseControlActivity.this);
                                             RecyclerView rv_evaluating = view.findViewById(R.id.rv_evaluating);
+                                            final TextView tv_wait_time = view.findViewById(R.id.tv_wait_time);
+                                            final Spinner sp_wait_time = view.findViewById(R.id.sp_wait_time);
                                             rv_evaluating.setLayoutManager(new LinearLayoutManager(App.getContext()));
                                             rv_evaluating.setAdapter(evaluatingAdapter);
                                             TextView tv_shaohou = view.findViewById(R.id.tv_shaohou);
                                             final CheckBox ck_all_selected = view.findViewById(R.id.ck_all_selected);
-                                            ck_all_selected.setOnClickListener(new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View v) {
-                                                    if (ck_all_selected.isChecked()) {
-                                                        evaluatingAdapter.setChecked(true);
-                                                    } else {
-                                                        evaluatingAdapter.setChecked(false);
+//                                            ck_all_selected.setOnClickListener(new View.OnClickListener() {
+//                                                @Override
+//                                                public void onClick(View v) {
+//                                                    if (ck_all_selected.isChecked()) {
+//                                                        evaluatingAdapter.setChecked(true);
+//                                                    } else {
+//                                                        evaluatingAdapter.setChecked(false);
+//                                                    }
+//                                                }
+//                                            });
+
+                                            // 选择提醒时间
+                                            if (sp_wait_time != null) {
+                                                sp_wait_time.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {// 监听获取Spinner的值
+
+                                                    @Override
+                                                    public void onItemSelected(AdapterView<?> parent, View view,
+                                                                               int position, long id) {
+
+                                                        //拿到被选择项的值
+                                                        sp_wait_time_str = (String) sp_wait_time.getSelectedItem();
+                                                        //把该值传给 TextView
+                                                        tv_wait_time.setText(sp_wait_time_str);
                                                     }
+
+                                                    @Override
+                                                    public void onNothingSelected(AdapterView<?> parent) {
+                                                        // TODO Auto-generated method stub
+
+                                                    }
+                                                });
+                                            }
+
+                                            evaluatingAdapter.setSetTixingItemListener(new EvaluatingAdapter.SetTixingItemListener() {
+
+
+                                                @Override
+                                                public void onTixingItemListener(boolean isChecked, String patient_id, int form_id) {
+                                                    try {
+                                                        JSONObject object = new JSONObject();
+                                                        object.put("PATIENT_ID", patient_id);
+                                                        object.put("FORM_ID", form_id);
+                                                        String s = object.toString();
+                                                        if (isChecked) {
+                                                            tixingParamsList.add(s);
+                                                        } else {
+                                                            tixingParamsList.remove(s);
+                                                        }
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                    LogUtils.e("选择的人===" + tixingParamsList + "");
+
                                                 }
                                             });
+
                                             // 设置稍后提醒时间
                                             tv_shaohou.setOnClickListener(new View.OnClickListener() {
                                                 @Override
@@ -542,10 +596,31 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
                                                                 @Override
                                                                 public void onClick(DialogInterface dialogInterface, int i) {
                                                                     // 设置提醒时间接口请求
+
                                                                     HashMap<String, Object> params = new HashMap<>();
                                                                     params.put("Type", "updateHM_Patient_In_Assess");
-                                                                    params.put("PATIENT_ID", "");
+                                                                    if (sp_wait_time_str.equals("15分钟")) {
+                                                                        sp_wait_time_str = "900000";
+                                                                    } else if (sp_wait_time_str.equals("30分钟")) {
+                                                                        sp_wait_time_str = "1800000";
+                                                                    } else if (sp_wait_time_str.equals("1小时")) {
+                                                                        sp_wait_time_str = "3600000";
+                                                                    } else if (sp_wait_time_str.equals("3小时")) {
+                                                                        sp_wait_time_str = "10800000";
+                                                                    } else if (sp_wait_time_str.equals("6小时")) {
+                                                                        sp_wait_time_str = "21600000";
+                                                                    } else if (sp_wait_time_str.equals("12小时")) {
+                                                                        sp_wait_time_str = "43200000";
+                                                                    } else if (sp_wait_time_str.equals("24小时")) {
+                                                                        sp_wait_time_str = "86400000";
+                                                                    } else if (sp_wait_time_str.equals("48小时")) {
+                                                                        sp_wait_time_str = "172800000";
+                                                                    }
 
+                                                                    params.put("LATER_TIME", sp_wait_time_str);// 延迟时间
+                                                                    params.put("PFDATA", tixingParamsList);// 患者
+                                                                    laterOnPresenter.getLaterOn(params);
+                                                                    LogUtils.e("设置提醒时间入参===" + params);
                                                                     popipWindow.dismiss();
                                                                 }
                                                             }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -562,7 +637,7 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
                                             // 终止评估
                                             evaluatingAdapter.setSetAssessCancelListener(new EvaluatingAdapter.SetAssessCancelListener() {
                                                 @Override
-                                                public void onAssessCancel(QueryHMBean.ServerParamsBean.TixingListBean tixingListBean, List<QueryHMBean.ServerParamsBean.TixingListBean> tixingListBeans, int position) {
+                                                public void onAssessCancel(QueryHMBean.ServerParamsBean.TixingLISTBean tixingListBean, List<QueryHMBean.ServerParamsBean.TixingLISTBean> tixingListBeans, int position) {
                                                     if (tixingListBeans.size() != 0) {
                                                         HashMap<String, Object> params = new HashMap<>();
                                                         params.put("Type", "saveHM_Patient_Assess_Cancel");
@@ -583,8 +658,8 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
                                             // 重新评估
                                             evaluatingAdapter.setSetAssessAnewListener(new EvaluatingAdapter.SetAssessAnewListener() {
                                                 @Override
-                                                public void onAssessAnew(QueryHMBean.ServerParamsBean.TixingListBean tixingListBean) {
-                                                    Intent intent = new Intent(CaseControlActivity.this, RiskAssessment_02Activity.class);
+                                                public void onAssessAnew(QueryHMBean.ServerParamsBean.TixingLISTBean tixingListBean) {
+                                                    Intent intent = new Intent(CaseControlActivity.this, RiskAssessmentActivity.class);
                                                     intent.putExtra("loginBean", loginBean);
                                                     intent.putExtra("tixingListBean", tixingListBean);
                                                     startActivity(intent);
@@ -605,6 +680,8 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
                             if (!popipWindow.isShowing()) {
                                 popipWindow.showAtLocation(xrv_patient_list, Gravity.CENTER, 0, 0);
                             }
+                        } else {
+                            popipWindow.dismiss();
                         }
 
                         LogUtils.e("有未评估完的人====" + server_params1.getTixingLIST().size());
@@ -632,7 +709,6 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
             }
         }
     }
-
 
     @Override
     public void onCancelAssessSuccess(Object result) {
@@ -763,9 +839,9 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
         if (result != null) {
             if (result instanceof LaterOnBean) {
                 if (((LaterOnBean) result).getCode().equals("0")) {
-                    LogUtils.e(((LaterOnBean) result).getMessage());
+                    LogUtils.e("设置提醒时间===" + ((LaterOnBean) result).getMessage());
                 } else {
-                    LogUtils.e(((LaterOnBean) result).getMessage());
+                    LogUtils.e("设置提醒时间===" + ((LaterOnBean) result).getMessage());
                 }
             }
         }

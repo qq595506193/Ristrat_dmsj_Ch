@@ -42,16 +42,25 @@ public class TablesAdapter extends RecyclerView.Adapter<TablesAdapter.ViewHolder
     public void onBindViewHolder(@NonNull final TablesAdapter.ViewHolder holder, int position) {
         final NowSelectTablesBean.ServerParamsBean.BusinesslistBean.ListformsBean listformsBean = listforms.get(position);
         if (checkRiskBean != null) {
-            for (CheckRiskBean.ServerParamsBean.BusinesslistBean businesslistBean : checkRiskBean.getServer_params().getBusinesslist()) {
-//                for (CheckRiskBean.ServerParamsBean.BusinesslistBean.ListformsBean listform : businesslistBean.getListforms()) {
+            for (CheckRiskBean.ServerParamsBean server_param : checkRiskBean.getServer_params()) {
+                if (listformsBean.getFORM_ID() == server_param.getFORM_ID()) {
+                    if (server_param.getSublist().size() != 0) {
+                        holder.tv_user_id_01.setVisibility(View.VISIBLE);
+                        holder.ck_tables.setEnabled(false);
+                        holder.ck_tables.setTextColor(Color.GRAY);
+                        for (CheckRiskBean.ServerParamsBean.SublistBean sublistBean : server_param.getSublist()) {
+                            holder.tv_user_id_01.setText(sublistBean.getUSER_NAME() + "正在进行评估");
+                        }
+                    }
+                }
+
+            }
+//            for (CheckRiskBean.ServerParamsBean.SublistBean businesslistBean : checkRiskBean.getServer_params().getBusinesslist()) {
+//                for (CheckRiskBean.ServerParamsBean.SublistBean.ListformsBean listform : businesslistBean.getListforms()) {
 //                    if (listform.getSublist().size() != 0) {
 //                        holder.tv_user_id_01.setVisibility(View.VISIBLE);
 //                        holder.ck_tables.setEnabled(false);
-//                        for (Object o : listform.getSublist()) {
-//                            holder.tv_user_id_01.setText(sublistBean.getUSER_NAME() + "正在评估");
-//                            holder.tv_user_id_01.setTextColor(Color.GRAY);
-//                            holder.ck_tables.setTextColor(Color.GRAY);
-//                        }
+//                        listform.getSublist().for
 //
 //                    } else {
 //                        holder.tv_user_id_01.setVisibility(View.GONE);
@@ -59,7 +68,7 @@ public class TablesAdapter extends RecyclerView.Adapter<TablesAdapter.ViewHolder
 //                        holder.ck_tables.setTextColor(Color.BLACK);
 //                    }
 //                }
-            }
+//            }
         }
 
 

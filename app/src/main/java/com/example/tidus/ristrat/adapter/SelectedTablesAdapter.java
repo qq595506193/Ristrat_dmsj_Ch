@@ -67,8 +67,8 @@ public class SelectedTablesAdapter extends RecyclerView.Adapter<SelectedTablesAd
                         businesslistBean1.setChe_color(false);
                     }
                 }
-                notifyDataSetChanged();
                 setSelectTables.onSelectTables(position, businesslistBean, checkRiskBean);
+                notifyDataSetChanged();
             }
         });
     }

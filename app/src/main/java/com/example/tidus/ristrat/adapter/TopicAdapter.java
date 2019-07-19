@@ -22,12 +22,12 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder> 
 
     private Context context;
     private List<RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean> sublistBeans;
-    private boolean isCommit = false;
     private View customView;
     private List<RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean> wenjuanBeans;// 所有组
     private QuestionAdapter questionAdapter;
     private int groupPosition;// 当前组
     private CommonPopupWindow commonPopupWindow;
+    private boolean isCommit = false;
     private int form_id;
     private RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean wenjuannameBean;
 
@@ -111,7 +111,7 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder> 
             });
         }
 
-        // 判断提交后置位不能选择
+        // 判断提交后置为不能选择
         if (form_id == wenjuannameBean.getFORM_ID()) {
             if (isCommit) {
                 holder.cb_checked.setEnabled(false);

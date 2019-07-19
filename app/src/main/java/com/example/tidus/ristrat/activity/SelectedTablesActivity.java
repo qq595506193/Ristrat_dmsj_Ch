@@ -44,9 +44,7 @@ import com.example.tidus.ristrat.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import butterknife.BindView;
 
@@ -88,7 +86,7 @@ public class SelectedTablesActivity extends BaseMvpActivity<ISelectedTablesContr
     private SelectedTablesFragment selectTablesFragment;
     private LoginBean loginBean;
     private CaseControlBean.ServerParamsBean serverParamsBean;
-    private Set<String> list_form_id = new HashSet<>();
+    private List<String> list_form_id = new ArrayList<>();
     private SelectQuestionListBean selectQuestionListBean;
     private QueryHMBean.ServerParamsBean.LISTBean listBean;
     private AlertDialog.Builder builder;
@@ -215,7 +213,7 @@ public class SelectedTablesActivity extends BaseMvpActivity<ISelectedTablesContr
         btn_start_assess.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(App.getContext(), RiskAssessment_02Activity.class);
+                Intent intent = new Intent(App.getContext(), RiskAssessmentActivity.class);
                 intent.putExtra("selectQuestionListBean", selectQuestionListBean);
                 intent.putExtra("loginBean", loginBean);
                 intent.putExtra("serverParamsBean", serverParamsBean);

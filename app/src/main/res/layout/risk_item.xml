@@ -33,13 +33,15 @@
 
     <EditText
         android:id="@+id/et_shuru"
-        android:layout_width="@dimen/dp_40"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dp_5"
+        android:layout_marginRight="@dimen/dp_3"
         android:background="@drawable/edit_bg"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/cb_checked"
         app:layout_constraintLeft_toRightOf="@id/cb_checked"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/cb_checked" />
 
 

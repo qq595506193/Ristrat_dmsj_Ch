@@ -15,6 +15,8 @@ public interface IRiskAssessmentContart {
 
         public abstract void getCommit(HashMap<String, Object> params);
 
+        public abstract void getSave(HashMap<String, Object> params);
+
         @Override
         public IRiskAssessmentModel getModel() {
             return new RiskAssessmentModel();
@@ -25,12 +27,16 @@ public interface IRiskAssessmentContart {
         void getRiskAssessment(HashMap<String, Object> params, IRequestCallback iRequestCallback);
 
         void getCommit(HashMap<String, Object> params, IRequestCallback iRequestCallback);
+
+        void getSave(HashMap<String, Object> params, IRequestCallback iRequestCallback);
     }
 
     interface IRiskAssessmentView extends IBaseView {
         void onCommitSuccess(Object result);
 
         void onRiskAssessmentSuccess(Object result);
+
+        void onSaveSuccess(Object result);
 
         void onFailed(Object error);
     }
