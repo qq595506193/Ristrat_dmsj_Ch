@@ -26,9 +26,11 @@ public class RiskItemCheckboxAdapter extends RecyclerView.Adapter<RiskItemCheckb
 
     private Context context;
     private List<RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean> sublistBeans;
+    private List<RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean> sublistBeans_checked;
     private CommonPopupWindow commonPopupWindow;
     private boolean isCommit = false;
     private RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean wenjuannameBean;
+    private int group_id;
 
 
     public RiskItemCheckboxAdapter(Context context) {
@@ -54,6 +56,16 @@ public class RiskItemCheckboxAdapter extends RecyclerView.Adapter<RiskItemCheckb
         notifyDataSetChanged();
     }
 
+    public void setGroup_id(int group_id) {
+        this.group_id = group_id;
+    }
+
+//    public void setSublistBeans_checked(List<RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean> sublistBeans_checked) {
+//        if (sublistBeans_checked != null) {
+//            this.sublistBeans_checked = sublistBeans_checked;
+//        }
+//        notifyDataSetChanged();
+//    }
 
     @NonNull
     @Override
@@ -73,8 +85,19 @@ public class RiskItemCheckboxAdapter extends RecyclerView.Adapter<RiskItemCheckb
             setGradeListener.onGradeListener(holder.ck_checked.isChecked(), sublistBean);
         } else {
             holder.ck_checked.setChecked(false);
-            holder.iv_wenhao.setVisibility(View.GONE);
+            holder.iv_wenhao.setVisibility(View.INVISIBLE);
         }
+//        // 控制联动
+//        if (sublistBeans_checked != null) {
+//            for (RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean bean : sublistBeans_checked) {
+//                if (bean.getRISK_FACTOR_ID() == sublistBean.getRISK_FACTOR_ID()) {
+//                    holder.ck_checked.setChecked(true);
+//                } else {
+//                    holder.ck_checked.setChecked(false);
+//                }
+//            }
+//        }
+
         // checkbox监听
         holder.ck_checked.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -95,6 +118,19 @@ public class RiskItemCheckboxAdapter extends RecyclerView.Adapter<RiskItemCheckb
                 }
             }
         });
+        // 互斥单选
+//        for (RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean bean : sublistBeans) {
+//            if (group_id == bean.getFACTOR_GROUP_SEQ()) {
+//                if (bean.getMUTEX_GROUP() == 1) {
+//                    holder.ck_checked.setChecked(true);
+//                }
+//            } else {
+//                if (bean.getMUTEX_GROUP() == 1) {
+//                    holder.ck_checked.setChecked(false);
+//                }
+//            }
+//        }
+
 
         // 判断提交后置为不能选择
 

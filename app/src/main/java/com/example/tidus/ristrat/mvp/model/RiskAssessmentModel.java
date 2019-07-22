@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import com.example.lib_network.api.ApiService;
 import com.example.tidus.ristrat.bean.CommitBean;
 import com.example.tidus.ristrat.bean.RiskAssessmentBean;
+import com.example.tidus.ristrat.bean.SaveCommitBean;
 import com.example.tidus.ristrat.callback.IRequestCallback;
 import com.example.tidus.ristrat.callback.IRetrofitService;
 import com.example.tidus.ristrat.contract.IRiskAssessmentContart;
@@ -81,14 +82,14 @@ public class RiskAssessmentModel implements IRiskAssessmentContart.IRiskAssessme
     @Override
     public void getSave(HashMap<String, Object> params, final IRequestCallback iRequestCallback) {
         RetrofitUtils.getInstance().createService(IRetrofitService.class)
-                .doCommitGet(ApiService.COMMIT, params)
+                .doSaveGet(ApiService.SAVE, params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<CommitBean>() {
+                .subscribe(new Consumer<SaveCommitBean>() {
                     @Override
-                    public void accept(CommitBean commitBean) throws Exception {
+                    public void accept(SaveCommitBean saveCommitBean) throws Exception {
                         if (iRequestCallback != null) {
-                            iRequestCallback.onSuccess(commitBean);
+                            iRequestCallback.onSuccess(saveCommitBean);
                         }
                     }
                 }, new Consumer<Throwable>() {

@@ -35,5 +35,9 @@ public interface ICaseControlContract {
         void onCaseControlSuccess(Object result);
 
         void onFailed(Object error);
+
+        void showProgressDialog();
+
+        void hideProgressDialog();
     }
 }

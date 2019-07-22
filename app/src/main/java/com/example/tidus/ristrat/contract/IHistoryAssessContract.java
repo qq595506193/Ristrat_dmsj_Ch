@@ -26,6 +26,8 @@ public interface IHistoryAssessContract {
     interface IHistoryAssessView extends IBaseView {
         void onHistoryAssessSuccess(Object result) throws ParseException;
 
-        void onFailed(Object error);
+        void showProgressDialog();
+
+        void hideProgressDialog();
     }
 }

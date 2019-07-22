@@ -17,5 +17,9 @@ public interface ICheckRiskContract {
         void onCheckRiskSuccess(Object result);
 
         void onCheckRiskFailed(Object error);
+
+        void showProgressDialog();
+
+        void hideProgressDialog();
     }
 }

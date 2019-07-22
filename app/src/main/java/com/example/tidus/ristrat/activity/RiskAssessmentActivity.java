@@ -17,6 +17,7 @@ import com.example.tidus.ristrat.adapter.RiskTitleTableListAdapter;
 import com.example.tidus.ristrat.application.App;
 import com.example.tidus.ristrat.bean.AnwyAssessBean;
 import com.example.tidus.ristrat.bean.CaseControlBean;
+import com.example.tidus.ristrat.bean.CommitBean;
 import com.example.tidus.ristrat.bean.LoginBean;
 import com.example.tidus.ristrat.bean.NowSelectTablesBean;
 import com.example.tidus.ristrat.bean.QueryHMBean;
@@ -26,7 +27,9 @@ import com.example.tidus.ristrat.bean.SelectedTablesBean;
 import com.example.tidus.ristrat.contract.IRiskAssessmentContart;
 import com.example.tidus.ristrat.fragment.RiskAssessFragment;
 import com.example.tidus.ristrat.mvp.presenter.RiskAssessmentPresenter;
+import com.example.tidus.ristrat.utils.LoadingDialog;
 import com.example.tidus.ristrat.utils.LogUtils;
+import com.example.tidus.ristrat.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -62,6 +65,7 @@ public class RiskAssessmentActivity extends BaseMvpActivity<IRiskAssessmentConta
     private RiskTitleTableListAdapter riskTitleTableListAdapter;
     private RiskAssessFragment riskAssessFragment;
     private QueryHMBean.ServerParamsBean.TixingLISTBean tixingListBean;
+    private LoadingDialog loadingDialog;
 
 
     // View绘制
@@ -304,7 +308,38 @@ public class RiskAssessmentActivity extends BaseMvpActivity<IRiskAssessmentConta
 
     @Override
     public void onSaveSuccess(Object result) {
+        if (result != null) {
+            if (result instanceof CommitBean) {
+                if (((CommitBean) result).getCode().equals("0")) {
+                    LogUtils.e("保存" + ((CommitBean) result).getMessage());
+                    ToastUtils.show("保存" + ((CommitBean) result).getMessage());
+                } else {
+                    LogUtils.e("保存" + ((CommitBean) result).getMessage());
+                    ToastUtils.show("保存" + ((CommitBean) result).getMessage());
+                }
+            }
+        }
+    }
 
+    @Override
+    public void showProgressDialog() {
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog.getDialog(RiskAssessmentActivity.this,
+                    "努力加载中",
+                    true,
+                    null);
+        } else if (loadingDialog.isShowing()) {
+            loadingDialog.setMessage("努力加载中");
+        }
+        loadingDialog.show();
+    }
+
+    @Override
+    public void hideProgressDialog() {
+        if (loadingDialog != null && loadingDialog.isShowing()) {
+            loadingDialog.dismiss();
+            loadingDialog = null;
+        }
     }
 
     private void initPatientInfo(RiskAssessmentBean.ServerParamsBean server_params) {
@@ -322,13 +357,5 @@ public class RiskAssessmentActivity extends BaseMvpActivity<IRiskAssessmentConta
         tv_mark.setText(server_params.getVISIT_SQ_NO());
     }
 
-    /**
-     * 请求失败回调
-     *
-     * @param error
-     */
-    @Override
-    public void onFailed(Object error) {
 
-    }
 }

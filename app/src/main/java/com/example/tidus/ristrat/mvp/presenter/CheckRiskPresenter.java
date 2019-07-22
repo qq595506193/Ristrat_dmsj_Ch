@@ -17,11 +17,15 @@ public class CheckRiskPresenter extends ICheckRiskContract.CheckRiskPresenter {
 
     @Override
     public void getCheckRisk(HashMap<String, Object> params) {
+        if (iCheckRiskView != null) {
+            iCheckRiskView.showProgressDialog();
+        }
         checkRiskModel.getCheckRisk(params, new IRequestCallback() {
             @Override
             public void onSuccess(Object result) {
                 if (iCheckRiskView != null) {
                     iCheckRiskView.onCheckRiskSuccess(result);
+                    iCheckRiskView.hideProgressDialog();
                 }
             }
 
@@ -29,6 +33,7 @@ public class CheckRiskPresenter extends ICheckRiskContract.CheckRiskPresenter {
             public void onFailed(Object error) {
                 if (iCheckRiskView != null) {
                     iCheckRiskView.onCheckRiskFailed(error);
+                    iCheckRiskView.hideProgressDialog();
                 }
             }
         });

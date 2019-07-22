@@ -1,8 +1,14 @@
 package com.example.tidus.ristrat.activity;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -13,20 +19,23 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tidus.ristrat.R;
+import com.example.tidus.ristrat.application.App;
 import com.example.tidus.ristrat.base.BaseActivity;
 import com.example.tidus.ristrat.bean.LoginBean;
 import com.example.tidus.ristrat.mvp.presenter.LoginPresenter;
 import com.example.tidus.ristrat.mvp.view.iview.ILoginView;
 import com.example.tidus.ristrat.utils.LogUtils;
 import com.example.tidus.ristrat.utils.NetUtils;
+import com.example.tidus.ristrat.utils.NoFastClickUtils;
 import com.example.tidus.ristrat.utils.RetrofitManager;
+import com.example.tidus.ristrat.utils.ToastUtils;
 
 import java.net.ConnectException;
 import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
-import butterknife.OnClick;
+import io.reactivex.annotations.NonNull;
 import retrofit2.Response;
 
 public class UserLoginActivity extends BaseActivity<LoginPresenter> implements ILoginView {
@@ -60,11 +69,40 @@ public class UserLoginActivity extends BaseActivity<LoginPresenter> implements I
     }
 
 
+
+
     @Override
     protected void initView() {
+
+
+
         titleBack.setVisibility(View.GONE);
         titleLeftLable.setVisibility(View.GONE);
         NetUtils.getNetWorkStart(this);
+        initClick();
+
+    }
+
+    private void initClick() {
+        if (NoFastClickUtils.isFastClick()) {
+            ToastUtils.show("您点击的太快了");
+        } else {
+            btnLogin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    login();
+                }
+            });
+            txtForgetPwd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(App.getContext(), ForgetPwdActivity.class);
+                    intent.putExtra("leftable", leftLable);
+                    startActivity(intent);
+                }
+            });
+        }
+
     }
 
     @Override
@@ -77,21 +115,6 @@ public class UserLoginActivity extends BaseActivity<LoginPresenter> implements I
         return this;
     }
 
-
-    @OnClick({R.id.btn_login, R.id.txt_forget_pwd})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btn_login:
-                login();
-                break;
-            case R.id.txt_forget_pwd:
-                Intent intent = new Intent(this, ForgetPwdActivity.class);
-                intent.putExtra("leftable", leftLable);
-                startActivity(intent);
-                break;
-
-        }
-    }
 
     private void login() {
         Map<String, String> params = new HashMap<>();

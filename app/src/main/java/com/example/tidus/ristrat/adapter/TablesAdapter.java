@@ -49,8 +49,11 @@ public class TablesAdapter extends RecyclerView.Adapter<TablesAdapter.ViewHolder
                         holder.ck_tables.setEnabled(false);
                         holder.ck_tables.setTextColor(Color.GRAY);
                         for (CheckRiskBean.ServerParamsBean.SublistBean sublistBean : server_param.getSublist()) {
-                            holder.tv_user_id_01.setText(sublistBean.getUSER_NAME() + "正在进行评估");
+                            holder.tv_user_id_01.setText("(" + sublistBean.getUSER_NAME() + "正在进行评估)");
                         }
+                    } else {
+                        holder.tv_user_id_01.setVisibility(View.INVISIBLE);
+                        holder.ck_tables.setEnabled(true);
                     }
                 }
 

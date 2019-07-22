@@ -29,6 +29,7 @@ import com.example.tidus.ristrat.bean.SelectedTablesBean;
 import com.example.tidus.ristrat.contract.IRiskAssessmentContart;
 import com.example.tidus.ristrat.mvp.presenter.RiskAssessmentPresenter;
 import com.example.tidus.ristrat.utils.DateUtil;
+import com.example.tidus.ristrat.utils.LoadingDialog;
 import com.example.tidus.ristrat.utils.LogUtils;
 import com.example.tidus.ristrat.utils.ToastUtils;
 
@@ -78,7 +79,7 @@ public class RiskAssessFragment extends BaseMvpFragment<IRiskAssessmentContart.I
     // 总分数
     private int gross_score = 0;
     // 存题ID
-    private List<RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean> sublistBeans = new ArrayList<>();// itemId
+    private List<RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean> sublistBeans_checked = new ArrayList<>();// itemId
     private AlertDialog.Builder builder;// dialog
     private CaseControlBean.ServerParamsBean serverParamsBean;// 患者信息
     private SelectedTablesBean.ServerParamsBean.BusinesslistBean businesslistBean;// 业务信息
@@ -87,6 +88,8 @@ public class RiskAssessFragment extends BaseMvpFragment<IRiskAssessmentContart.I
     private QueryHMBean.ServerParamsBean.TixingLISTBean tixingListBean;// 继续评估后接过来的对象
     private SelectQuestionListBean selectQuestionListBean;// 一共有多少个表
     private String commit_form_id;// 记录提交了哪个表
+    private RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean;
+    private LoadingDialog loadingDialog;
 
     @Override
     protected void init() {
@@ -101,7 +104,7 @@ public class RiskAssessFragment extends BaseMvpFragment<IRiskAssessmentContart.I
         // 设置值
         initSetValue();
         // 题目
-        initRiskGroup();
+        initRiskGroup(sublistBean);
         // 算分数回调
         initCalculate();
         // 点击提交
@@ -173,8 +176,12 @@ public class RiskAssessFragment extends BaseMvpFragment<IRiskAssessmentContart.I
         try {
             String currentDatetime = DateUtil.currentDatetime();// 获取系统当前时间
             jsonStringer.array();
-            for (RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean : sublistBeans) {
-                jsonStringer.object().key("CURRENT_OPTION_ID").value("").key("CURRENT_VALUE").value("").key("RISK_FACTOR_ID").value(sublistBean.getRISK_FACTOR_ID()).key("ANALYSIS_SOURCE_STR").value(sublistBean.getANALYSIS_SOURCE_STR()).endObject();
+            for (RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean : sublistBeans_checked) {
+                if (sublistBean.getANALYSIS_SOURCE_STR() != null) {
+                    jsonStringer.object().key("CURRENT_OPTION_ID").value("").key("CURRENT_VALUE").value("").key("RISK_FACTOR_ID").value(sublistBean.getRISK_FACTOR_ID()).key("ANALYSIS_SOURCE_STR").value(sublistBean.getANALYSIS_SOURCE_STR()).endObject();
+                } else {
+                    jsonStringer.object().key("CURRENT_OPTION_ID").value("").key("CURRENT_VALUE").value("").key("RISK_FACTOR_ID").value(sublistBean.getRISK_FACTOR_ID()).key("ANALYSIS_SOURCE_STR").value("").endObject();
+                }
             }
             jsonStringer.endArray();
         } catch (JSONException e) {
@@ -221,7 +228,7 @@ public class RiskAssessFragment extends BaseMvpFragment<IRiskAssessmentContart.I
         try {
             String currentDatetime = DateUtil.currentDatetime();// 获取系统当前时间
             jsonStringer.array();
-            for (RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean : sublistBeans) {
+            for (RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean : sublistBeans_checked) {
                 if (sublistBean.getANALYSIS_SOURCE_STR() == null || sublistBean.getANALYSIS_SOURCE_STR().equals("")) {
                     jsonStringer.object().key("CURRENT_OPTION_ID").value("").key("CURRENT_VALUE").value("").key("RISK_FACTOR_ID").value(sublistBean.getRISK_FACTOR_ID()).key("ANALYSIS_SOURCE_STR").value(loginBean.getServer_params().getUSER_NAME() + currentDatetime + "确认").endObject();
                 } else {
@@ -250,7 +257,6 @@ public class RiskAssessFragment extends BaseMvpFragment<IRiskAssessmentContart.I
         presenter.getCommit(params);
     }
 
-
     private void initCalculate() {
         riskGroupAdapter.setSetGroupGradeListener(new RiskGroupAdapter.SetGroupGradeListener() {
             @Override
@@ -269,7 +275,7 @@ public class RiskAssessFragment extends BaseMvpFragment<IRiskAssessmentContart.I
     private void number(boolean isChecked, RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean) {
 
         if (isChecked) {
-            sublistBeans.add(sublistBean);
+            sublistBeans_checked.add(sublistBean);
             if (sublistBean.getFACTOR_GROUP_ID() == 1) {
                 gross_score += 1;
             } else if (sublistBean.getFACTOR_GROUP_ID() == 2) {
@@ -283,7 +289,7 @@ public class RiskAssessFragment extends BaseMvpFragment<IRiskAssessmentContart.I
             }
 
         } else {
-            sublistBeans.remove(sublistBean);
+            sublistBeans_checked.remove(sublistBean);
             if (gross_score > 0) {
                 if (sublistBean.getFACTOR_GROUP_ID() == 1) {
                     gross_score -= 1;
@@ -298,9 +304,10 @@ public class RiskAssessFragment extends BaseMvpFragment<IRiskAssessmentContart.I
                 }
             }
         }
+
         LogUtils.e("选过的itemId===" + sublistBean.getRISK_FACTOR_ID());
         LogUtils.e("选过的问号内容===" + sublistBean.getANALYSIS_SOURCE_STR());
-        LogUtils.e("选过的存入集合的个数===" + sublistBeans.size());
+        LogUtils.e("选过的存入集合的个数===" + sublistBeans_checked.size());
 
         // 危险等级
         if (gross_score >= 1 && gross_score < 1.5) {
@@ -320,7 +327,6 @@ public class RiskAssessFragment extends BaseMvpFragment<IRiskAssessmentContart.I
     }
 
     private void initSetValue() {
-
         riskGroupAdapter = new RiskGroupAdapter(getActivity());// 内部有popupwindow弹出框，所以使用Activity上下文
         rv_question_check.setLayoutManager(new LinearLayoutManager(App.getContext()));
         rv_question_check.setAdapter(riskGroupAdapter);
@@ -338,7 +344,7 @@ public class RiskAssessFragment extends BaseMvpFragment<IRiskAssessmentContart.I
 
     }
 
-    private void initRiskGroup() {
+    private void initRiskGroup(final RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean) {
         // 两个组的数据
         for (RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean xuanxiangBean : wenjuannameBean.getXUANXIANG()) {
             if (xuanxiangBean.getGROUP_TAB_ID() == GROUP_TAB_ID) {
@@ -358,7 +364,7 @@ public class RiskAssessFragment extends BaseMvpFragment<IRiskAssessmentContart.I
                         gross_score = 0;
                         tv_score_sum.setText(gross_score + "分");
                         // 切换分组清空itemId
-                        sublistBeans.clear();
+                        //sublistBeans_checked.clear();
                         //
                         GROUP_TAB_ID = 1;
                         for (RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean xuanxiangBean : wenjuannameBean.getXUANXIANG()) {
@@ -366,13 +372,18 @@ public class RiskAssessFragment extends BaseMvpFragment<IRiskAssessmentContart.I
                                 riskGroupAdapter.setWenjuanBeans(xuanxiangBean.getWENJUAN());
                             }
                         }
+//                        for (RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean xuanxiangBean : wenjuannameBean.getXUANXIANG()) {
+//                            if (xuanxiangBean.getGROUP_TAB_ID() == GROUP_TAB_ID) {
+//                                riskGroupAdapter.setSublistBeans(sublistBeans_checked);
+//                            }
+//                        }
                         break;
                     case R.id.rb_score_linchuang:
                         // 切换分组清空分数
                         gross_score = 0;
                         tv_score_sum.setText(gross_score + "分");
                         // 切换分组清空itemId
-                        sublistBeans.clear();
+                        //sublistBeans_checked.clear();
                         //
                         GROUP_TAB_ID = 2;
                         for (RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean xuanxiangBean : wenjuannameBean.getXUANXIANG()) {
@@ -380,6 +391,11 @@ public class RiskAssessFragment extends BaseMvpFragment<IRiskAssessmentContart.I
                                 riskGroupAdapter.setWenjuanBeans(xuanxiangBean.getWENJUAN());
                             }
                         }
+//                        for (RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean xuanxiangBean : wenjuannameBean.getXUANXIANG()) {
+//                            if (xuanxiangBean.getGROUP_TAB_ID() == GROUP_TAB_ID) {
+//                                riskGroupAdapter.setSublistBeans(sublistBeans_checked);
+//                            }
+//                        }
                         break;
                 }
             }
@@ -391,7 +407,7 @@ public class RiskAssessFragment extends BaseMvpFragment<IRiskAssessmentContart.I
         // 从Activity接过来的问卷对象
         wenjuannameBean = (RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean) getArguments().getSerializable(TAG);
         // 每次接到新数据清空集合
-        sublistBeans.clear();
+        sublistBeans_checked.clear();
         // 接业务对象
         businesslistBean = (SelectedTablesBean.ServerParamsBean.BusinesslistBean) getArguments().getSerializable("businesslistBean");
         businesslistBean_now = (NowSelectTablesBean.ServerParamsBean.BusinesslistBean) getArguments().getSerializable("businesslistBean_now");
@@ -492,6 +508,7 @@ public class RiskAssessFragment extends BaseMvpFragment<IRiskAssessmentContart.I
      *
      * @param result
      */
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onSaveSuccess(Object result) {
         if (result != null) {
@@ -508,9 +525,26 @@ public class RiskAssessFragment extends BaseMvpFragment<IRiskAssessmentContart.I
     }
 
     @Override
-    public void onFailed(Object error) {
-
+    public void showProgressDialog() {
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog.getDialog(getActivity(),
+                    "努力加载中",
+                    true,
+                    null);
+        } else if (loadingDialog.isShowing()) {
+            loadingDialog.setMessage("努力加载中");
+        }
+        loadingDialog.show();
     }
+
+    @Override
+    public void hideProgressDialog() {
+        if (loadingDialog != null && loadingDialog.isShowing()) {
+            loadingDialog.dismiss();
+            loadingDialog = null;
+        }
+    }
+
 
     // 提交成功后判断时候还有其他表
     private SetCommitedListener setCommitedListener;

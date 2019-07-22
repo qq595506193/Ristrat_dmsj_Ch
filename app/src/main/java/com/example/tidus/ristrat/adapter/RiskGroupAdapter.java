@@ -22,6 +22,7 @@ import java.util.List;
 public class RiskGroupAdapter extends RecyclerView.Adapter<RiskGroupAdapter.ViewHolder> {
     private Context context;
     private List<RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean> wenjuanBeans;
+    private List<RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean> sublistBeans_checked;
     private RiskItemCheckboxAdapter riskItemCheckboxAdapter;
     private boolean isCommit = false;
 
@@ -41,6 +42,13 @@ public class RiskGroupAdapter extends RecyclerView.Adapter<RiskGroupAdapter.View
         notifyDataSetChanged();
     }
 
+//    public void setSublistBeans(List<RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean> sublistBeans_checked) {
+//        if (sublistBeans_checked != null) {
+//            this.sublistBeans_checked = sublistBeans_checked;
+//        }
+//        notifyDataSetChanged();
+//    }
+
     @NonNull
     @Override
     public RiskGroupAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -51,13 +59,17 @@ public class RiskGroupAdapter extends RecyclerView.Adapter<RiskGroupAdapter.View
     @Override
     public void onBindViewHolder(@NonNull RiskGroupAdapter.ViewHolder holder, int position) {
         RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean wenjuanBean = wenjuanBeans.get(position);
-        holder.tv_xiaobiao_name.setText(wenjuanBean.getFACTOR_GROUP_ID() + "分组");
+        holder.tv_xiaobiao_name.setText(wenjuanBean.getFACTOR_GROUP_NAME());
         // 内层复选框列表
         riskItemCheckboxAdapter = new RiskItemCheckboxAdapter(context);
         holder.rv_question_check.setLayoutManager(new GridLayoutManager(App.getContext(), 4));
         holder.rv_question_check.setAdapter(riskItemCheckboxAdapter);
+//        // 选择联动
+//        riskItemCheckboxAdapter.setSublistBeans_checked(sublistBeans_checked);
         // 设置内层item数据
         riskItemCheckboxAdapter.setSublistBeans(wenjuanBean.getSublist());
+        // 传递当前组id
+        riskItemCheckboxAdapter.setGroup_id(wenjuanBean.getFACTOR_GROUP_SEQ());
         // 接收内层算分回调
         riskItemCheckboxAdapter.setSetGradeListener(new RiskItemCheckboxAdapter.SetGradeListener() {
             @Override

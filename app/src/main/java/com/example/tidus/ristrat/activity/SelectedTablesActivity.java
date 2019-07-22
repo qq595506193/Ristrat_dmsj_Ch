@@ -39,6 +39,7 @@ import com.example.tidus.ristrat.mvp.presenter.CancelAssessPresenter;
 import com.example.tidus.ristrat.mvp.presenter.CheckRiskPresenter;
 import com.example.tidus.ristrat.mvp.presenter.EvaluatingPresenter;
 import com.example.tidus.ristrat.mvp.presenter.SelectedTablesPresenter;
+import com.example.tidus.ristrat.utils.LoadingDialog;
 import com.example.tidus.ristrat.utils.LogUtils;
 import com.example.tidus.ristrat.utils.ToastUtils;
 
@@ -97,6 +98,7 @@ public class SelectedTablesActivity extends BaseMvpActivity<ISelectedTablesContr
     private List<Integer> keshi_id = new ArrayList<>();
     private SelectedTablesAdapter selectedTablesAdapter;
     private BusinessListAdalter businessListAdalter;
+    private LoadingDialog loadingDialog;
 
     @Override
     protected void init() {
@@ -130,13 +132,16 @@ public class SelectedTablesActivity extends BaseMvpActivity<ISelectedTablesContr
     @Override
     protected void initData() {
         super.initData();
+        //查询可选的表网络请求
+        initPresenterData();
+
+    }
+
+    private void initPresenterData() {
         HashMap<String, Object> params = new HashMap<>();
         params.put("Type", "queryBusinessForms");
         params.put("PATIENT_ID", serverParamsBean.getPATIENT_ID());
         presenter.getSelectedTables(params);
-
-        // 加勾选请求
-        initCheckData();
     }
 
     private void initPatientValue() {
@@ -153,6 +158,9 @@ public class SelectedTablesActivity extends BaseMvpActivity<ISelectedTablesContr
     private void initViewPagerFragment(final List<SelectedTablesBean.ServerParamsBean.BusinesslistBean> businesslist) {
         selectQuestionListBean = new SelectQuestionListBean();
         selectedTablesAdapter = new SelectedTablesAdapter(App.getContext(), businesslist);
+
+        // 加勾选请求
+        initCheckData();
         rv_select_tables.setLayoutManager(new LinearLayoutManager(App.getContext()));
         rv_select_tables.setAdapter(selectedTablesAdapter);
         selectedTablesAdapter.notifyDataSetChanged();
@@ -293,7 +301,7 @@ public class SelectedTablesActivity extends BaseMvpActivity<ISelectedTablesContr
 
     @Override
     public void failure(String msg) {
-
+        ToastUtils.show("网络请求失败");
     }
 
     /**
@@ -365,6 +373,27 @@ public class SelectedTablesActivity extends BaseMvpActivity<ISelectedTablesContr
                     initViewPagerFragment(((SelectedTablesBean) result).getServer_params().getBusinesslist());
                 }
             }
+        }
+    }
+
+    @Override
+    public void showProgressDialog() {
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog.getDialog(SelectedTablesActivity.this,
+                    "努力加载中",
+                    true,
+                    null);
+        } else if (loadingDialog.isShowing()) {
+            loadingDialog.setMessage("努力加载中");
+        }
+        loadingDialog.show();
+    }
+
+    @Override
+    public void hideProgressDialog() {
+        if (loadingDialog != null && loadingDialog.isShowing()) {
+            loadingDialog.dismiss();
+            loadingDialog = null;
         }
     }
 

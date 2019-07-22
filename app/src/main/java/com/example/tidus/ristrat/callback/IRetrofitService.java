@@ -9,11 +9,11 @@ import com.example.tidus.ristrat.bean.EvaluatingBean;
 import com.example.tidus.ristrat.bean.HistoryAssessBean;
 import com.example.tidus.ristrat.bean.LaterOnBean;
 import com.example.tidus.ristrat.bean.MessageBean;
-import com.example.tidus.ristrat.bean.MessageNumBean;
 import com.example.tidus.ristrat.bean.MessageUpdateBean;
 import com.example.tidus.ristrat.bean.NowSelectTablesBean;
 import com.example.tidus.ristrat.bean.QueryHMBean;
 import com.example.tidus.ristrat.bean.RiskAssessmentBean;
+import com.example.tidus.ristrat.bean.SaveCommitBean;
 import com.example.tidus.ristrat.bean.SelectedTablesBean;
 
 import java.util.HashMap;
@@ -54,6 +54,10 @@ public interface IRetrofitService {
     // 提交表格
     @GET
     Observable<CommitBean> doCommitGet(@Url String apiUrl, @QueryMap HashMap<String, Object> params);
+
+    // 保存表格
+    @GET
+    Observable<SaveCommitBean> doSaveGet(@Url String apiUrl, @QueryMap HashMap<String, Object> params);
 
     // 提醒变色
     @GET

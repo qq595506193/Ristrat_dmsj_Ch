@@ -3,6 +3,7 @@ package com.example.tidus.ristrat.adapter;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.text.SpannableString;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ public class MessageListAdapter extends XRecyclerView.Adapter<MessageListAdapter
     private Context context;
     private List<MessageBean.ServerParamsBean.ListBean> listBeans;
     private List<TiaoBean> messageTiaoBeans = new ArrayList<>();
+    private SpannableString spanString;
 
     public MessageListAdapter(Context context) {
         listBeans = new ArrayList<>();
@@ -70,7 +72,8 @@ public class MessageListAdapter extends XRecyclerView.Adapter<MessageListAdapter
                     List<TiaoBean> tiaoBeans = gson.fromJson(replace, new TypeToken<List<TiaoBean>>() {
                     }.getType());
                     String str = "";
-                    for (TiaoBean tiaoBean : tiaoBeans) {
+                    for (int i = 0; i < tiaoBeans.size(); i++) {
+                        TiaoBean tiaoBean = tiaoBeans.get(i);
                         str += tiaoBean.getCont();
                     }
                     holder.tv_message_content.setText(str);

@@ -28,5 +28,9 @@ public interface ISelectedTablesContract {
 
     interface ISelectedTablesView extends IBaseView {
         void onSelectedTablesSuccess(Object result);
+
+        void showProgressDialog();
+
+        void hideProgressDialog();
     }
 }

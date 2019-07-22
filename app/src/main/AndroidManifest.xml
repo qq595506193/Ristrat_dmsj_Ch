@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 允许应用程序访问WIFI网卡的网络信息 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 允许应用程序完全使用网络 -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <application
         android:name=".application.App"
@@ -24,8 +25,7 @@
 
         <service android:name=".service.MessageService" />
 
-        <activity android:name=".activity.HistoryAssess_02Activity" />
-        <activity android:name=".activity.RiskAssessment_02Activity" />
+        <activity android:name=".activity.HistoryAssessActivity" />
         <activity
             android:name=".activity.EvaluatingActivity"
             android:launchMode="singleTop"
@@ -33,19 +33,11 @@
         <activity
             android:name=".activity.LogActivity"
             android:theme="@style/TransparentTheme" />
-        <activity android:name=".activity.HistoryAssessActivity" />
         <activity
             android:name=".activity.CancelQuestionActivity"
             android:theme="@style/TransparentTheme" />
-        <activity
-            android:name=".activity.SelectQuestionActivity"
-            android:theme="@style/TransparentTheme" />
         <activity android:name=".activity.MessageActivity" />
         <activity android:name=".activity.CaseControlActivity" />
-        <activity
-            android:name=".activity.MainActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".activity.UserLoginActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -56,13 +48,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activity.RuestionnaireActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity android:name=".activity.RiskActivity" />
         <activity android:name=".activity.ReportActivity" />
-        <activity android:name=".activity.InfromActivity" />
         <activity
             android:name=".activity.ForgetPwdActivity"
             android:configChanges="orientation|keyboardHidden"

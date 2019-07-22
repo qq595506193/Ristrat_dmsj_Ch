@@ -13,11 +13,15 @@ import java.util.HashMap;
 public class SelectedTablesPresenter extends ISelectedTablesContract.SelectedTablesPresenter {
     @Override
     public void getSelectedTables(HashMap<String, Object> params) {
+        if (view != null) {
+            view.showProgressDialog();
+        }
         model.getSelectedTables(params, new IRequestCallback() {
             @Override
             public void onSuccess(Object result) throws ParseException {
                 if (view != null) {
                     view.onSelectedTablesSuccess(result);
+                    view.hideProgressDialog();
                 }
             }
 
@@ -25,6 +29,7 @@ public class SelectedTablesPresenter extends ISelectedTablesContract.SelectedTab
             public void onFailed(Object error) {
                 if (view != null) {
                     view.failure(error + "");
+                    view.hideProgressDialog();
                 }
             }
         });

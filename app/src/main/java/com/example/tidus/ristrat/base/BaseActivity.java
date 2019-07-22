@@ -1,16 +1,24 @@
 package com.example.tidus.ristrat.base;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
 import butterknife.ButterKnife;
+import io.reactivex.annotations.NonNull;
 
 
 public abstract class BaseActivity<P extends BasePresenter> extends Activity implements IView {
@@ -29,7 +37,10 @@ public abstract class BaseActivity<P extends BasePresenter> extends Activity imp
         initData();
         immersiveStatusBar();
         initListener();
+
     }
+
+
 
     protected void initListener() {}
 
@@ -77,4 +88,6 @@ public abstract class BaseActivity<P extends BasePresenter> extends Activity imp
         }
 
     }
+
+
 }

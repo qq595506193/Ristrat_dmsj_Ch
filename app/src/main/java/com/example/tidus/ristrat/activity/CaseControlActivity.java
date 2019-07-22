@@ -45,6 +45,7 @@ import com.example.tidus.ristrat.mvp.presenter.CaseControlPresenter;
 import com.example.tidus.ristrat.mvp.presenter.LaterOnPresenter;
 import com.example.tidus.ristrat.mvp.presenter.MessageTypePresenter;
 import com.example.tidus.ristrat.utils.CommonPopupWindow;
+import com.example.tidus.ristrat.utils.LoadingDialog;
 import com.example.tidus.ristrat.utils.LogUtils;
 import com.example.tidus.ristrat.utils.ToastUtils;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -102,9 +103,9 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
     private String PATIENT_NAME = "";// 患者名称
     private String PATIENT_SEX = "";// 性别
     private String BED_NUMBER = "";// 床位Id
-    private List<Integer> DEPARTMENT_ID = new ArrayList<>();// 本科室
+    private Set<Integer> DEPARTMENT_ID = new HashSet<>();// 本科室
     private String CARE_UNIT = "";// 本单元
-    private String CURRENT_RISK_LEVEL = "";// 危险等级
+    private Set<String> CURRENT_RISK_LEVEL = new HashSet<>();// 危险等级
     private String sp_sex_str = "";// 性别的值
     private String sp_danger_level_str = "";// 危险等级的值
     private String sp_wait_assess_str = "";// 待评估的值
@@ -112,6 +113,7 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
     private LoginBean loginBean;
     private TextView tv_login_name;
     private Timer timer;
+    private boolean isShowDialog = false;
 
     // (2) 使用handler处理接收到的消息
     @SuppressLint("HandlerLeak")
@@ -136,6 +138,7 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
     private AlertDialog.Builder builder;
     private HashMap<String, Object> tixingParams = new HashMap<>();
     private List<String> tixingParamsList = new ArrayList<String>();
+    private LoadingDialog loadingDialog;
 
 
     @Override
@@ -150,8 +153,10 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
 
     }
 
+
     @Override
     protected void initView(final Intent intent) {
+
 
         officeBean = new OfficeBean();
 
@@ -210,7 +215,7 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
             @Override
             public void onStartActivity(List<CaseControlBean.ServerParamsBean> serverParamsBeans, QueryHMBean.ServerParamsBean queryHMBean, int position) {
                 CaseControlBean.ServerParamsBean serverParamsBean = serverParamsBeans.get(position);
-                Intent intent = new Intent(App.getContext(), HistoryAssess_02Activity.class);
+                Intent intent = new Intent(App.getContext(), HistoryAssessActivity.class);
                 intent.putExtra("loginBean", loginBean);
                 intent.putExtra("serverParamsBean", serverParamsBean);
                 List<QueryHMBean.ServerParamsBean.LISTBean> list = queryHMBean.getLIST();
@@ -299,6 +304,8 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
         et_danger_level.addTextChangedListener(new MyTextWatcher());
         et_sex.addTextChangedListener(new MyTextWatcher());
         et_wait_assess.addTextChangedListener(new MyTextWatcher());
+        DEPARTMENT_ID.add(loginBean.getServer_params().getDEPARTMENT());
+        officeBean.setOffice(DEPARTMENT_ID);
         initPresenterData();// 患者列表查询
         initQueryHMPresenterData();// 提醒查询
         initMessageTypePresenterData();// 未读消息查询
@@ -320,11 +327,18 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
         params.put("PATIENT_NAME", PATIENT_NAME);
         params.put("PATIENT_SEX", PATIENT_SEX);
         params.put("BED_NUMBER", BED_NUMBER);
-        params.put("CURRENT_RISK_LEVEL", CURRENT_RISK_LEVEL);
-        if (DEPARTMENT_ID.size() == 0) {
-            params.put("CARE_UNIT", CARE_UNIT);
+        if (CURRENT_RISK_LEVEL.size() != 0) {
+            params.put("CURRENT_RISK_LEVEL", CURRENT_RISK_LEVEL);// 危险等级
         } else {
+            params.put("CURRENT_RISK_LEVEL", "");
+        }
+
+
+        if (DEPARTMENT_ID.size() != 0) {
             params.put("DEPARTMENT_ID", officeBean.getOffice());
+            //params.put("CARE_UNIT", CARE_UNIT);
+        } else {
+            params.put("CARE_UNIT", loginBean.getServer_params().getCARE_UNIT());
         }
 
 
@@ -343,6 +357,7 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
                 + "----本单元："
                 + CARE_UNIT);
 
+        LogUtils.e("请求了一次列表---拼参" + params);
         presenter.getCaseControl(params);
     }
 
@@ -434,17 +449,22 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
         }
 
         if (sp_danger_level_str.equals("低危")) {
-            CURRENT_RISK_LEVEL = "5";
+            CURRENT_RISK_LEVEL.clear();
+            CURRENT_RISK_LEVEL.add("5");
         } else if (sp_danger_level_str.equals("中危")) {
-            CURRENT_RISK_LEVEL = "6";
+            CURRENT_RISK_LEVEL.clear();
+            CURRENT_RISK_LEVEL.add("6");
         } else if (sp_danger_level_str.equals("高危")) {
-            CURRENT_RISK_LEVEL = "7";
+            CURRENT_RISK_LEVEL.clear();
+            CURRENT_RISK_LEVEL.add("7");
         } else if (sp_danger_level_str.equals("极高危")) {
-            CURRENT_RISK_LEVEL = "8";
+            CURRENT_RISK_LEVEL.clear();
+            CURRENT_RISK_LEVEL.add("8");
         } else if (sp_danger_level_str.equals("确诊")) {
-            CURRENT_RISK_LEVEL = "9";
+            CURRENT_RISK_LEVEL.clear();
+            CURRENT_RISK_LEVEL.add("9");
         } else {
-            CURRENT_RISK_LEVEL = "";
+            CURRENT_RISK_LEVEL.clear();
         }
 
         if (rg_check != null) {
@@ -458,12 +478,14 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
                                 DEPARTMENT_ID.add(loginBean.getServer_params().getDEPARTMENT());
                                 officeBean.setOffice(DEPARTMENT_ID);
                             }
+                            isShowDialog = false;
                             initPresenterData();
                             break;
                         case R.id.rb_element:
                             DEPARTMENT_ID.clear();
                             officeBean.setOffice(null);
                             CARE_UNIT = loginBean.getServer_params().getCARE_UNIT();// 本单元
+                            isShowDialog = false;
                             initPresenterData();
                             break;
                     }
@@ -732,6 +754,31 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
     }
 
     @Override
+    public void showProgressDialog() {
+        if (!isShowDialog) {
+            if (loadingDialog == null) {
+                loadingDialog = LoadingDialog.getDialog(CaseControlActivity.this,
+                        "努力加载中",
+                        true,
+                        null);
+            } else if (loadingDialog.isShowing()) {
+                loadingDialog.setMessage("努力加载中");
+            }
+            loadingDialog.show();
+            isShowDialog = true;
+        }
+
+    }
+
+    @Override
+    public void hideProgressDialog() {
+        if (loadingDialog != null && loadingDialog.isShowing()) {
+            loadingDialog.dismiss();
+            loadingDialog = null;
+        }
+    }
+
+    @Override
     public BasePresenter initPresenter() {
         return new CaseControlPresenter(this);
     }
@@ -762,27 +809,35 @@ public class CaseControlActivity extends BaseMvpActivity<ICaseControlContract.IC
             if (msg.what == searchWhat) {
                 if (msg.obj.toString().equals(et_hospital_id.getText().toString())) {//进行判断
                     pageNum = 1;
+                    isShowDialog = false;
                     initPresenterData();
                 } else if (msg.obj.toString().equals(et_bed.getText().toString())) {
                     pageNum += 1;
+                    isShowDialog = false;
                     initPresenterData();
                 } else if (msg.obj.toString().equals(et_danger_level.getText().toString())) {
                     pageNum += 1;
+                    isShowDialog = false;
                     initPresenterData();
                 } else if (msg.obj.toString().equals(et_name.getText().toString())) {
                     pageNum += 1;
+                    isShowDialog = false;
                     initPresenterData();
                 } else if (msg.obj.toString().equals(et_sex.getText().toString())) {
                     pageNum += 1;
+                    isShowDialog = false;
                     initPresenterData();
                 } else if (msg.obj.toString().equals(rb_section.getText().toString())) {
                     pageNum += 1;
+                    isShowDialog = false;
                     initPresenterData();
                 } else if (msg.obj.toString().equals(rb_element.getText().toString())) {
                     pageNum += 1;
+                    isShowDialog = false;
                     initPresenterData();
                 } else if (msg.obj.toString().equals(et_wait_assess.getText().toString())) {
                     pageNum += 1;
+                    isShowDialog = false;
                     initPresenterData();
                 }
             }

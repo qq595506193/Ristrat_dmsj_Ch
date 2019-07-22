@@ -1,8 +1,10 @@
 package com.example.tidus.ristrat.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -31,7 +33,9 @@ import com.example.tidus.ristrat.mvp.presenter.CancelAssessPresenter;
 import com.example.tidus.ristrat.mvp.presenter.CheckRiskPresenter;
 import com.example.tidus.ristrat.mvp.presenter.EvaluatingPresenter;
 import com.example.tidus.ristrat.mvp.presenter.NowSelectTablesPresenter;
+import com.example.tidus.ristrat.utils.LoadingDialog;
 import com.example.tidus.ristrat.utils.LogUtils;
+import com.example.tidus.ristrat.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -76,6 +80,8 @@ public class NowSelectTablesActivity extends BaseMvpActivity<INowSelectTablesCon
     private List<Integer> keshi_id = new ArrayList<>();
     private SelectQuestionListBean selectQuestionListBean;
     private SelectTablesAdapter selectTablesAdapter;
+    private LoadingDialog loadingDialog;
+    private AlertDialog.Builder builder;
 
     @Override
     protected void init() {
@@ -110,8 +116,6 @@ public class NowSelectTablesActivity extends BaseMvpActivity<INowSelectTablesCon
         super.initData();
         // 网络请求入参
         initPresenterData();
-        // 加勾选请求
-        initCheckData();
 
     }
 
@@ -125,6 +129,8 @@ public class NowSelectTablesActivity extends BaseMvpActivity<INowSelectTablesCon
     private void initViewPagerFragment(final List<NowSelectTablesBean.ServerParamsBean.BusinesslistBean> businesslist) {
         selectQuestionListBean = new SelectQuestionListBean();
         selectTablesAdapter = new SelectTablesAdapter(App.getContext(), businesslist);
+        // 加勾选请求
+        initCheckData();
         rv_select_tables.setLayoutManager(new LinearLayoutManager(App.getContext()));
         rv_select_tables.setAdapter(selectTablesAdapter);
         selectTablesAdapter.notifyDataSetChanged();
@@ -180,18 +186,30 @@ public class NowSelectTablesActivity extends BaseMvpActivity<INowSelectTablesCon
         btn_start_assess.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(App.getContext(), RiskAssessmentActivity.class);
-                intent.putExtra("selectQuestionListBean", selectQuestionListBean);
-                intent.putExtra("loginBean", loginBean);
-                intent.putExtra("serverParamsBean", serverParamsBean);
-                intent.putExtra("selectQuestionListBean", selectQuestionListBean);
-                for (NowSelectTablesBean.ServerParamsBean.BusinesslistBean businesslistBean : businesslist) {
-                    intent.putExtra("businesslistBean_now", businesslistBean);
-                }
-                startActivity(intent);
-                // 监控
-                initPresenterEvalutingData();/// 开始监控评估中
-                finish();
+                builder = new AlertDialog.Builder(NowSelectTablesActivity.this).setIcon(R.mipmap.tixing).setTitle("提醒")
+                        .setMessage("确认评估吗？").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent intent = new Intent(App.getContext(), RiskAssessmentActivity.class);
+                                intent.putExtra("selectQuestionListBean", selectQuestionListBean);
+                                intent.putExtra("loginBean", loginBean);
+                                intent.putExtra("serverParamsBean", serverParamsBean);
+                                intent.putExtra("selectQuestionListBean", selectQuestionListBean);
+                                for (NowSelectTablesBean.ServerParamsBean.BusinesslistBean businesslistBean : businesslist) {
+                                    intent.putExtra("businesslistBean_now", businesslistBean);
+                                }
+                                startActivity(intent);
+                                // 监控
+                                initPresenterEvalutingData();/// 开始监控评估中
+                                finish();
+                            }
+                        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+                builder.create().show();
             }
         });
 
@@ -272,7 +290,7 @@ public class NowSelectTablesActivity extends BaseMvpActivity<INowSelectTablesCon
 
     @Override
     public void failure(String msg) {
-
+        ToastUtils.show("网路请求失败");
     }
 
     // 立即查询表成功回调
@@ -285,6 +303,27 @@ public class NowSelectTablesActivity extends BaseMvpActivity<INowSelectTablesCon
                     initViewPagerFragment(((NowSelectTablesBean) result).getServer_params().getBusinesslist());
                 }
             }
+        }
+    }
+
+    @Override
+    public void showProgressDialog() {
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog.getDialog(NowSelectTablesActivity.this,
+                    "努力加载中",
+                    true,
+                    null);
+        } else if (loadingDialog.isShowing()) {
+            loadingDialog.setMessage("努力加载中");
+        }
+        loadingDialog.show();
+    }
+
+    @Override
+    public void hideProgressDialog() {
+        if (loadingDialog != null && loadingDialog.isShowing()) {
+            loadingDialog.dismiss();
+            loadingDialog = null;
         }
     }
 

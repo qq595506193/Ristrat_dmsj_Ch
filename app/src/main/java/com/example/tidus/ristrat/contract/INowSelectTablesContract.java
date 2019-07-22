@@ -28,5 +28,9 @@ public interface INowSelectTablesContract {
 
     interface INowSelectTablesView extends IBaseView {
         void onNowSelectTablesSuccess(Object result);
+
+        void showProgressDialog();
+
+        void hideProgressDialog();
     }
 }

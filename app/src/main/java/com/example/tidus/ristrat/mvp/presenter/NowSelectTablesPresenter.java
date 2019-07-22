@@ -13,11 +13,15 @@ import java.util.HashMap;
 public class NowSelectTablesPresenter extends INowSelectTablesContract.NowSelectTablesPresenter {
     @Override
     public void getNowSelectTables(HashMap<String, Object> params) {
+        if (view != null) {
+            view.showProgressDialog();
+        }
         model.getNowSelectTables(params, new IRequestCallback() {
             @Override
             public void onSuccess(Object result) throws ParseException {
                 if (view != null) {
                     view.onNowSelectTablesSuccess(result);
+                    view.hideProgressDialog();
                 }
             }
 

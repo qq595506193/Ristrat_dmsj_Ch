@@ -944,6 +944,7 @@ public class HistoryAssessBean implements Serializable {
                 }
 
                 public static class WxysBean implements Serializable  {
+
                     /**
                      * RISK_FACTOR_ID : 1003
                      * RISK_FACTOR_NAME : 下肢水肿(现患)
@@ -953,6 +954,9 @@ public class HistoryAssessBean implements Serializable {
                      * FACTOR_SEQ : 0
                      * CAN_CHANGE : 0
                      * SCORE_SHOW_TYPE : 20
+                     * EFFECTIVE_TYPE : Once
+                     * EFFECTIVE_TIME : 0
+                     * ANALYSIS_SOURCE_STR : 于2019-07-18 23:23:43智能采集，来源于入院情况：“双下肢轻度水肿”；李护士2019-07-19 06:42:08确认
                      */
 
                     private int RISK_FACTOR_ID;
@@ -963,6 +967,9 @@ public class HistoryAssessBean implements Serializable {
                     private int FACTOR_SEQ;
                     private int CAN_CHANGE;
                     private int SCORE_SHOW_TYPE;
+                    private String EFFECTIVE_TYPE;
+                    private int EFFECTIVE_TIME;
+                    private String ANALYSIS_SOURCE_STR;
 
                     public int getRISK_FACTOR_ID() {
                         return RISK_FACTOR_ID;
@@ -1026,6 +1033,30 @@ public class HistoryAssessBean implements Serializable {
 
                     public void setSCORE_SHOW_TYPE(int SCORE_SHOW_TYPE) {
                         this.SCORE_SHOW_TYPE = SCORE_SHOW_TYPE;
+                    }
+
+                    public String getEFFECTIVE_TYPE() {
+                        return EFFECTIVE_TYPE;
+                    }
+
+                    public void setEFFECTIVE_TYPE(String EFFECTIVE_TYPE) {
+                        this.EFFECTIVE_TYPE = EFFECTIVE_TYPE;
+                    }
+
+                    public int getEFFECTIVE_TIME() {
+                        return EFFECTIVE_TIME;
+                    }
+
+                    public void setEFFECTIVE_TIME(int EFFECTIVE_TIME) {
+                        this.EFFECTIVE_TIME = EFFECTIVE_TIME;
+                    }
+
+                    public String getANALYSIS_SOURCE_STR() {
+                        return ANALYSIS_SOURCE_STR;
+                    }
+
+                    public void setANALYSIS_SOURCE_STR(String ANALYSIS_SOURCE_STR) {
+                        this.ANALYSIS_SOURCE_STR = ANALYSIS_SOURCE_STR;
                     }
                 }
             }

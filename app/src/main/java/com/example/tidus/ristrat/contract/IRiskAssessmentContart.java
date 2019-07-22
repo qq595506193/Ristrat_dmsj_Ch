@@ -38,6 +38,8 @@ public interface IRiskAssessmentContart {
 
         void onSaveSuccess(Object result);
 
-        void onFailed(Object error);
+        void showProgressDialog();
+
+        void hideProgressDialog();
     }
 }

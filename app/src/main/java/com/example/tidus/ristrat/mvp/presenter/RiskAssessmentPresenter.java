@@ -10,18 +10,22 @@ public class RiskAssessmentPresenter extends IRiskAssessmentContart.RiskAssessme
 
     @Override
     public void getRiskAssessment(HashMap<String, Object> params) {
+        if (view != null) {
+            view.showProgressDialog();
+        }
         model.getRiskAssessment(params, new IRequestCallback() {
             @Override
             public void onSuccess(Object result) {
                 if (view != null) {
                     view.onRiskAssessmentSuccess(result);
+                    view.hideProgressDialog();
                 }
             }
 
             @Override
             public void onFailed(Object error) {
                 if (view != null) {
-                    view.onFailed(error);
+                    view.failure(error + "");
                 }
             }
         });
@@ -29,18 +33,22 @@ public class RiskAssessmentPresenter extends IRiskAssessmentContart.RiskAssessme
 
     @Override
     public void getCommit(HashMap<String, Object> params) {
+        if (view != null) {
+            view.showProgressDialog();
+        }
         model.getCommit(params, new IRequestCallback() {
             @Override
             public void onSuccess(Object result) {
                 if (view != null) {
                     view.onCommitSuccess(result);
+                    view.hideProgressDialog();
                 }
             }
 
             @Override
             public void onFailed(Object error) {
                 if (view != null) {
-                    view.onFailed(error);
+                    view.failure(error + "");
                 }
             }
         });
@@ -48,18 +56,22 @@ public class RiskAssessmentPresenter extends IRiskAssessmentContart.RiskAssessme
 
     @Override
     public void getSave(HashMap<String, Object> params) {
+        if (view != null) {
+            view.showProgressDialog();
+        }
         model.getSave(params, new IRequestCallback() {
             @Override
             public void onSuccess(Object result) throws ParseException {
                 if (view != null) {
                     view.onSaveSuccess(result);
+                    view.hideProgressDialog();
                 }
             }
 
             @Override
             public void onFailed(Object error) {
                 if (view != null) {
-                    view.onFailed(error);
+                    view.failure(error + "");
                 }
             }
         });

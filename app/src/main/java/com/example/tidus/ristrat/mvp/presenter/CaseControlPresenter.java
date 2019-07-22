@@ -7,28 +7,32 @@ import com.example.tidus.ristrat.mvp.model.CaseControlModel;
 import java.util.HashMap;
 
 public class CaseControlPresenter extends ICaseControlContract.CaseControlPresenter {
-    private CaseControlModel caseControlModel;
-    private ICaseControlContract.ICaseControlView iCaseControlView;
 
-    public CaseControlPresenter(ICaseControlContract.ICaseControlView iCaseControlView) {
-        caseControlModel = new CaseControlModel();
-        this.iCaseControlView = iCaseControlView;
+    public CaseControlPresenter(ICaseControlContract.ICaseControlView view) {
+        model = new CaseControlModel();
+        this.view = view;
     }
 
     @Override
     public void getCaseControl(HashMap<String, Object> params) {
-        caseControlModel.getCaseControl(params, new IRequestCallback() {
+
+        if (view != null) {
+            view.showProgressDialog();
+        }
+
+        model.getCaseControl(params, new IRequestCallback() {
             @Override
             public void onSuccess(Object result) {
-                if (iCaseControlView != null) {
-                    iCaseControlView.onCaseControlSuccess(result);
+                if (view != null) {
+                    view.onCaseControlSuccess(result);
+                    view.hideProgressDialog();
                 }
             }
 
             @Override
             public void onFailed(Object error) {
-                if (iCaseControlView != null) {
-                    iCaseControlView.onFailed(error);
+                if (view != null) {
+                    view.onFailed(error);
                 }
             }
         });
@@ -36,18 +40,18 @@ public class CaseControlPresenter extends ICaseControlContract.CaseControlPresen
 
     @Override
     public void getQueryHM(HashMap<String, Object> params) {
-        caseControlModel.getQueryHM(params, new IRequestCallback() {
+        model.getQueryHM(params, new IRequestCallback() {
             @Override
             public void onSuccess(Object result) {
-                if (iCaseControlView != null) {
-                    iCaseControlView.onQueryHMSuccess(result);
+                if (view != null) {
+                    view.onQueryHMSuccess(result);
                 }
             }
 
             @Override
             public void onFailed(Object error) {
-                if (iCaseControlView != null) {
-                    iCaseControlView.onFailed(error);
+                if (view != null) {
+                    view.onFailed(error);
                 }
             }
         });

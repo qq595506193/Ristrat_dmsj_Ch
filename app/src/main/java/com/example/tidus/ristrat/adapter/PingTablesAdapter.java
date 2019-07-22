@@ -51,22 +51,21 @@ public class PingTablesAdapter extends RecyclerView.Adapter<PingTablesAdapter.Vi
         final SelectedTablesBean.ServerParamsBean.BusinesslistBean.ListformsBean listformsBean = listforms.get(position);
         holder.ck_tables.setText(listformsBean.getFORM_NAME());
         if (checkRiskBean != null) {
-//            for (CheckRiskBean.ServerParamsBean server_param : checkRiskBean.getServer_params()) {
-//                if (server_param.getSublist().size() != 0) {
-//                    holder.tv_user_id_01.setVisibility(View.VISIBLE);
-//                    holder.ck_tables.setEnabled(false);
-//                    for (CheckRiskBean.ServerParamsBean.SublistBean sublistBean : server_param.getSublist()) {
-//                        holder.tv_user_id_01.setText(sublistBean.getUSER_NAME() + "正在评估");
-//                        holder.tv_user_id_01.setTextColor(Color.GRAY);
-//                        holder.ck_tables.setTextColor(Color.GRAY);
-//                    }
-//
-//                } else {
-//                    holder.tv_user_id_01.setVisibility(View.GONE);
-//                    holder.ck_tables.setEnabled(true);
-//                    holder.ck_tables.setTextColor(Color.BLACK);
-//                }
-//            }
+            for (CheckRiskBean.ServerParamsBean server_param : checkRiskBean.getServer_params()) {
+                if (listformsBean.getFORM_ID() == server_param.getFORM_ID()) {
+                    if (server_param.getSublist().size() != 0) {
+                        holder.tv_user_id_01.setVisibility(View.VISIBLE);
+                        holder.ck_tables.setEnabled(false);
+                        holder.ck_tables.setTextColor(Color.GRAY);
+                        for (CheckRiskBean.ServerParamsBean.SublistBean sublistBean : server_param.getSublist()) {
+                            holder.tv_user_id_01.setText("(" + sublistBean.getUSER_NAME() + "正在进行评估)");
+                        }
+                    } else {
+                        holder.tv_user_id_01.setVisibility(View.INVISIBLE);
+                        holder.ck_tables.setEnabled(true);
+                    }
+                }
+            }
         }
         holder.ck_tables.setOnClickListener(new View.OnClickListener() {
             @Override
