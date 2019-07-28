@@ -1,6 +1,7 @@
 package com.example.tidus.ristrat.adapter;
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,7 +20,7 @@ import java.util.List;
  * Created by TriumphalSun
  * on 2019/7/17 0017
  */
-public class RiskGroupAdapter extends RecyclerView.Adapter<RiskGroupAdapter.ViewHolder> {
+public class RiskGroupAdapter extends RecyclerView.Adapter<RiskGroupAdapter.ViewHolder> implements RiskItemCheckboxAdapter.getGroupIdListener{
     private Context context;
     private List<RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean> wenjuanBeans;
     private List<RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean> sublistBeans_checked;
@@ -62,6 +63,9 @@ public class RiskGroupAdapter extends RecyclerView.Adapter<RiskGroupAdapter.View
         holder.tv_xiaobiao_name.setText(wenjuanBean.getFACTOR_GROUP_NAME());
         // 内层复选框列表
         riskItemCheckboxAdapter = new RiskItemCheckboxAdapter(context);
+
+        riskItemCheckboxAdapter.setGroupIdListener(this);
+
         holder.rv_question_check.setLayoutManager(new GridLayoutManager(App.getContext(), 4));
         holder.rv_question_check.setAdapter(riskItemCheckboxAdapter);
 //        // 选择联动
@@ -88,6 +92,8 @@ public class RiskGroupAdapter extends RecyclerView.Adapter<RiskGroupAdapter.View
         return wenjuanBeans == null ? 0 : wenjuanBeans.size();
     }
 
+
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView tv_xiaobiao_name;
         private final RecyclerView rv_question_check;
@@ -109,4 +115,38 @@ public class RiskGroupAdapter extends RecyclerView.Adapter<RiskGroupAdapter.View
     public void setSetGroupGradeListener(SetGroupGradeListener setGroupGradeListener) {
         this.setGroupGradeListener = setGroupGradeListener;
     }
+
+
+
+
+
+
+    @Override
+    public void getGroupId(int groupId,int cheId) {
+
+
+        for (int i = 0; i < wenjuanBeans.size(); i++) {
+
+            for (int j = 0; j < wenjuanBeans.get(i).getSublist().size(); j++) {
+
+                wenjuanBeans.get(i).getSublist().get(j).setChecked(false);
+
+            }
+        }
+
+        wenjuanBeans.get(groupId-1).getSublist().get(cheId).setChecked(true);
+
+
+
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                // 刷新操作
+                notifyDataSetChanged();
+            }
+        });
+
+
+    }
+
 }

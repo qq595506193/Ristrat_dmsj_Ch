@@ -90,6 +90,7 @@ public class RiskAssessFragment extends BaseMvpFragment<IRiskAssessmentContart.I
     private String commit_form_id;// 记录提交了哪个表
     private RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean;
     private LoadingDialog loadingDialog;
+    private int jianSum = 0;
 
     @Override
     protected void init() {
@@ -275,14 +276,51 @@ public class RiskAssessFragment extends BaseMvpFragment<IRiskAssessmentContart.I
     private void number(boolean isChecked, RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean) {
 
         if (isChecked) {
-            sublistBeans_checked.add(sublistBean);
-            if (sublistBean.getFACTOR_GROUP_ID() == 1) {
+
+            boolean ische = true;
+
+            for (int i = 0; i < sublistBeans_checked.size(); i++) {
+
+                if (sublistBeans_checked.get(i).getRISK_FACTOR_ID()==sublistBean.getRISK_FACTOR_ID()){
+                    ische = false;
+                }
+
+            }
+
+            if (ische){
+                sublistBeans_checked.add(sublistBean);
+            }
+
+
+            if (sublistBean.getMUTEX_GROUP()==1&&sublistBean.getFACTOR_GROUP_ID() == 1) {
+                gross_score -= jianSum;
+                jianSum = 0;
+                jianSum += 1;
                 gross_score += 1;
-            } else if (sublistBean.getFACTOR_GROUP_ID() == 2) {
+            } else if (sublistBean.getMUTEX_GROUP()==1&&sublistBean.getFACTOR_GROUP_ID() == 2) {
+                gross_score -= jianSum;
+                jianSum = 0;
+                jianSum += 2;
                 gross_score += 2;
-            } else if (sublistBean.getFACTOR_GROUP_ID() == 3) {
+            } else if (sublistBean.getMUTEX_GROUP()==1&&sublistBean.getFACTOR_GROUP_ID() == 3) {
+                gross_score -= jianSum;
+                jianSum = 0;
+                jianSum += 3;
                 gross_score += 3;
-            } else if (sublistBean.getFACTOR_GROUP_ID() == 4) {
+            } else if (sublistBean.getMUTEX_GROUP()==1&&sublistBean.getFACTOR_GROUP_ID() == 4) {
+                gross_score -= jianSum;
+                jianSum = 0;
+                jianSum += 5;
+                gross_score += 5;
+            }
+
+            else if (sublistBean.getMUTEX_GROUP()!=1&&sublistBean.getFACTOR_GROUP_ID() == 1) {
+                gross_score += 1;
+            } else if (sublistBean.getMUTEX_GROUP()!=1&&sublistBean.getFACTOR_GROUP_ID() == 2) {
+                gross_score += 2;
+            } else if (sublistBean.getMUTEX_GROUP()!=1&&sublistBean.getFACTOR_GROUP_ID() == 3) {
+                gross_score += 3;
+            } else if (sublistBean.getMUTEX_GROUP()!=1&&sublistBean.getFACTOR_GROUP_ID() == 4) {
                 gross_score += 5;
             } else {
                 gross_score += 1;
@@ -291,6 +329,17 @@ public class RiskAssessFragment extends BaseMvpFragment<IRiskAssessmentContart.I
         } else {
             sublistBeans_checked.remove(sublistBean);
             if (gross_score > 0) {
+
+                if (sublistBean.getMUTEX_GROUP()==1&&sublistBean.getFACTOR_GROUP_ID() == 1) {
+                    jianSum = 0;
+                } else if (sublistBean.getMUTEX_GROUP()==1&&sublistBean.getFACTOR_GROUP_ID() == 2) {
+                    jianSum = 0;
+                } else if (sublistBean.getMUTEX_GROUP()==1&&sublistBean.getFACTOR_GROUP_ID() == 3) {
+                    jianSum = 0;
+                } else if (sublistBean.getMUTEX_GROUP()==1&&sublistBean.getFACTOR_GROUP_ID() == 4) {
+                    jianSum = 0;
+                }
+
                 if (sublistBean.getFACTOR_GROUP_ID() == 1) {
                     gross_score -= 1;
                 } else if (sublistBean.getFACTOR_GROUP_ID() == 2) {

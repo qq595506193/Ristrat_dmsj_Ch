@@ -75,7 +75,7 @@ public class RiskItemCheckboxAdapter extends RecyclerView.Adapter<RiskItemCheckb
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final RiskItemCheckboxAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final RiskItemCheckboxAdapter.ViewHolder holder, final int position) {
         final RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean sublistBean = sublistBeans.get(position);
         holder.ck_checked.setText(sublistBean.getRISK_FACTOR_NAME());
         // 默认勾选
@@ -87,6 +87,11 @@ public class RiskItemCheckboxAdapter extends RecyclerView.Adapter<RiskItemCheckb
             holder.ck_checked.setChecked(false);
             holder.iv_wenhao.setVisibility(View.INVISIBLE);
         }
+
+
+
+
+
 //        // 控制联动
 //        if (sublistBeans_checked != null) {
 //            for (RiskAssessmentBean.ServerParamsBean.WENJUANNAMEBean.XUANXIANGBean.WENJUANBean.SublistBean bean : sublistBeans_checked) {
@@ -99,13 +104,22 @@ public class RiskItemCheckboxAdapter extends RecyclerView.Adapter<RiskItemCheckb
 //        }
 
         // checkbox监听
-        holder.ck_checked.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+
+
+
+
+
+
+        holder.ck_checked.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            public void onClick(View v) {
+
+
                 // 算分回调+题ID
-                setGradeListener.onGradeListener(isChecked, sublistBean);
+                setGradeListener.onGradeListener(holder.ck_checked.isChecked(), sublistBean);
                 // 判断选中了其他，显示输入框
-                if (isChecked) {
+                if (holder.ck_checked.isChecked()) {
                     if (sublistBean.getSCORE_SHOW_TYPE() == 30) {
                         holder.et_shuru.setVisibility(View.VISIBLE);
                         String trim = holder.et_shuru.getText().toString().trim();
@@ -116,6 +130,16 @@ public class RiskItemCheckboxAdapter extends RecyclerView.Adapter<RiskItemCheckb
                         holder.et_shuru.setVisibility(View.GONE);
                     }
                 }
+
+
+                if(holder.ck_checked.isChecked()&&sublistBeans.get(position).getMUTEX_GROUP()==1){
+
+                    if (getGroupIdListener!=null){
+                        getGroupIdListener.getGroupId(group_id,position);
+                    }
+
+                }
+
             }
         });
         // 互斥单选
@@ -176,6 +200,12 @@ public class RiskItemCheckboxAdapter extends RecyclerView.Adapter<RiskItemCheckb
 
             }
         });
+
+
+
+
+        holder.ck_checked.setChecked(sublistBean.isChecked());
+
     }
 
     @Override
@@ -206,4 +236,20 @@ public class RiskItemCheckboxAdapter extends RecyclerView.Adapter<RiskItemCheckb
     public void setSetGradeListener(SetGradeListener setGradeListener) {
         this.setGradeListener = setGradeListener;
     }
+
+    private getGroupIdListener getGroupIdListener;
+
+    public void setGroupIdListener(getGroupIdListener getGroupIdListener){
+
+        this.getGroupIdListener = getGroupIdListener;
+
+    }
+
+    public interface getGroupIdListener{
+
+        void getGroupId(int groupId,int cheId);
+
+    }
+
+
 }
